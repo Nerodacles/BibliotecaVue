@@ -6,7 +6,7 @@ import axios from "axios";
 import firebase from "firebase/app";
 
 Vue.prototype.$axios = axios;
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 const firebaseConfig = {
   apiKey: "AIzaSyCQpj6yylxEBIN7tRRCYUGRKLKIbUaadVA",
@@ -19,7 +19,6 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
 
 new Vue({
   router,
