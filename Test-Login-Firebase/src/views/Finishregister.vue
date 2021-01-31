@@ -37,7 +37,7 @@ export default {
       firebase.firestore().collection("roles").doc(firebase.auth().currentUser.uid)
       .set({
         name: this.nombre,
-        university: this.uni,
+        uni: this.uni,
         email: firebase.auth().currentUser.email,
         createdAt: new Date(),
         isActive: true,
