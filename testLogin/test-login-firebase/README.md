@@ -1,9 +1,6 @@
 # BibliotecaVue
 Trabajo para Anteproyecto - Ingenieria del Software
 
-
-# Biblioteca-VUE
-
 ### **This is for Anteproyecto and Ingenieria del Software.**
 
 
