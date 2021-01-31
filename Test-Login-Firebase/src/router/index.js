@@ -23,7 +23,7 @@ const routes = [
     component: Login,
     beforeEnter(to, from, next){
       if(firebase.auth().currentUser){
-        next("/user")
+        next(false)
       } else next()
     }
   },
@@ -33,7 +33,7 @@ const routes = [
     component: Register,
     beforeEnter(to, from, next){
       if(firebase.auth().currentUser){
-        next("/user")
+        next(false)
       } else next()
     }
   },
@@ -41,11 +41,11 @@ const routes = [
     path: '/finishregister',
     name: 'finishregister',
     component: Finishregister,
-    // beforeEnter(to, from, next){
-    //   if(firebase.auth().currentUser){
-    //     next("/user")
-    //   } else next()
-    // }
+    beforeEnter(to, from, next){
+      if(!firebase.auth().currentUser){
+        next("/login")
+      } else next()
+    }
   },
   {
     path: '/admin',
