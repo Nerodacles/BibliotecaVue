@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div class="">
+        <div class="">
 			<div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="error">
 				<span>{{error}}</span>
 			</div>
@@ -28,27 +28,24 @@ import '@firebase/auth'
 import '@firebase/firestore'
 
 export default {
-  data:() => ({
-    nombre: '',
-    uni: ''
-  }),
-  methods: {
-    submitUser(){
-      firebase.firestore().collection("roles").doc(firebase.auth().currentUser.uid)
-      .set({
-        name: this.nombre,
-        uni: this.uni,
-        email: firebase.auth().currentUser.email,
-        createdAt: new Date(),
-        isActive: true,
-        isAdmin: false,
-      });
-      this.$router.replace( {name:"user"} )
+    data:() => ({
+        nombre: '',
+        uni: ''
+    }),
+    methods: {
+        submitUser(){
+            firebase.firestore().collection("roles").doc(firebase.auth().currentUser.uid)
+            .set({
+                name: this.nombre,
+                uni: this.uni,
+                email: firebase.auth().currentUser.email,
+                createdAt: new Date(),
+                isActive: true,
+                isAdmin: false,
+                finishRegister: true,
+            });
+        this.$router.replace( {name:"user"} )
+        }
     }
-  }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

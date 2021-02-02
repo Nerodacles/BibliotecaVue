@@ -1,9 +1,10 @@
 <template>
     <div>
-      <p>Welcome {{user.name}}</p>
-      <p>You're from: {{user.uni}}</p>
-      <p>{{user.name}}</p>
-      <p>{{user.email}}</p>
+        <p>Welcome {{user.name}}</p>
+        <p>You're from: {{user.uni}}</p>
+        <p>{{user.name}}</p>
+        <p>{{user.email}}</p>
+        <p>{{user.isAdmin}}</p>
     </div>
 </template>
 
@@ -14,19 +15,18 @@ import '@firebase/firestore'
 
 export default {
     computed: {
-  },
-  created(){
-    firebase.firestore().collection("roles").doc(firebase.auth().currentUser.uid).onSnapshot(snap=> {this.user = snap.data()});
-  },
-  data:() => ({
-    database: [],
-    user: "",
-  }),
-  methods: {
-  },
-  }
+    },
+    created(){
+        this.getUserData()
+    },
+    data:() => ({
+        database: [],
+        user: "",
+    }),
+    methods: {
+        async getUserData(){
+        await firebase.firestore().collection("roles").doc(firebase.auth().currentUser.uid).onSnapshot(snap=> {this.user = snap.data()});
+        },
+    },
+}
 </script>
-
-<style lang="scss" scoped>
-
-</style>
