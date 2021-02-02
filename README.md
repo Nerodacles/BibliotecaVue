@@ -1,5 +1,7 @@
 # BibliotecaVue
 ![Veracode Static Analysis Pipeline Scan](https://github.com/Nerodacles/BibliotecaVue/workflows/Veracode%20Static%20Analysis%20Pipeline%20Scan/badge.svg)
+![OSSAR](https://github.com/Nerodacles/BibliotecaVue/workflows/OSSAR/badge.svg)
+
 Trabajo para Anteproyecto - Ingenieria del Software
 
 ### **This is for Anteproyecto and Ingenieria del Software.**
