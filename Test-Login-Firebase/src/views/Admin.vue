@@ -1,10 +1,17 @@
 <template>
-    <div class="container">
+    <!-- <div class="container">
         <div class="row">
             <div class="col-lg-0">test</div>
             <div class="col-lg-10">test</div>
         </div>
+    </div> -->
+
+    <div class="container">
+    <div class="row Screen">
+        <div class="col-sm-3 col-md-2 col-lg-1">TEST</div>
+        <div class="col-sm-9 col-md-10 col-lg-11">TEST</div>
     </div>
+</div>
 </template>
 
 <script>
