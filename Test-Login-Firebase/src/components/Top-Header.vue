@@ -1,6 +1,8 @@
 <template>
     <div>
         <b-navbar toggleable="lg" type="dark" variant="info">
+            <button v-if="loggedIn" @click="Test()">TEST</button>
+            <br>
             <b-navbar-brand href="/"><img src="@/assets/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy"> Biblioteca Virtual JM</b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
@@ -44,6 +46,7 @@ export default {
     data:() => ({
         loggedIn: false,
         userData: {},
+        test: true
     }),
 
     methods: {
@@ -59,6 +62,10 @@ export default {
         },
         async GetUserData(){
             await firebase.firestore().collection("roles").doc(firebase.auth().currentUser.uid).onSnapshot(snap=> {this.userData = snap.data()});
+        },
+        Test(){
+            this.test = !this.test
+            this.$router.push({ params: Object.assign(this.$route.query, { test: this.test }) })
         }
     }
 }

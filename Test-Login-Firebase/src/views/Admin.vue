@@ -1,27 +1,21 @@
 <template>
-    <!-- <div class="container">
-        <div class="row">
-            <div class="col-lg-0">test</div>
-            <div class="col-lg-10">test</div>
-        </div>
-    </div> -->
-
+<div>
     <div class="container">
-    <div class="row Screen">
-        <div class="col-sm-3 col-md-2 col-lg-1">TEST</div>
-        <div class="col-sm-9 col-md-10 col-lg-11">TEST</div>
+        <div class="row Screen">
+        </div>
     </div>
-</div>
+    <sidebar></sidebar>
+    </div>
 </template>
 
 <script>
+import Sidebar from "../components/Sidebar"
 import { firebase } from '@firebase/app'
 import '@firebase/auth'
 import '@firebase/firestore'
 
 export default {
-    computed: {
-    },
+    components: {'sidebar': Sidebar},
     created(){
         firebase.firestore().collection("roles").doc(firebase.auth().currentUser.uid).onSnapshot(snap=> {this.user = snap.data()});
         firebase.firestore().collection("default").onSnapshot(snap=> {
@@ -45,8 +39,6 @@ export default {
         database: [],
         defaultValues: [],
         user: [],
-    }),
-    methods: {
-    },
+    })
 }
 </script>
