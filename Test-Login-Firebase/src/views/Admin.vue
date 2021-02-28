@@ -1,10 +1,10 @@
 <template>
-<div>
-    <div class="container">
-        <div class="row Screen">
+    <div>
+        <div class="container">
+            <div class="row Screen">
+            </div>
         </div>
-    </div>
-    <sidebar></sidebar>
+        <sidebar></sidebar>
     </div>
 </template>
 

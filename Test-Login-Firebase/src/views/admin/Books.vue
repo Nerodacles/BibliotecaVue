@@ -2,13 +2,13 @@
     <div>
         <sidebar></sidebar>
         <div class="content">
-            Pagina de Inicio
+            Libros
         </div>
     </div>
 </template>
 
 <script>
-import Sidebar from '../components/Sidebar.vue'
+import Sidebar from '../../components/Sidebar'
 export default {
 	components: { Sidebar },
     

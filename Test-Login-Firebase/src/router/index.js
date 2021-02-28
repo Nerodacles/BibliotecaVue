@@ -7,6 +7,11 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import GetUser from '../views/GetUser.vue'
 import Finishregister from '../views/Finishregister.vue'
+
+// Admin
+import BooksAdmin from '../views/admin/Books.vue'
+import AddBook from '../views/admin/AddBook.vue'
+
 import { firebase } from '@firebase/app'
 import '@firebase/auth'
 
@@ -79,7 +84,17 @@ const routes = [
         path: '/about',
         name: 'About',
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-    }
+    },
+    {
+        path: '/BooksAdmin',
+        name: 'BooksAdmin',
+        component: BooksAdmin,
+    },
+    {
+        path: '/AddBook',
+        name: 'AddBook',
+        component: AddBook,
+    },
 ]
 
 const router = new VueRouter({
