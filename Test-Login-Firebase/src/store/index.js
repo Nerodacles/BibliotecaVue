@@ -4,6 +4,7 @@ import * as fb from '../firebase'
 import router from '../router/index'
 import { booksCollection } from '../firebase'
 import { auth } from '../firebase'
+import swal from 'sweetalert2'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
         userProfile: {},
         book: [],
         toggle: false,
+        userUID: null,
     },
     mutations: {
         setUserProfile(state, val) {
@@ -21,15 +23,26 @@ export default new Vuex.Store({
     actions: {
         async login({ dispatch }, form) {
             // sign user in
-            const { user } = await fb.auth.signInWithEmailAndPassword(form.email, form.password)
+            // const { user } = await auth.signInWithEmailAndPassword(form.email, form.password)
+            const { user } = await auth.setPersistence("session").then(() => {
+                return auth.signInWithEmailAndPassword(form.email, form.password)
+            })
+            .catch(function(error) {
+                swal.fire({
+                    title: 'Error!',
+                    text: 'Credentials Invalid',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                })
+            });
 
             // fetch user profile and set in state
             dispatch('fetchUserProfile', user)
         },
         async signup({ dispatch }, form) {
             // sign user up
-            const { user } = await fb.auth.createUserWithEmailAndPassword(form.email, form.password)
-
+            const { user } = await auth.createUserWithEmailAndPassword(form.email, form.password)
+            
             // create user profile object in userCollections
             await fb.usersCollection.doc(user.uid).set({
                 createdAt: Date(),
@@ -37,7 +50,14 @@ export default new Vuex.Store({
                 title: form.uni,
                 isActive: true,
                 isAdmin: false
-            })
+            }).catch(function(error) {
+                swal.fire({
+                    title: 'Error!',
+                    text: 'Talk to the web administrators',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                })
+            });
 
             // fetch user profile and set in state
             dispatch('fetchUserProfile', user)
@@ -56,7 +76,6 @@ export default new Vuex.Store({
             else{
                 router.push('/user')
             }
-            // router.push('/')
         },
         async logout({ commit }) {
             await fb.auth.signOut()
@@ -82,13 +101,12 @@ export default new Vuex.Store({
 
             return this.state.userProfile
         },
-        async toggleSidebar({state}){
+        toggleSidebar({state}){
             state.toggle = !state.toggle
             return state.toggle
         },
-        async GetStateSidebar({state}){
-            state.toggle = true
-            return state.toggle
-        },
+        async getAuthUser({state}){
+            state.userUID = await auth.currentUser.uid
+        }
     }
 })

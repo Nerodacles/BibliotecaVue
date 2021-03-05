@@ -1,10 +1,10 @@
 <template>
     <div>
         <sidebar></sidebar>
-        <p>Welcome {{user.name}}</p>
-        <p>You're from: {{user.title.name}}</p>
-        <p>User Email: {{user.email}}</p>
-        <p>You're Admin: {{user.isAdmin}}</p>
+        <p>Welcome {{fetchUser.name}}</p>
+        <!-- <p>You're from: {{fetchUser.title.init}}</p> -->
+        <p>User Email: {{email}}</p>
+        <p>You're Admin: {{fetchUser.isAdmin}}</p>
     </div>
 </template>
 
@@ -15,19 +15,18 @@ import { db } from '../firebase'
 import { usersCollection } from '../firebase' 
 
 export default {
-  components: { Sidebar },
+    components: { Sidebar },
     computed: {
+        fetchUser(){
+			return this.$store.state.userProfile
+		},
     },
     created(){
-        this.getUserData()
     },
     data:() => ({
-        user: {},
+        email: auth.currentUser.email
     }),
     methods: {
-        async getUserData(){
-        await usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {this.user = snap.data()});
-        },
     },
 }
 </script>

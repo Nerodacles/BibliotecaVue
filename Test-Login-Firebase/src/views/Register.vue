@@ -13,7 +13,7 @@
 					</div>
 					<div class="form-group">
                         <input v-model.trim="name" class="form-control" type="text" placeholder="Name" required="required"/>
-                        <v-select :options="universities" label="init" v-model="uni" class="" placeholder="select one or more"></v-select>
+                        <v-select :options="universities" label="init" v-model="uni" class="" placeholder="Select an University"></v-select>
                     </div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary btn-lg btn-block"> Submit </button>

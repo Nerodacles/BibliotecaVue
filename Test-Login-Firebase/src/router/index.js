@@ -5,7 +5,6 @@ import Admin from '../views/Admin.vue'
 import User from '../views/User.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import GetUser from '../views/GetUser.vue'
 
 // Admin
 import Books from '../views/admin/Books.vue'
@@ -13,6 +12,7 @@ import AddBook from '../views/admin/AddBook.vue'
 
 //Usuarios
 import Book from '../views/book/_id.vue'
+import Profile from '../views/profile/_id.vue'
 
 //Autenticacion
 import { auth } from '../firebase'
@@ -42,16 +42,6 @@ const routes = [
         // beforeEnter(to, from, next){
         //     if(auth().currentUser){
         //         next(false)
-        //     } else next()
-        // }
-    },
-    {
-        path: '/getuser',
-        name: 'getuser',
-        component: GetUser,
-        // beforeEnter(to, from, next){
-        //     if(!auth().currentUser){
-        //         next("/")
         //     } else next()
         // }
     },
@@ -87,6 +77,17 @@ const routes = [
         name: 'Book',
         props: true,
         component: Book,
+    },
+    {
+        path: '/profile/:id',
+        name: 'Profile',
+        props: true,
+        component: Profile,
+        beforeEnter(to, from, next){
+            if(to.path != '/profile/'+auth.currentUser.uid){
+                next('/user')
+            } else next()
+        }
     },
     {
         path: '/AddBook',

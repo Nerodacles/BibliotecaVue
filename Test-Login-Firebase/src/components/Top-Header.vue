@@ -2,7 +2,6 @@
     <div>
         <b-navbar toggleable="lg" type="dark" variant="info">
             <button v-if="loggedIn" @click="sidebar()">Sidebar</button>
-            <button @click="profile()">Nero</button>
             <br>
             <b-navbar-brand href="/"><img src="@/assets/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy"> Biblioteca Virtual JM</b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -21,7 +20,7 @@
                         <template #button-content>
                             <em>{{userData.name}}</em>
                         </template>
-                        <b-dropdown-item href="/">Profile</b-dropdown-item>
+                        <b-dropdown-item :href="'/profile/' + userUID">Profile</b-dropdown-item>
                         <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
@@ -39,13 +38,17 @@ export default {
     computed: {
         userData(){
             return this.$store.state.userProfile
-        }
+        },
+        userUID(){
+            return this.$store.state.userUID
+        },
     },
     created() {
         auth.onAuthStateChanged(user=> {
             this.loggedIn = !!user;
             if(this.loggedIn){
                 this.$store.dispatch('Getuser')
+                this.$store.dispatch('getAuthUser')
             }
         });
     },
@@ -60,9 +63,6 @@ export default {
         sidebar(){
             // this.$router.push({ params: Object.assign(this.$route.query, { test: this.test }) })
             this.$store.dispatch('toggleSidebar')
-        },
-        profile(){
-            this.$store.dispatch('Getuser')
         },
     }
 }
