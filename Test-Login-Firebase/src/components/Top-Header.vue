@@ -1,7 +1,8 @@
 <template>
     <div>
         <b-navbar toggleable="lg" type="dark" variant="info">
-            <button v-if="loggedIn" @click="Test()">TEST</button>
+            <button v-if="loggedIn" @click="sidebar()">Sidebar</button>
+            <button @click="profile()">Nero</button>
             <br>
             <b-navbar-brand href="/"><img src="@/assets/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy"> Biblioteca Virtual JM</b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -36,30 +37,33 @@ import { usersCollection } from '../firebase'
 
 export default {
     computed: {
+        userData(){
+            return this.$store.state.userProfile
+        }
     },
     created() {
         auth.onAuthStateChanged(user=> {
             this.loggedIn = !!user;
-            this.GetUserData()
+            if(this.loggedIn){
+                this.$store.dispatch('Getuser')
+            }
         });
     },
     data:() => ({
         loggedIn: false,
-        userData: {},
-        test: true
     }),
 
     methods: {
         logout() {
             this.$store.dispatch('logout')
         },
-        async GetUserData(){
-            await usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {this.userData = snap.data()});
+        sidebar(){
+            // this.$router.push({ params: Object.assign(this.$route.query, { test: this.test }) })
+            this.$store.dispatch('toggleSidebar')
         },
-        Test(){
-            this.test = !this.test
-            this.$router.push({ params: Object.assign(this.$route.query, { test: this.test }) })
-        }
+        profile(){
+            this.$store.dispatch('Getuser')
+        },
     }
 }
 </script>

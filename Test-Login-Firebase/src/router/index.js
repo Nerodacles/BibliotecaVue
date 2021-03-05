@@ -14,7 +14,7 @@ import AddBook from '../views/admin/AddBook.vue'
 //Usuarios
 import Book from '../views/book/_id.vue'
 
-// eslint-disable-next-line no-unused-vars
+//Autenticacion
 import { auth } from '../firebase'
 
 Vue.use(VueRouter)
@@ -103,8 +103,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next)=> {
     const requireAuth = to.matched.some(record => record.meta.requireAuth);
-    const isAuthenticated = auth.currentUser;
-    if(requireAuth && !isAuthenticated){
+    if(requireAuth && !auth.currentUser){
         next("/login")
     }
     else{

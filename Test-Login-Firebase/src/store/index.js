@@ -3,13 +3,15 @@ import Vuex from 'vuex'
 import * as fb from '../firebase'
 import router from '../router/index'
 import { booksCollection } from '../firebase'
+import { auth } from '../firebase'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
         userProfile: {},
-        book: []
+        book: [],
+        toggle: false,
     },
     mutations: {
         setUserProfile(state, val) {
@@ -20,8 +22,6 @@ export default new Vuex.Store({
         async login({ dispatch }, form) {
             // sign user in
             const { user } = await fb.auth.signInWithEmailAndPassword(form.email, form.password)
-            // .then((response) =>
-            // )
 
             // fetch user profile and set in state
             dispatch('fetchUserProfile', user)
@@ -48,9 +48,15 @@ export default new Vuex.Store({
 
             // set user profile in state
             commit('setUserProfile', userProfile.data())
-
+            
             // change route to dashboard
-            router.push('/')
+            if(this.state.userProfile.isAdmin){
+                router.push('/admin')
+            }
+            else{
+                router.push('/user')
+            }
+            // router.push('/')
         },
         async logout({ commit }) {
             await fb.auth.signOut()
@@ -60,7 +66,6 @@ export default new Vuex.Store({
             router.push('/login')
         },
         async newBook({ dispatch }, book){
-            console.log(book)
             await booksCollection.doc(book.Name).set({
                 // createdAt: Date(),
                 coverUrl: book.covers,
@@ -70,6 +75,20 @@ export default new Vuex.Store({
                 Categories: book.category,
                 Description: book.description,
             })
+        },
+        async Getuser({commit}){
+            const userProfile = await fb.usersCollection.doc(auth.currentUser.uid).get()
+            commit('setUserProfile', userProfile.data())
+
+            return this.state.userProfile
+        },
+        async toggleSidebar({state}){
+            state.toggle = !state.toggle
+            return state.toggle
+        },
+        async GetStateSidebar({state}){
+            state.toggle = true
+            return state.toggle
         },
     }
 })

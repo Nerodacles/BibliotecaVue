@@ -25,13 +25,11 @@ export default {
 	}),
     computed: {
         fetchData () {
-            return this.$route.params.test
+            return this.$store.state.toggle
         },
     },
-    watch:{
-        fetchData(oldValue, NewValue){
-            console.log(this.$route.params.test)
-        }
+	created() {
+		// this.$store.dispatch('GetStateSidebar')
     },
 }
 </script>
