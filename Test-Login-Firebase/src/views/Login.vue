@@ -5,7 +5,7 @@
 				<span>{{error}}</span>
 			</div>
 			<div class="login-form">
-				<form @submit.prevent="pressed">
+				<form @submit.prevent="login">
 					<h2 class="text-center display-4 text-bluewhite">Login</h2>
 					<div class="form-group has-error">
 						<input type="email" class="form-control" v-model="email" placeholder="Username" required="required"/>
@@ -25,10 +25,6 @@
 </template>
 
 <script>
-import { firebase } from "@firebase/app";
-import "@firebase/auth";
-import "@firebase/firestore"
-
 export default {
     data: () => ({
         email: "",
@@ -36,11 +32,11 @@ export default {
         error: ""
     }),
     methods: {
-        async pressed() {
-            try {
-                await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
-                this.$router.replace({ name: "getuser" })
-            } catch (err) { this.error = err.message }
+        login(){
+            this.$store.dispatch('login',{
+                email: this.email,
+                password: this.password
+            })
         }
     }
 }

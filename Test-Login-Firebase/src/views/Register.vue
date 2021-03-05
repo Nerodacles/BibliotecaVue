@@ -5,14 +5,16 @@
 				<span>{{error}}</span>
 			</div>
 			<div class="login-form">
-				<form @submit.prevent="pressed">
+				<form @submit.prevent="signup">
 					<h2 class="text-center display-4 text-bluewhite">Register</h2>
 					<div class="form-group has-error">
 						<input type="email" class="form-control" v-model="email" placeholder="Username" required="required"/>
-					</div>
-					<div class="form-group">
 						<input type="password" class="form-control" v-model="password" placeholder="Password" required="required"/>
 					</div>
+					<div class="form-group">
+                        <input v-model.trim="name" class="form-control" type="text" placeholder="Name" id="name" required="required"/>
+                        <input v-model.trim="uni" class="form-control" type="text" placeholder="University" id="title" />
+                    </div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary btn-lg btn-block"> Submit </button>
 					</div>
@@ -23,23 +25,22 @@
 </template>
 
 <script>
-import { firebase } from '@firebase/app'
-import '@firebase/auth'
-
 export default {
     methods: {
-        async pressed(){
-            try {
-                // eslint-disable-next-line no-unused-vars
-                const user = await firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
-                this.$router.replace( {name:"finishregister"} )
-            }catch (err) {console.log(err)}
-        },
+        signup() {
+            this.$store.dispatch('signup', {
+                email: this.email,
+                password: this.password,
+                name: this.name,
+                uni: this.uni,
+            })
+        }
     },
     data:() => ({
         email: '',
         password: '',
-        error: ''
+        name: '',
+        uni: ''
     }),
 }
 </script>

@@ -6,14 +6,13 @@ import User from '../views/User.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import GetUser from '../views/GetUser.vue'
-import Finishregister from '../views/Finishregister.vue'
 
 // Admin
-import BooksAdmin from '../views/admin/Books.vue'
+import Books from '../views/admin/Books.vue'
 import AddBook from '../views/admin/AddBook.vue'
 
-import { firebase } from '@firebase/app'
-import '@firebase/auth'
+// eslint-disable-next-line no-unused-vars
+import { auth } from '../firebase'
 
 Vue.use(VueRouter)
 
@@ -28,7 +27,7 @@ const routes = [
         name: 'login',
         component: Login,
         // beforeEnter(to, from, next){
-        //   if(firebase.auth().currentUser){
+        //   if(auth().currentUser){
         //     next(false)
         //   } else next()
         // }
@@ -37,42 +36,32 @@ const routes = [
         path: '/register',
         name: 'register',
         component: Register,
-        beforeEnter(to, from, next){
-            if(firebase.auth().currentUser){
-                next(false)
-            } else next()
-        }
-    },
-    {
-        path: '/finishregister',
-        name: 'finishregister',
-        component: Finishregister,
-        beforeEnter(to, from, next){
-            if(!firebase.auth().currentUser){
-                next("/")
-            } else next()
-        }
+        // beforeEnter(to, from, next){
+        //     if(auth().currentUser){
+        //         next(false)
+        //     } else next()
+        // }
     },
     {
         path: '/getuser',
         name: 'getuser',
         component: GetUser,
-        beforeEnter(to, from, next){
-            if(!firebase.auth().currentUser){
-                next("/")
-            } else next()
-        }
+        // beforeEnter(to, from, next){
+        //     if(!auth().currentUser){
+        //         next("/")
+        //     } else next()
+        // }
     },
     {
         path: '/admin',
         name: 'admin',
         component: Admin,
         meta: {requireAuth: true},
-        beforeEnter(to, from, next){
-            if(firebase.auth().currentUser.email != "admin@admin.com"){
-                next("/admin")
-            } else next()
-        }
+        // beforeEnter(to, from, next){
+        //     if(auth().currentUser.email != "admin@admin.com"){
+        //         next("/admin")
+        //     } else next()
+        // }
     },
     {
         path: '/user',
@@ -86,9 +75,9 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
     },
     {
-        path: '/BooksAdmin',
-        name: 'BooksAdmin',
-        component: BooksAdmin,
+        path: '/Books',
+        name: 'Books',
+        component: Books,
     },
     {
         path: '/AddBook',
@@ -105,9 +94,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next)=> {
     const requireAuth = to.matched.some(record => record.meta.requireAuth);
-    const isAuthenticated = firebase.auth().currentUser;
+    const isAuthenticated = auth.currentUser;
     if(requireAuth && !isAuthenticated){
-        next("/")
+        next("/login")
     }
     else{
         next()

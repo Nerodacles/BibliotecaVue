@@ -1,17 +1,16 @@
 <template>
     <div>
         <p>Welcome {{user.name}}</p>
-        <p>You're from: {{user.uni}}</p>
-        <p>{{user.name}}</p>
-        <p>{{user.email}}</p>
-        <p>{{user.isAdmin}}</p>
+        <p>You're from: {{user.title}}</p>
+        <p>User Email: {{user.email}}</p>
+        <p>You're Admin: {{user.isAdmin}}</p>
     </div>
 </template>
 
 <script>
-import { firebase } from '@firebase/app'
-import '@firebase/auth'
-import '@firebase/firestore'
+import { auth } from '../firebase'
+import { db } from '../firebase' 
+import { usersCollection } from '../firebase' 
 
 export default {
     computed: {
@@ -20,12 +19,11 @@ export default {
         this.getUserData()
     },
     data:() => ({
-        database: [],
-        user: "",
+        user: {},
     }),
     methods: {
         async getUserData(){
-        await firebase.firestore().collection("roles").doc(firebase.auth().currentUser.uid).onSnapshot(snap=> {this.user = snap.data()});
+        await usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {this.user = snap.data()});
         },
     },
 }

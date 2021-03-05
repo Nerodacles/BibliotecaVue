@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div v-if="fetchData" class="d-flex" id="wrapper">
+        <div v-if="!fetchData" class="d-flex" id="wrapper">
             <!-- Sidebar -->
             <div class="bg-light border-right" id="sidebar-wrapper">
             <br><br>
             <div class="list-group list-group-flush">
-                <a href="/BooksAdmin" class="list-group-item list-group-item-action bg-light">Books</a>
-                <a href="/AddBook" class="list-group-item list-group-item-action bg-light">Add book</a>
+                <a href="/Books" class="list-group-item list-group-item-action bg-light" :class="this.$route.name == 'Books' ? 'active bg-dark' : ''">Books</a>
+                <a href="/AddBook" class="list-group-item list-group-item-action bg-light" :class="this.$route.name == 'AddBook' ? 'active bg-dark' : 'inactive'">Add book</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
@@ -21,11 +21,12 @@
 <script>
 export default {
 	data: () =>  ({
+    
 	}),
     computed: {
         fetchData () {
             return this.$route.params.test
-        }
+        },
     },
     watch:{
         // eslint-disable-next-line no-unused-vars

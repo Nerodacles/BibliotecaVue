@@ -21,7 +21,7 @@
                             <em>{{userData.name}}</em>
                         </template>
                         <b-dropdown-item href="/">Profile</b-dropdown-item>
-                        <b-dropdown-item @click="signOut">Sign Out</b-dropdown-item>
+                        <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
@@ -30,15 +30,15 @@
 </template>
 
 <script>
-import { firebase } from '@firebase/app'
-import '@firebase/auth'
-import '@firebase/firestore'
+import { auth } from '../firebase'
+import { db } from '../firebase' 
+import { usersCollection } from '../firebase' 
 
 export default {
     computed: {
     },
     created() {
-        firebase.auth().onAuthStateChanged(user=> {
+        auth.onAuthStateChanged(user=> {
             this.loggedIn = !!user;
             this.GetUserData()
         });
@@ -50,18 +50,11 @@ export default {
     }),
 
     methods: {
-        async signOut(){
-            try {
-                // eslint-disable-next-line no-unused-vars
-                const data = await firebase.auth().signOut();
-                this.$router.replace({name: "login"})
-            }
-            catch(err) {
-                console.log(err)
-            }
+        logout() {
+            this.$store.dispatch('logout')
         },
         async GetUserData(){
-            await firebase.firestore().collection("roles").doc(firebase.auth().currentUser.uid).onSnapshot(snap=> {this.userData = snap.data()});
+            await usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {this.userData = snap.data()});
         },
         Test(){
             this.test = !this.test

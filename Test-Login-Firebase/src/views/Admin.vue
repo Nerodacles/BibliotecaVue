@@ -10,15 +10,14 @@
 
 <script>
 import Sidebar from "../components/Sidebar"
-import { firebase } from '@firebase/app'
-import '@firebase/auth'
-import '@firebase/firestore'
+import { db } from '../firebase'
+import { auth } from '../firebase'
 
 export default {
     components: {'sidebar': Sidebar},
     created(){
-        firebase.firestore().collection("roles").doc(firebase.auth().currentUser.uid).onSnapshot(snap=> {this.user = snap.data()});
-        firebase.firestore().collection("default").onSnapshot(snap=> {
+        db.collection("users").doc(auth.currentUser.uid).onSnapshot(snap=> {this.user = snap.data()});
+        db.collection("default").onSnapshot(snap=> {
             this.defaultValues = [],
             snap.forEach(user=> {
             var client = user.data();
@@ -26,7 +25,7 @@ export default {
             this.defaultValues.push(client);
             });
         });
-        firebase.firestore().collection("roles").onSnapshot(snap=> {
+        db.collection("users").onSnapshot(snap=> {
             this.database = [],
             snap.forEach(user=> {
             var client = user.data();
