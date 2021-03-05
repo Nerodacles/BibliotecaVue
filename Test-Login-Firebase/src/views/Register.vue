@@ -1,9 +1,9 @@
 <template>
     <div>
 		<div class="">
-			<div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="error">
+			<!-- <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="error">
 				<span>{{error}}</span>
-			</div>
+			</div> -->
 			<div class="login-form">
 				<form @submit.prevent="signup">
 					<h2 class="text-center display-4 text-bluewhite">Register</h2>
@@ -12,8 +12,8 @@
 						<input type="password" class="form-control" v-model="password" placeholder="Password" required="required"/>
 					</div>
 					<div class="form-group">
-                        <input v-model.trim="name" class="form-control" type="text" placeholder="Name" id="name" required="required"/>
-                        <input v-model.trim="uni" class="form-control" type="text" placeholder="University" id="title" />
+                        <input v-model.trim="name" class="form-control" type="text" placeholder="Name" required="required"/>
+                        <v-select :options="universities" label="init" v-model="uni" class="" placeholder="select one or more"></v-select>
                     </div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary btn-lg btn-block"> Submit </button>
@@ -25,7 +25,15 @@
 </template>
 
 <script>
+import { db } from '../firebase'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
+
 export default {
+    components: { vSelect },
+    created() {
+		db.collection("default").doc("Uni").onSnapshot(snap=> {this.universities = snap.data().unis})
+	},
     methods: {
         signup() {
             this.$store.dispatch('signup', {
@@ -34,13 +42,14 @@ export default {
                 name: this.name,
                 uni: this.uni,
             })
-        }
+        },
     },
     data:() => ({
         email: '',
         password: '',
         name: '',
-        uni: ''
+        uni: '',
+        universities: []
     }),
 }
 </script>
