@@ -11,9 +11,14 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
+<<<<<<< HEAD
     "core-js": "^3.9.0",
     "firebase": "^8.2.10",
     "jquery": "^3.6.0",
+=======
+    "core-js": "^3.9.1",
+    "firebase": "^8.2.7",
+>>>>>>> 9c7bfab6dc7658362c91b80f51861d261504a322
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-select": "^3.11.2",
@@ -27,7 +32,7 @@
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.6.0",
+    "eslint-plugin-vue": "^7.7.0",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.1",
     "vue-template-compiler": "^2.6.11"
