@@ -63,10 +63,12 @@ export default new Vuex.Store({
             console.log(book)
             await booksCollection.doc(book.Name).set({
                 // createdAt: Date(),
-                covers: book.covers,
+                coverUrl: book.covers,
+                bookUrl: book.file,
                 BookName: book.name,
                 ISBN: book.ISBN,
                 Categories: book.category,
+                Description: book.description,
             })
         },
     }

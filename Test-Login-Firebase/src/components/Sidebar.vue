@@ -29,7 +29,6 @@ export default {
         },
     },
     watch:{
-        // eslint-disable-next-line no-unused-vars
         fetchData(oldValue, NewValue){
             console.log(this.$route.params.test)
         }
@@ -38,49 +37,49 @@ export default {
 </script>
 
 <style scoped>
- #wrapper {
-    overflow-x: hidden;
- }
+	#wrapper {
+		overflow-x: hidden;
+	}
 
-#sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
-  position: fixed;
-  -webkit-transition: .25s ease-out;
-  -moz-transition: .25s ease-out;
-  -o-transition: .25s ease-out;
-  transition: .25s ease-out;
-}
+	#sidebar-wrapper {
+		min-height: 100vh;
+		margin-left: -15rem;
+		position: fixed;
+		-webkit-transition: .25s ease-out;
+		-moz-transition: .25s ease-out;
+		-o-transition: .25s ease-out;
+		transition: .25s ease-out;
+	}
 
-#sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
-}
+	#sidebar-wrapper .sidebar-heading {
+		padding: 0.875rem 1.25rem;
+		font-size: 1.2rem;
+	}
 
-#sidebar-wrapper .list-group {
-  width: 15rem;
-}
+	#sidebar-wrapper .list-group {
+		width: 15rem;
+	}
 
-#page-content-wrapper {
-  min-width: 100vw;
-}
+	#page-content-wrapper {
+		min-width: 100vw;
+	}
 
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: 0;
-}
+	#wrapper.toggled #sidebar-wrapper {
+		margin-left: 0;
+	}
 
-@media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
-  }
+	@media (min-width: 768px) {
+		#sidebar-wrapper {
+			margin-left: 0;
+		}
 
-  #page-content-wrapper {
-    min-width: 0;
-    width: 100%;
-  }
+		#page-content-wrapper {
+			min-width: 0;
+			width: 100%;
+		}
 
-  #wrapper.toggled #sidebar-wrapper {
-    margin-left: -15rem;
-  }
+		#wrapper.toggled #sidebar-wrapper {
+			margin-left: -15rem;
+		}
 }
 </style>

@@ -11,6 +11,9 @@ import GetUser from '../views/GetUser.vue'
 import Books from '../views/admin/Books.vue'
 import AddBook from '../views/admin/AddBook.vue'
 
+//Usuarios
+import Book from '../views/book/_id.vue'
+
 // eslint-disable-next-line no-unused-vars
 import { auth } from '../firebase'
 
@@ -78,6 +81,12 @@ const routes = [
         path: '/Books',
         name: 'Books',
         component: Books,
+    },
+    {
+        path: '/book/:id',
+        name: 'Book',
+        props: true,
+        component: Book,
     },
     {
         path: '/AddBook',
