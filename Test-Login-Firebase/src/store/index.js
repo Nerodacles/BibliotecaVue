@@ -85,15 +85,18 @@ export default new Vuex.Store({
             router.push('/login')
         },
         async newBook({ dispatch }, book){
-            await booksCollection.doc(book.Name).set({
-                // createdAt: Date(),
+            await booksCollection.doc(book.name).set({
+                createdAt: Date(),
                 coverUrl: book.covers,
                 bookUrl: book.file,
-                BookName: book.name,
+                title: book.name,
+                author: book.author,
                 ISBN: book.ISBN,
-                Categories: book.category,
-                Description: book.description,
-            })
+                categories: book.category,
+                description: book.description,
+            }).then(function() {
+                this.$toastr.s(`${book.name} Created!`);
+            });
         },
         async Getuser({commit}){
             const userProfile = await fb.usersCollection.doc(auth.currentUser.uid).get()

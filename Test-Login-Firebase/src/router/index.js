@@ -9,6 +9,7 @@ import Register from '../views/Register.vue'
 // Admin
 import Books from '../views/admin/Books.vue'
 import AddBook from '../views/admin/AddBook.vue'
+import AdminBooks from '../views/admin/adminBook.vue'
 
 //Usuarios
 import Book from '../views/book/_id.vue'
@@ -93,6 +94,11 @@ const routes = [
         path: '/AddBook',
         name: 'AddBook',
         component: AddBook,
+    },
+    {
+        path: '/AdminBooks',
+        name: 'AdminBooks',
+        component: AdminBooks,
     },
 ]
 

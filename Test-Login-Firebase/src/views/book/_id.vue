@@ -8,7 +8,7 @@
                 <div class="container mx-auto flex flex-col md:flex-row items-end pb-4" style="height:250px">
                     <div class="w-full md:w-1/4"></div>
                     <div class="w-full md:w-3/4 md:ml-12">
-                        <h1 class="font-heading">{{ book.BookName }}</h1>
+                        <h1 class="font-heading">{{ book.title }}</h1>
                         <div v-if="book.author">{{ book.author }}</div>
                     </div>
                 </div>

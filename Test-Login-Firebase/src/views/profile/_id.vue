@@ -31,6 +31,7 @@ export default {
         updateUser(){
             auth.currentUser.updateProfile({
                 displayName: "Juanma Canahuate",
+                
             }).then(function(d) {
 
             }).catch(function(error) {

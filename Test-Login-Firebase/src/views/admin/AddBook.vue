@@ -36,6 +36,9 @@
                 <b-form-group label="Book Name:" label-for="Bookname">
                     <b-form-input v-model="newBook.BookName" type="text" placeholder="book name" required></b-form-input>
                 </b-form-group>
+                <b-form-group label="Author:" label-for="Bookname">
+                    <b-form-input v-model="newBook.Author" type="text" placeholder="author" required></b-form-input>
+                </b-form-group>
                 <b-form-group id="input-group-2" label="ISBN:" label-for="isbn">
                     <b-form-input type="number" v-model="newBook.ISBN" placeholder="ISBN" required></b-form-input>
                 </b-form-group>
@@ -76,6 +79,7 @@ export default {
 	data: () =>  ({
 		newBook: {
 			BookName: '',
+			Author: '',
 			ISBN: '',
 			categories: null,
             Description: '',
@@ -103,6 +107,7 @@ export default {
                         covers: url,
                         file: this.newBook.pdf,
                         name: this.newBook.BookName,
+                        author: this.newBook.Author,
                         ISBN: this.newBook.ISBN,
                         category: this.newBook.categories,
                         description: this.newBook.Description
@@ -113,6 +118,7 @@ export default {
 		onReset(event) {
 			event.preventDefault()
 			this.newBook.BookName = ''
+			this.newBook.Author = ''
 			this.newBook.ISBN = ''
 			this.newBook.Description = ''
 			this.newBook.pdf = ''
