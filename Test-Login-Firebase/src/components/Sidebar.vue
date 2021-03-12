@@ -1,7 +1,7 @@
 <template>
     <div id="demo" :class="[{'collapsed' : collapsed}, {'onmobile' : isOnMobile}]">
     <div class="demo">
-        <div class="container pt-6">
+        <div class="container pt-5">
             <router-view />
         </div>
       <sidebar-menu
