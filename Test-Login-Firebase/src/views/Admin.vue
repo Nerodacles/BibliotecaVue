@@ -4,17 +4,14 @@
             <div class="row Screen">
             </div>
         </div>
-        <sidebar></sidebar>
     </div>
 </template>
 
 <script>
-import Sidebar from "../components/Sidebar"
 import { db } from '../firebase'
 import { auth } from '../firebase'
 
 export default {
-    components: {'sidebar': Sidebar},
     created(){
         db.collection("users").doc(auth.currentUser.uid).onSnapshot(snap=> {this.user = snap.data()});
         db.collection("default").onSnapshot(snap=> {

@@ -72,12 +72,14 @@ const routes = [
         path: '/Books',
         name: 'Books',
         component: Books,
+        meta: {requireAuth: true}
     },
     {
         path: '/book/:id',
         name: 'Book',
         props: true,
         component: Book,
+        meta: {requireAuth: true}
     },
     {
         path: '/profile/:id',
@@ -88,17 +90,20 @@ const routes = [
             if(to.path != '/profile/'+auth.currentUser.uid){
                 next('/user')
             } else next()
-        }
+        },
+        meta: {requireAuth: true}
     },
     {
         path: '/AddBook',
         name: 'AddBook',
         component: AddBook,
+        meta: {requireAuth: true}
     },
     {
         path: '/AdminBooks',
         name: 'AdminBooks',
         component: AdminBooks,
+        meta: {requireAuth: true}
     },
 ]
 

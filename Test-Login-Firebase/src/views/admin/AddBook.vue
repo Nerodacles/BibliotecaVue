@@ -1,70 +1,66 @@
 <template>
-    <div>
-        <sidebar></sidebar>
-        <div class="content">
-            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-                <b-form-group label="Upload Cover:" label-for="UploadImage">
-                    <div class="custom-file">
-                        <!-- <input multiple ref="fileInput" lang="en" accept="image/*" type="file" @input="pickFile" class="custom-file-input"> -->
-                        <input type="file" accept="image/*" @change="uploadImage" class="custom-file-input"/>
-                        <label class="custom-file-label" for="customFile">select cover</label>
-                        <div v-if="images" class="container">
-                            <div v-for="(image, key) in images" :key="key" class="col-sm-3 col-md-4 col-lg-2">
-                                <div class="">
-                                    <img class="preview imagePreviewWrapper row" :ref="'image'"/>
-                                        {{ image.name }}
-                                </div>
+    <div class="mx-5">
+        <b-form @submit="onSubmit" @reset="onReset" v-if="show" class="m-4 p-3">
+            <b-form-group label="Upload Cover:" label-for="UploadImage">
+                <div class="custom-file">
+                    <!-- <input multiple ref="fileInput" lang="en" accept="image/*" type="file" @input="pickFile" class="custom-file-input"> -->
+                    <input type="file" accept="image/*" @change="uploadImage" class="custom-file-input"/>
+                    <label class="custom-file-label" for="customFile">select cover</label>
+                    <div v-if="images" class="container">
+                        <div v-for="(image, key) in images" :key="key" class="col-sm-3 col-md-4 col-lg-2">
+                            <div class="">
+                                <img class="preview imagePreviewWrapper row" :ref="'image'"/>
+                                    {{ image.name }}
                             </div>
                         </div>
                     </div>
-                </b-form-group>
-                <b-form-group label="Upload Book:" label-for="UploadBookFile">
-                    <div class="custom-file">
-                        <!-- <input multiple ref="fileInput" lang="en" accept="image/*" type="file" @input="pickFile" class="custom-file-input"> -->
-                        <input type="file" accept="application/pdf" @change="uploadBook" class="custom-file-input"/>
-                        <label class="custom-file-label" for="customFile">select pdf</label>
-                        <div v-if="pdf" class="">
-                            <div v-for="(pdf, key) in pdf" :key="key" class="">
-                                <div class="">
-                                    <img class="preview" src="@/assets/pdf.png" width="100" height="100"/>
-                                        {{ pdf.name }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </b-form-group>
-                <b-form-group label="Book Name:" label-for="Bookname">
-                    <b-form-input v-model="newBook.BookName" type="text" placeholder="book name" required></b-form-input>
-                </b-form-group>
-                <b-form-group label="Author:" label-for="Bookname">
-                    <b-form-input v-model="newBook.Author" type="text" placeholder="author" required></b-form-input>
-                </b-form-group>
-                <b-form-group id="input-group-2" label="ISBN:" label-for="isbn">
-                    <b-form-input type="number" v-model="newBook.ISBN" placeholder="ISBN" required></b-form-input>
-                </b-form-group>
-                <b-form-group label="Categories:" label-for="input-3">
-					<v-select taggable multiple push-tags :options="categories" v-model="newBook.categories" class="small" placeholder="select one or more"></v-select>
-				</b-form-group>
-                <b-form-group>
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Enter the Description</label>
-                        <textarea class="form-control" v-model="newBook.Description" rows="5"></textarea>
-                    </div>
-                </b-form-group>
-                <div v-if="images[0] && pdf">
-                    <p>Progress: {{uploadValue.toFixed()+"%"}}
-                        <progress id="progress" :value="uploadValue" max="100"></progress>  
-                    </p>
                 </div>
-				<b-button type="submit" class="mx-1" variant="primary">Submit</b-button>
-				<b-button type="reset" class="mx-1" variant="danger">Reset</b-button>
-			</b-form>
-        </div>
+            </b-form-group>
+            <b-form-group label="Upload Book:" label-for="UploadBookFile">
+                <div class="custom-file">
+                    <!-- <input multiple ref="fileInput" lang="en" accept="image/*" type="file" @input="pickFile" class="custom-file-input"> -->
+                    <input type="file" accept="application/pdf" @change="uploadBook" class="custom-file-input"/>
+                    <label class="custom-file-label" for="customFile">select pdf</label>
+                    <div v-if="pdf" class="">
+                        <div v-for="(pdf, key) in pdf" :key="key" class="">
+                            <div class="">
+                                <img class="preview mt-2" src="@/assets/pdf.png" width="40" height="40"/>
+                                    {{ pdf.name }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </b-form-group>
+            <b-form-group label="Book Name:" label-for="Bookname">
+                <b-form-input v-model="newBook.BookName" type="text" placeholder="book name" required></b-form-input>
+            </b-form-group>
+            <b-form-group label="Author:" label-for="Bookname">
+                <b-form-input v-model="newBook.Author" type="text" placeholder="author" required></b-form-input>
+            </b-form-group>
+            <b-form-group id="input-group-2" label="ISBN:" label-for="isbn">
+                <b-form-input type="number" v-model="newBook.ISBN" placeholder="ISBN" required></b-form-input>
+            </b-form-group>
+            <b-form-group label="Categories:" label-for="input-3">
+                <v-select taggable multiple push-tags :options="categories" v-model="newBook.categories" class="small" placeholder="select one or more"></v-select>
+            </b-form-group>
+            <b-form-group>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Enter the Description</label>
+                    <textarea class="form-control" v-model="newBook.Description" rows="5"></textarea>
+                </div>
+            </b-form-group>
+            <div v-if="images[0] && pdf">
+                <p>Progress: {{uploadValue.toFixed()+"%"}}
+                    <progress id="progress" :value="uploadValue" max="100"></progress>  
+                </p>
+            </div>
+            <b-button type="submit" class="mx-1" variant="primary">Submit</b-button>
+            <b-button type="reset" class="mx-1" variant="danger">Reset</b-button>
+        </b-form>
     </div>
 </template>
 
 <script>
-import Sidebar from '../../components/Sidebar'
 import { booksCollection } from '../../firebase'
 import { storage } from '../../firebase'
 import { db } from '../../firebase'
@@ -72,7 +68,7 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 
 export default {
-	components: { Sidebar, vSelect },
+	components: { vSelect },
 	created() {
 		db.collection("default").doc("categories").onSnapshot(snap=> {this.categories = snap.data().name})
 	},
@@ -93,11 +89,12 @@ export default {
         pdf: null,
 		}),
 	methods: {
-		onSubmit(event) {
+		async onSubmit(event) {
 			event.preventDefault()
             this.picture=null;
             this.uploadValue = 0;
-            this.getUrl()
+            const bookUrl = await this.getUrl()
+            console.log(bookUrl)
             const storageRef=storage.ref(`${this.images[0].name}`).put(this.images[0]);
             storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100 }, error=>{console.log(error.message)},
             () => {
@@ -156,7 +153,7 @@ export default {
             var selectedFiles = e.target.files
             this.pdf = selectedFiles
         },
-        getUrl(){
+        async getUrl(){
             const storageRef=storage.ref(`${this.pdf[0].name}`).put(this.pdf[0]);
             storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100; }, error=>{console.log(error.message)},
             () => {
@@ -171,17 +168,6 @@ export default {
 </script>
 
 <style scoped>
-    .content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 25px;
-        height: 100%;
-        width: 100%;
-        font-size: 20px;
-        font-weight: 20;
-    }
-
     .imagePreviewWrapper {
         width: 200px;
         height: 200px;

@@ -1,7 +1,6 @@
 <template>
     <div class="container-fluid p-0">
         <div class="row">
-            <sidebar class="col-sm-3 col-md-4 col-lg-2"></sidebar>
             <div class="" :class="this.$route.params.test ? '' : 'col-sm-9 col-md-8'">
                 <div class="content">
                     Libros
@@ -9,7 +8,7 @@
                     <p>{{AllBooks}}</p>
                 <div>
                     <router-link :to="'/book/' + book.id" v-for="book in this.AllBooks" :key="book.id" class="">
-                        <p>Book Name: {{book.BookName}}</p>
+                        <p>Book Name: {{book.title}}</p>
                         <img :src="book.coverUrl" alt="test">
                         <p>Categories: {{ book.Categories[0] }}</p>
                     </router-link>
@@ -20,13 +19,11 @@
 </template>
 
 <script>
-import Sidebar from '../../components/Sidebar'
 import { booksCollection } from '../../firebase'
 import { storage } from '../../firebase'
 import { db } from '../../firebase'
 
 export default {
-	components: { Sidebar },
     created() {
 		booksCollection.onSnapshot(snap=> {
             snap.forEach(book=> {

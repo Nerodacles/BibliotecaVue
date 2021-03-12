@@ -1,7 +1,6 @@
 
 <template>
     <div>
-        <sidebar></sidebar>
         <div class="panel-body">
             <table class="table table-striped">
                 <thead>
@@ -24,13 +23,11 @@
 </template>
 
 <script>
-import Sidebar from '../../components/Sidebar'
 import { booksCollection } from '../../firebase'
 import { storage } from '../../firebase'
 import { db } from '../../firebase'
 
 export default {
-    components: { Sidebar },
     created() {
         this.$toastr.i("Cuanto tu ames, eso es lo que vales");
 		booksCollection.onSnapshot(snap=> {

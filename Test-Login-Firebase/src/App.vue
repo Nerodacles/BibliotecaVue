@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <top-header></top-header>
-        <router-view/>
+        <sidebar></sidebar>
     </div>
 </template>
 
@@ -9,9 +9,10 @@
 
 <script>
 import TopHeader from "./components/Top-Header"
+import sidebar from "./components/Sidebar"
 
 export default {
-    components: {'top-header': TopHeader}
+    components: {'top-header': TopHeader, 'sidebar': sidebar}
 }
 </script>
 
@@ -26,14 +27,4 @@ export default {
     min-height: 100vh;
 }
 
-#nav {
-    padding: 30px;
-    a {
-        font-weight: bold;
-        color: #134074;
-        &.router-link-exact-active {
-            color: #8DA9C4;
-        }
-    }
-}
 </style>

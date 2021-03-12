@@ -1,87 +1,201 @@
 <template>
-    <div>
-        <div v-if="!fetchToggle" class="d-flex" id="wrapper">
-            <!-- Sidebar -->
-            <div class="bg-light border-right" id="sidebar-wrapper">
-            <br><br>
-            <div class="list-group list-group-flush">
-                <a href="/Books" class="list-group-item list-group-item-action bg-light" :class="this.$route.name == 'Books' ? 'active bg-dark' : ''">Books</a>
-                <a href="/AddBook" class="list-group-item list-group-item-action bg-light" :class="this.$route.name == 'AddBook' ? 'active bg-dark' : 'inactive'" v-if="fetchUserAdmin">Add book</a>
-                <a href="/AdminBooks" class="list-group-item list-group-item-action bg-light" :class="this.$route.name == 'AdminBooks' ? 'active bg-dark' : 'inactive'" v-if="fetchUserAdmin">Admin Books</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
-            </div>
+    <div id="demo" :class="[{'collapsed' : collapsed}, {'onmobile' : isOnMobile}]">
+    <div class="demo">
+        <div class="container pt-6">
+            <router-view />
         </div>
-            <!-- /#sidebar-wrapper -->
-        
-        </div>
+      <sidebar-menu
+        :menu="menu"
+		width ="250px"
+        :collapsed="collapsed"
+        :theme="selectedTheme"
+        :show-one-child="true"
+        @toggle-collapse="onToggleCollapse"
+      />
+      <div v-if="isOnMobile && !collapsed" class="sidebar-overlay" @click="collapsed = true"/>
     </div>
+  </div>
 </template>
 
 <script>
+const separator = {
+  template: `<hr style="border-color: rgba(0, 0, 0, 0.1); margin: 20px;">`
+}
+
 export default {
-	data: () =>  ({
-    
-	}),
-    computed: {
-        fetchToggle () {
-            return this.$store.state.toggle
+  name: 'sidebar',
+  data () {
+    return {
+      menu: [
+        {
+          header: true,
+          title: 'Getting Started',
+          hiddenOnCollapse: true
         },
-		fetchUserAdmin(){
-			return this.$store.state.userProfile.isAdmin
-		},
+        {
+          href: '/admin',
+          title: 'Dashboard',
+          icon: 'fa fa-download'
+        },
+        {
+          href: '/Books',
+          title: 'Books',
+          icon: 'fa fa-code'
+        },
+        {
+          href: '/AddBook',
+          title: 'Add Book',
+          icon: 'fa fa-code'
+        },
+        {
+          href: '/AdminBooks',
+          title: 'Admin Books',
+          icon: 'fa fa-cogs'
+        },
+        {
+          href: '/events',
+          title: 'Events',
+          icon: 'fa fa-bell'
+        },
+        {
+          component: separator
+        },
+        {
+          href: '/page',
+          title: 'Dropdown Page',
+          icon: 'fa fa-list-ul',
+          child: [
+            {
+              href: '/page/sub-page-1',
+              title: 'Sub Page 01',
+              icon: 'fa fa-file-alt'
+            },
+            {
+              href: '/page/sub-page-2',
+              title: 'Sub Page 02',
+              icon: 'fa fa-file-alt'
+            }
+          ]
+        },
+        {
+          title: 'Multiple Level',
+          icon: 'fa fa-list-alt',
+          child: [
+            {
+              title: 'page'
+            },
+            {
+              title: 'Level 2 ',
+              child: [
+                {
+                  title: 'page'
+                },
+                {
+                  title: 'Page'
+                }
+              ]
+            },
+            {
+              title: 'Page'
+            },
+            {
+              title: 'Another Level 2',
+              child: [
+                {
+                  title: 'Level 3',
+                  child: [
+                    {
+                      title: 'Page'
+                    },
+                    {
+                      title: 'Page'
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      collapsed: false,
+      selectedTheme: 'default-theme',
+      isOnMobile: false
+    }
+  },
+  mounted () {
+    this.onResize()
+    window.addEventListener('resize', this.onResize)
+  },
+  methods: {
+    onToggleCollapse (collapsed) {
+      console.log(collapsed)
+      this.collapsed = collapsed
     },
-	created() {
-		// this.$store.dispatch('GetStateSidebar')
-    },
+    onResize () {
+      if (window.innerWidth <= 767) {
+        this.isOnMobile = true
+        this.collapsed = true
+      } else {
+        this.isOnMobile = false
+        this.collapsed = false
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
-	#wrapper {
-		overflow-x: hidden;
-	}
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600');
+.v-sidebar-menu{
+	margin-top: 56px;
+}
 
-	#sidebar-wrapper {
-		min-height: 100vh;
-		margin-left: -15rem;
-		position: fixed;
-		-webkit-transition: .25s ease-out;
-		-moz-transition: .25s ease-out;
-		-o-transition: .25s ease-out;
-		transition: .25s ease-out;
-	}
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
 
-	#sidebar-wrapper .sidebar-heading {
-		padding: 0.875rem 1.25rem;
-		font-size: 1.2rem;
-	}
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 18px;
+  background-color: #f2f4f7;
+  color: #262626;
+}
 
-	#sidebar-wrapper .list-group {
-		width: 15rem;
-	}
+#demo {
+  padding-left: 250px;
+  transition: 0.3s ease;
+}
+#demo.collapsed {
+  padding-left: 50px;
+}
+#demo.onmobile {
+  padding-left: 50px;
+}
 
-	#page-content-wrapper {
-		min-width: 100vw;
-	}
+.sidebar-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  opacity: 0.5;
+  z-index: 900;
+}
 
-	#wrapper.toggled #sidebar-wrapper {
-		margin-left: 0;
-	}
+.demo {
+	padding: 0px;
+}
 
-	@media (min-width: 768px) {
-		#sidebar-wrapper {
-			margin-left: 0;
-		}
-
-		#page-content-wrapper {
-			min-width: 0;
-			width: 100%;
-		}
-
-		#wrapper.toggled #sidebar-wrapper {
-			margin-left: -15rem;
-		}
+pre {
+  font-family: Consolas, monospace;
+  color: #000;
+  background: #fff;
+  border-radius: 2px;
+  padding: 15px;
+  line-height: 1.5;
+  overflow: auto;
 }
 </style>
