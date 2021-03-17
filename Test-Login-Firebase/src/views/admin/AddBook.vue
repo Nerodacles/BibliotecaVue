@@ -93,24 +93,7 @@ export default {
 			event.preventDefault()
             this.picture=null;
             this.uploadValue = 0;
-            const bookUrl = await this.getUrl()
-            console.log(bookUrl)
-            const storageRef=storage.ref(`${this.images[0].name}`).put(this.images[0]);
-            storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100 }, error=>{console.log(error.message)},
-            () => {
-                this.uploadValue=100;
-                storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-                    this.$store.dispatch('newBook',{
-                        covers: url,
-                        file: this.newBook.pdf,
-                        name: this.newBook.BookName,
-                        author: this.newBook.Author,
-                        ISBN: this.newBook.ISBN,
-                        category: this.newBook.categories,
-                        description: this.newBook.Description
-                    })
-                });
-            });
+            this.getUrl()
 		},
 		onReset(event) {
 			event.preventDefault()
@@ -118,7 +101,8 @@ export default {
 			this.newBook.Author = ''
 			this.newBook.ISBN = ''
 			this.newBook.Description = ''
-			this.newBook.pdf = ''
+			this.newBook.pdf = null
+			this.pdf = null
 			this.newBook.categories = []
 			this.show = false
             this.uploadValue=0;
@@ -153,13 +137,31 @@ export default {
             var selectedFiles = e.target.files
             this.pdf = selectedFiles
         },
-        async getUrl(){
+        getUrl(){
             const storageRef=storage.ref(`${this.pdf[0].name}`).put(this.pdf[0]);
-            storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100; }, error=>{console.log(error.message)},
+            storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*50; }, error=>{console.log(error.message)},
             () => {
-                this.uploadValue=50;
                 storageRef.snapshot.ref.getDownloadURL().then((url)=>{
                     this.newBook.pdf = url
+                    this.UploadAll()
+                });
+            });
+        },
+        UploadAll(){
+            const storageRef=storage.ref(`${this.images[0].name}`).put(this.images[0]);
+            storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*50 }, error=>{console.log(error.message)},
+            () => {
+                this.uploadValue=100;
+                storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+                    this.$store.dispatch('newBook',{
+                        covers: url,
+                        file: this.newBook.pdf,
+                        name: this.newBook.BookName,
+                        author: this.newBook.Author,
+                        ISBN: this.newBook.ISBN,
+                        category: this.newBook.categories,
+                        description: this.newBook.Description
+                    })
                 });
             });
         },

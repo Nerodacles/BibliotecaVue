@@ -1,7 +1,7 @@
 <template>
-    <div class="container-fluid p-0">
+    <div class="">
         <div class="row">
-            <div class="" :class="this.$route.params.test ? '' : 'col-sm-9 col-md-8'">
+            <div class="">
                 <div class="content">
                     Libros
                 </div>
@@ -9,8 +9,9 @@
                 <div>
                     <router-link :to="'/book/' + book.id" v-for="book in this.AllBooks" :key="book.id" class="">
                         <p>Book Name: {{book.title}}</p>
-                        <img :src="book.coverUrl" alt="test">
-                        <p>Categories: {{ book.Categories[0] }}</p>
+                        <img :src="book.coverUrl">
+                        <p>Author: {{ book.author }}</p>
+                        <p>Categories: {{ book.categories[0] }}</p>
                     </router-link>
                 </div>
             </div>
