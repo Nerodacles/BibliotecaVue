@@ -8,12 +8,12 @@
 				<form @submit.prevent="signup">
 					<h2 class="text-center display-4 text-bluewhite">Register</h2>
 					<div class="form-group has-error">
-						<input type="email" class="form-control" v-model="email" placeholder="Username" required="required"/>
-						<input type="password" class="form-control" v-model="password" placeholder="Password" required="required"/>
+						<input type="email" class="form-control" v-model="email" placeholder="Email" required>
+						<input type="password" class="form-control" v-model="password" minlength="6" placeholder="Password" required/>
 					</div>
 					<div class="form-group">
-                        <input v-model.trim="name" class="form-control" type="text" placeholder="Name" required="required"/>
-                        <v-select :options="universities" label="init" v-model="uni" class="" placeholder="Select an University"></v-select>
+                        <input v-model.trim="name" class="form-control" type="text" placeholder="Name" required/>
+                        <v-select :options="universities" label="init" v-model="uni" class="form-control" placeholder="Select an University"></v-select>
                     </div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary btn-lg btn-block"> Submit </button>
