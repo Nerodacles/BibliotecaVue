@@ -14,7 +14,7 @@
                     <tr v-for="book in AllBooks" :key="book.id">
                         <td><a v-bind:href="book.url">{{book.title}}</a></td>
                         <td>{{book.author}}</td>
-                        <td><span class="glyphicon glyphicon-trash" aria-hidden="true" v-on:click="removeBook(book)"></span></td>
+                        <td><span class="far fa-trash-alt px-1" aria-hidden="true" v-on:click="removeBook(book.id)" v-if="book.user == userUID"></span><span class="fas fa-edit" aria-hidden="true" v-on:click="$router.push('/admin/editBook/'+book.id)" v-if="book.user == userUID"></span></td>
                     </tr>
                 </tbody>
             </table>
@@ -26,11 +26,17 @@
 import { booksCollection } from '../../firebase'
 import { storage } from '../../firebase'
 import { db } from '../../firebase'
+import { auth } from '../../firebase'
 
 export default {
+    computed: {
+        userUID(){
+            return this.$store.state.userUID
+        },
+    },
     created() {
-        this.$toastr.i("Cuanto tu ames, eso es lo que vales");
 		booksCollection.onSnapshot(snap=> {
+            this.AllBooks = []
             snap.forEach(book=> {
                 var bookData = book.data();
                 bookData.id = book.id;
@@ -42,6 +48,14 @@ export default {
     data:() => ({
         AllBooks: [],
     }),
+    methods: {
+        removeBook: function (book) {
+            // booksCollection.doc(book).delete()
+            this.$store.dispatch('deleteBook',{
+                id: book
+            })
+        },
+    },
 }
 </script>
 

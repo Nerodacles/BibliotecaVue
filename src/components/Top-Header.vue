@@ -7,8 +7,8 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
                     <b-nav-item href="/login" v-if="!loggedIn">Login</b-nav-item>
-                    <b-nav-item href="/user" v-if="loggedIn && !userData.isAdmin">Home</b-nav-item>
-                    <b-nav-item href="/admin" v-if="loggedIn && userData.isAdmin">Home</b-nav-item>
+                    <!-- <b-nav-item href="/user" v-if="loggedIn && !userData.isAdmin">Dashboard</b-nav-item>
+                    <b-nav-item href="/admin" v-if="loggedIn && userData.isAdmin">Dashboard</b-nav-item> -->
                     <b-nav-item href="/register" v-if="!loggedIn">Register</b-nav-item>
                     <b-nav-item href="/about">About</b-nav-item>
                     <!-- <b-nav-item href="#" disabled>Disabled</b-nav-item> -->
@@ -19,7 +19,8 @@
                         <template #button-content>
                             <em>{{userData.name}}</em>
                         </template>
-                        <b-dropdown-item :href="'/profile/' + userUID">Profile</b-dropdown-item>
+                        <!-- <b-dropdown-item :href="'/profile/' + userUID">Profile</b-dropdown-item> -->
+                        <b-dropdown-item>Profile</b-dropdown-item>
                         <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>

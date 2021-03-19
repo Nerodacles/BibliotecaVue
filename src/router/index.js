@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import Admin from '../views/Admin.vue'
 import User from '../views/User.vue'
 import Login from '../views/Login.vue'
@@ -10,6 +9,7 @@ import Register from '../views/Register.vue'
 import Books from '../views/admin/Books.vue'
 import AddBook from '../views/admin/AddBook.vue'
 import AdminBooks from '../views/admin/adminBook.vue'
+import EditBooks from '../views/admin/editBook/_id.vue'
 
 //Usuarios
 import Book from '../views/book/_id.vue'
@@ -24,7 +24,8 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: Home,
+        component: Books,
+        meta: {requireAuth: true},
     },
     {
         path: '/login',
@@ -100,9 +101,16 @@ const routes = [
         meta: {requireAuth: true}
     },
     {
-        path: '/AdminBooks',
+        path: '/admin/AdminBooks',
         name: 'AdminBooks',
         component: AdminBooks,
+        meta: {requireAuth: true}
+    },
+    {
+        path: '/admin/editBook/:id',
+        name: 'EditBooks',
+        props: true,
+        component: EditBooks,
         meta: {requireAuth: true}
     },
 ]

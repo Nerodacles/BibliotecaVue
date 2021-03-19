@@ -1,17 +1,18 @@
 <template>
     <div class="">
-        <div class="row">
-            <div class="">
+        <div class="">
+            <div class="container">
                 <div class="content">
                     Libros
                 </div>
-                    <p>{{AllBooks}}</p>
-                <div>
-                    <router-link :to="'/book/' + book.id" v-for="book in this.AllBooks" :key="book.id" class="">
-                        <p>Book Name: {{book.title}}</p>
-                        <img :src="book.coverUrl">
-                        <p>Author: {{ book.author }}</p>
-                        <p>Categories: {{ book.categories[0] }}</p>
+                <div class="row justify-content-center">
+                    <router-link :to="'/book/' + book.id" v-for="book in this.AllBooks" :key="book.id" class="item col-sm-6 col-md-4 col-xl-3 col-xxl-3">
+                        <div>
+                            <p>{{book.title}}</p>
+                            <img :src="book.coverUrl" class="img">
+                            <p>{{ book.author }}</p>
+                            <p>{{ book.categories[0] }}</p>
+                        </div>
                     </router-link>
                 </div>
             </div>
@@ -27,6 +28,7 @@ import { db } from '../../firebase'
 export default {
     created() {
 		booksCollection.onSnapshot(snap=> {
+            this.AllBooks = []
             snap.forEach(book=> {
                 var bookData = book.data();
                 bookData.id = book.id;
@@ -54,5 +56,9 @@ export default {
         font-size: 60px;
         color: rgb(167, 167, 167);
         font-weight: 600;
+    }
+    .img {
+        height: 100%;
+        width: 100%;
     }
 </style>

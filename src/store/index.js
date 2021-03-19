@@ -69,14 +69,20 @@ export default new Vuex.Store({
             // set user profile in state
             commit('setUserProfile', userProfile.data())
             
+            //change route to books
+            router.push('/')
             // change route to dashboard
-            if(this.state.userProfile.isAdmin){
-                router.push('/admin')
-            }
-            else{
-                router.push('/user')
-            }
+            // dispatch('dashboard')
         },
+        // async dashboard() {
+        //     // change route to dashboard
+        //     if(this.state.userProfile.isAdmin){
+        //         router.push('/admin')
+        //     }
+        //     else{
+        //         router.push('/user')
+        //     }
+        // },
         async logout({ commit }) {
             await fb.auth.signOut()
             
@@ -85,7 +91,7 @@ export default new Vuex.Store({
             router.push('/login')
         },
         async newBook({ dispatch }, book){
-            await booksCollection.doc(book.name).set({
+            await booksCollection.doc().set({
                 createdAt: Date(),
                 coverUrl: book.covers,
                 bookUrl: book.file,
@@ -97,6 +103,42 @@ export default new Vuex.Store({
             }).then(function() {
                 this.$toastr.s(`${book.name} Created!`);
             });
+        },
+        async deleteBook({ dispatch },book){
+            const swalWithBootstrapButtons = swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // booksCollection.doc(book.id).delete()
+                    swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'The book was erased.',
+                    'success'
+                )
+                } else if (
+                    result.dismiss === swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        "The book wasn't erased.",
+                        'error'
+                    )
+                }
+            })
         },
         async Getuser({commit}){
             const userProfile = await fb.usersCollection.doc(auth.currentUser.uid).get()

@@ -64,6 +64,7 @@
 import { booksCollection } from '../../firebase'
 import { storage } from '../../firebase'
 import { db } from '../../firebase'
+import { auth } from '../../firebase'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 
@@ -160,7 +161,8 @@ export default {
                         author: this.newBook.Author,
                         ISBN: this.newBook.ISBN,
                         category: this.newBook.categories,
-                        description: this.newBook.Description
+                        description: this.newBook.Description,
+                        user: auth.currentUser.uid
                     })
                 });
             });
