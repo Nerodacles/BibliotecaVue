@@ -28,7 +28,7 @@ auth.onAuthStateChanged(() => {
       components: {
         "vue-toastr": window.VueToastr
       },
-      headers: {'Access-Control-Allow-Origin': 'Allow'},
+      headers: {'Access-Control-Allow-Origin': 'Allow', 'SameSite': 'secure'},
       router,
       store,
       render: h => h(App)

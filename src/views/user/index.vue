@@ -9,10 +9,8 @@
 </template>
 
 <script>
-import Sidebar from '../components/Sidebar.vue'
-import { auth } from '../firebase'
-import { db } from '../firebase' 
-import { usersCollection } from '../firebase' 
+import Sidebar from '../../components/Sidebar.vue'
+import { auth } from '../../firebase'
 
 export default {
     components: { Sidebar },

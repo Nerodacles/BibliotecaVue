@@ -40,13 +40,13 @@ export default {
         loading: true,
     }),
     created(){
-        db.collection("default").doc("categories").onSnapshot(snap=> {this.categories = snap.data().name});
-        booksCollection.doc(this.$attrs.id).onSnapshot(snap=> {this.book = snap.data(), this.loading = false});
+        db.collection("default").doc("categories").onSnapshot(snap=> {this.categories = snap.data().name})
+        booksCollection.doc(this.$attrs.id).onSnapshot(snap=> {this.book = snap.data(),this.loading = false})
     },
     methods: {
         async onSubmit(event) {
 			event.preventDefault()
-            
+            this.$store.dispatch('editBook',{bk: this.book, id: this.$attrs.id})
 		},
 		onCancel() {
 			this.$router.push('/admin/AdminBooks')

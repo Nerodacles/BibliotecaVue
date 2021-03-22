@@ -31,23 +31,20 @@
                     </div>
                 </div>
             </b-form-group>
-            <b-form-group label="Book Name:" label-for="Bookname">
+            <b-form-group label="Book Name:">
                 <b-form-input v-model="newBook.BookName" type="text" placeholder="book name" required></b-form-input>
             </b-form-group>
-            <b-form-group label="Author:" label-for="Bookname">
+            <b-form-group label="Author:">
                 <b-form-input v-model="newBook.Author" type="text" placeholder="author" required></b-form-input>
             </b-form-group>
-            <b-form-group id="input-group-2" label="ISBN:" label-for="isbn">
+            <b-form-group label="ISBN:">
                 <b-form-input type="number" v-model="newBook.ISBN" placeholder="ISBN" required></b-form-input>
             </b-form-group>
-            <b-form-group label="Categories:" label-for="input-3">
-                <v-select taggable multiple push-tags :options="categories" v-model="newBook.categories" class="small" placeholder="select one or more"></v-select>
+            <b-form-group label="Categories:">
+                <v-select taggable multiple push-tags :options="categories" v-model="newBook.categories" class="" placeholder="select one or more"></v-select>
             </b-form-group>
-            <b-form-group>
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Enter the Description</label>
-                    <textarea class="form-control" v-model="newBook.Description" rows="5"></textarea>
-                </div>
+            <b-form-group label="Sinopsis:">
+                <textarea class="form-control" v-model="newBook.Description" rows="5"></textarea>
             </b-form-group>
             <div v-if="images[0] && pdf">
                 <p>Progress: {{uploadValue.toFixed()+"%"}}
@@ -61,7 +58,6 @@
 </template>
 
 <script>
-import { booksCollection } from '../../firebase'
 import { storage } from '../../firebase'
 import { db } from '../../firebase'
 import { auth } from '../../firebase'
@@ -116,8 +112,7 @@ export default {
             this.$refs.fileInput.click()
         },
         uploadImage(e) {
-            let vm = this;
-            this.uploadValue=0;
+            this.uploadValue=50;
             this.picture=null;
             var selectedFiles = e.target.files;
             // for (let i = 0; i < selectedFiles.length; i++) {

@@ -22,8 +22,6 @@
 
 <script>
 import { booksCollection } from '../../firebase'
-import { storage } from '../../firebase'
-import { db } from '../../firebase'
 
 export default {
     created() {

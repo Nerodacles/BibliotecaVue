@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { booksCollection } from '../../firebase'
+import { booksCollection } from '../../../firebase'
 
 export default {
     data: () => ({

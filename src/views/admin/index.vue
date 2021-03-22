@@ -1,15 +1,12 @@
 <template>
     <div>
-        <div class="container">
-            <div class="row Screen">
-            </div>
-        </div>
+        Test
     </div>
 </template>
 
 <script>
-import { db } from '../firebase'
-import { auth } from '../firebase'
+import { db } from '../../firebase'
+import { auth } from '../../firebase'
 
 export default {
     created(){

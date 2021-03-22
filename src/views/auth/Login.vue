@@ -8,10 +8,10 @@
 				<form @submit.prevent="login">
 					<h2 class="text-center display-4 text-bluewhite">Login</h2>
 					<div class="form-group has-error">
-						<input type="email" class="form-control" v-model="email" placeholder="Username" required="required"/>
+						<input type="email" class="form-control" v-model="email" autocomplete="current-email" placeholder="Username" required="required"/>
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" v-model="password" placeholder="Password" required="required"/>
+						<input type="password" class="form-control" v-model="password" placeholder="Password" autocomplete="current-password" required="required"/>
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary btn-lg btn-block"> Sign in </button>

@@ -43,7 +43,7 @@ export default {
 				icon: 'fa fa-code',
 			},
 			{
-				href: '/AddBook',
+				href: '/admin/AddBook',
 				title: 'Add Book',
 				icon: 'fa fa-code'
 			},

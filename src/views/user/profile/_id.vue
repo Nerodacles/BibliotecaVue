@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {auth} from '../../firebase'
+import {auth} from '../../../firebase'
 import Swal from 'sweetalert2'
 
 export default {
@@ -31,7 +31,6 @@ export default {
         updateUser(){
             auth.currentUser.updateProfile({
                 displayName: "Juanma Canahuate",
-                
             }).then(function(d) {
 
             }).catch(function(error) {

@@ -4,7 +4,9 @@ import * as fb from '../firebase'
 import router from '../router/index'
 import { booksCollection } from '../firebase'
 import { auth } from '../firebase'
+import { analytics } from '../firebase'
 import swal from 'sweetalert2'
+import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
 
@@ -12,13 +14,14 @@ export default new Vuex.Store({
     state: {
         userProfile: {},
         book: [],
+        BookCollection: [],
         toggle: false,
         userUID: null,
     },
     mutations: {
         setUserProfile(state, val) {
             state.userProfile = val
-        }
+        },
     },
     actions: {
         async login({ dispatch }, form) {
@@ -30,7 +33,7 @@ export default new Vuex.Store({
             .catch(function(error) {
                 swal.fire({
                     title: 'Error!',
-                    text: 'Credentials Invalid',
+                    text: 'Credentials Invalid: '+ error,
                     icon: 'error',
                     confirmButtonText: 'Ok'
                 })
@@ -62,7 +65,7 @@ export default new Vuex.Store({
             // fetch user profile and set in state
             dispatch('fetchUserProfile', user)
         },
-        async fetchUserProfile({ commit }, user) {
+        async fetchUserProfile({ commit, dispatch }, user) {
             // fetch user profile
             const userProfile = await fb.usersCollection.doc(user.uid).get()
 
@@ -70,19 +73,19 @@ export default new Vuex.Store({
             commit('setUserProfile', userProfile.data())
             
             //change route to books
-            router.push('/')
+            // router.push('/')
             // change route to dashboard
-            // dispatch('dashboard')
+            dispatch('dashboard')
         },
-        // async dashboard() {
-        //     // change route to dashboard
-        //     if(this.state.userProfile.isAdmin){
-        //         router.push('/admin')
-        //     }
-        //     else{
-        //         router.push('/user')
-        //     }
-        // },
+        async dashboard() {
+            // change route to dashboard
+            if(this.state.userProfile.isAdmin){
+                router.push('/admin/AdminBooks')
+            }
+            else{
+                router.push('/')
+            }
+        },
         async logout({ commit }) {
             await fb.auth.signOut()
             
@@ -100,8 +103,29 @@ export default new Vuex.Store({
                 ISBN: book.ISBN,
                 categories: book.category,
                 description: book.description,
+                user: book.user
             }).then(function() {
-                this.$toastr.s(`${book.name} Created!`);
+                
+            });
+        },
+        async editBook({dispatch},book){
+            await booksCollection.doc(book.id).update({
+                lastModified: Date(),
+                title: book.bk.title,
+                author: book.bk.author,
+                ISBN: book.bk.ISBN,
+                categories: book.bk.categories,
+                description: book.bk.description,
+            }).then(function() {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: `${book.bk.title} has been edited succesfully!`,
+                    showConfirmButton: false,
+                    timer: 2500
+                }).then(function() {
+                    router.push('/admin/AdminBooks')
+                });
             });
         },
         async deleteBook({ dispatch },book){
@@ -145,10 +169,6 @@ export default new Vuex.Store({
             commit('setUserProfile', userProfile.data())
 
             return this.state.userProfile
-        },
-        toggleSidebar({state}){
-            state.toggle = !state.toggle
-            return state.toggle
         },
         async getAuthUser({state}){
             state.userUID = await auth.currentUser.uid
