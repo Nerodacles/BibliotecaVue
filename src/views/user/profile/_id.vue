@@ -13,12 +13,6 @@ import Swal from 'sweetalert2'
 export default {
     computed: {
         userData(){
-            Swal.fire({
-                    title: 'Error!',
-                    text: 'Do you want to continue',
-                    icon: 'error',
-                    confirmButtonText: 'Cool'
-                })
             return auth.currentUser
         },
     },
@@ -28,15 +22,15 @@ export default {
         loggedIn: false,
     }),
     methods: {
-        updateUser(){
-            auth.currentUser.updateProfile({
-                displayName: "Juanma Canahuate",
-            }).then(function(d) {
+        // updateUser(){
+        //     auth.currentUser.updateProfile({
+        //         displayName: "Juanma Canahuate",
+        //     }).then(function(d) {
 
-            }).catch(function(error) {
+        //     }).catch(function(error) {
                 
-            });
-        },
+        //     });
+        // },
         profile(){
             this.$store.dispatch('Getuser')
         },

@@ -9,11 +9,9 @@
 </template>
 
 <script>
-import Sidebar from '../../components/Sidebar.vue'
 import { auth } from '../../firebase'
 
 export default {
-    components: { Sidebar },
     computed: {
         fetchUser(){
 			return this.$store.state.userProfile

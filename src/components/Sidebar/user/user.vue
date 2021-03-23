@@ -25,11 +25,6 @@ const separator = {
 
 export default {
 	name: 'sidebar',
-	computed: {
-        userData(){
-            return this.$store.state.userProfile
-        },
-    },
 	data:() => ({
 		menu: [
 			{
@@ -42,81 +37,10 @@ export default {
 				title: 'Books',
 				icon: 'fa fa-code',
 			},
-			{
-				href: '/admin/AddBook',
-				title: 'Add Book',
-				icon: 'fa fa-code'
-			},
-			{
-				href: '/admin/AdminBooks',
-				title: 'Admin Books',
-				icon: 'fa fa-cogs'
-			},
-			{
-				href: '/events',
-				title: 'Events',
-				icon: 'fa fa-bell'
-			},
-			{
-				href: '/page',
-				title: 'Dropdown Page',
-				icon: 'fa fa-list-ul',
-				child: [
-					{
-						href: '/page/sub-page-1',
-						title: 'Sub Page 01',
-						icon: 'fa fa-file-alt'
-					},
-					{
-						href: '/page/sub-page-2',
-						title: 'Sub Page 02',
-						icon: 'fa fa-file-alt'
-					}
-				]
-			},
-			{
-				title: 'Multiple Level',
-				icon: 'fa fa-list-alt',
-				child: [
-					{
-						title: 'page'
-					},
-					{
-						title: 'Level 2 ',
-						child: [
-							{
-								title: 'page'
-							},
-							{
-								title: 'Page'
-							}
-						]
-					},
-					{
-						title: 'Page'
-					},
-					{
-						title: 'Another Level 2',
-						child: [
-							{
-								title: 'Level 3',
-								child: [
-									{
-									title: 'Page'
-								},
-								{
-									title: 'Page'
-								}
-								]
-							}
-						]
-					}
-				]
-			}
 		],
 		collapsed: false,
 		selectedTheme: 'default-theme',
-		isOnMobile: false
+		isOnMobile: false,
     }),
 	mounted () {
 		this.onResize()
@@ -124,7 +48,6 @@ export default {
 	},
 	methods: {
 		onToggleCollapse (collapsed) {
-			console.log(collapsed)
 			this.collapsed = collapsed
 		},
 		onResize () {
@@ -135,6 +58,12 @@ export default {
 				this.isOnMobile = false
 				this.collapsed = false
 			}
+		},
+		validateAdmin(){
+			if (this.userData.isAdmin == true){
+				console.log(this.validateAdmin)
+				return "false"
+			}  else return "true"
 		}
 	}
 }

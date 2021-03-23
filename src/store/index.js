@@ -4,9 +4,7 @@ import * as fb from '../firebase'
 import router from '../router/index'
 import { booksCollection } from '../firebase'
 import { auth } from '../firebase'
-import { analytics } from '../firebase'
 import swal from 'sweetalert2'
-import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
 
@@ -32,11 +30,13 @@ export default new Vuex.Store({
             })
             .catch(function(error) {
                 swal.fire({
-                    title: 'Error!',
-                    text: 'Credentials Invalid: '+ error,
+                    position: 'top-end',
                     icon: 'error',
-                    confirmButtonText: 'Ok'
+                    title: 'Invalid Credentials',
+                    showConfirmButton: false,
+                    timer: 1500
                 })
+
             });
 
             // fetch user profile and set in state
@@ -53,10 +53,18 @@ export default new Vuex.Store({
                 title: form.uni,
                 isActive: true,
                 isAdmin: false
-            }).catch(function(error) {
+            }).then(function(){
+                swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'User Registed Successfully!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }).catch(function(error){
                 swal.fire({
                     title: 'Error!',
-                    text: 'Talk to the web administrators',
+                    text: error,
                     icon: 'error',
                     confirmButtonText: 'Ok'
                 })
@@ -105,7 +113,20 @@ export default new Vuex.Store({
                 description: book.description,
                 user: book.user
             }).then(function() {
-                
+                swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: `You succesfully added: ${book.name}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }).catch(function(error){
+                swal.fire({
+                    title: 'Error!',
+                    text: error,
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                })
             });
         },
         async editBook({dispatch},book){
@@ -117,7 +138,7 @@ export default new Vuex.Store({
                 categories: book.bk.categories,
                 description: book.bk.description,
             }).then(function() {
-                Swal.fire({
+                swal.fire({
                     position: 'top-end',
                     icon: 'success',
                     title: `${book.bk.title} has been edited succesfully!`,
@@ -126,6 +147,13 @@ export default new Vuex.Store({
                 }).then(function() {
                     router.push('/admin/AdminBooks')
                 });
+            }).catch(function(error){
+                swal.fire({
+                    title: 'Error!',
+                    text: error,
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                })
             });
         },
         async deleteBook({ dispatch },book){

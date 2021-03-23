@@ -1,7 +1,13 @@
 <template>
     <div id="app">
         <top-header></top-header>
-        <sidebar></sidebar>
+        <!-- <div v-if="nero"> -->
+            <sidebarAdmin v-if="userData.isAdmin"></sidebarAdmin>
+            <sidebarUser v-if="!userData.isAdmin"></sidebarUser>
+        <!-- </div> -->
+        <!-- <div v-if="!nero">
+            <router-view />
+        </div> -->
     </div>
 </template>
 
@@ -9,14 +15,29 @@
 
 <script>
 import TopHeader from "./components/Top-Header"
-import sidebar from "./components/Sidebar"
+import sidebarUser from "./components/Sidebar/user/user.vue"
+import sidebarAdmin from "./components/Sidebar/admin/admin.vue"
+import { auth } from "./firebase"
 
 export default {
-    components: {'top-header': TopHeader, 'sidebar': sidebar}
+    components: {'top-header': TopHeader, 'sidebarAdmin': sidebarAdmin, 'sidebarUser': sidebarUser},
+    // data: ()=> ({
+    //     nero: null
+    // }),
+    computed: {
+        userData(){
+            return this.$store.state.userProfile
+        },
+    },
+    // created(){
+    //     if(auth.currentUser){
+    //         this.nero = true
+    //     }else this.nero = false
+    // }
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -26,5 +47,4 @@ export default {
     background-color: #fff;
     min-height: 100vh;
 }
-
 </style>

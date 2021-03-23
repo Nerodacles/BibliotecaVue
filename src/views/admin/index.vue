@@ -5,11 +5,13 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 import { db } from '../../firebase'
 import { auth } from '../../firebase'
 
 export default {
     created(){
+        Swal.fire()
         db.collection("users").doc(auth.currentUser.uid).onSnapshot(snap=> {this.user = snap.data()});
         db.collection("default").onSnapshot(snap=> {
             this.defaultValues = [],
@@ -35,3 +37,8 @@ export default {
     })
 }
 </script>
+
+<style>
+@import '~@sweetalert2/themes/dark/dark.css';
+
+</style>

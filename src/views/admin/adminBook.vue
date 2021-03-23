@@ -47,7 +47,6 @@ export default {
     }),
     methods: {
         removeBook: function (book) {
-            // booksCollection.doc(book).delete()
             this.$store.dispatch('deleteBook',{
                 id: book
             })

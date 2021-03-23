@@ -1,9 +1,6 @@
 <template>
     <div>
 		<div class="">
-			<!-- <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="error">
-				<span>{{error}}</span>
-			</div> -->
 			<div class="login-form">
 				<form @submit.prevent="signup">
 					<h2 class="text-center display-4 text-bluewhite">Register</h2>
