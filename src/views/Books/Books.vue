@@ -56,7 +56,8 @@ export default {
         font-weight: 600;
     }
     .img {
-        height: 100%;
-        width: 100%;
+        height: 150px;
+        width: 150px;
+        object-fit: cover;
     }
 </style>
