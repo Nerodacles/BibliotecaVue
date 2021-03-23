@@ -1,10 +1,11 @@
 {
   "name": "test-login-firebase",
-  "version": "0.1.0",
+  "version": "0.8.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "start": "vue-cli-service serve",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
