@@ -61,6 +61,7 @@
 import { storage } from '../../firebase'
 import { db } from '../../firebase'
 import { auth } from '../../firebase'
+import swal from 'sweetalert2'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 
@@ -112,7 +113,7 @@ export default {
             this.$refs.fileInput.click()
         },
         uploadImage(e) {
-            this.uploadValue=50;
+            this.uploadValue=0;
             this.picture=null;
             var selectedFiles = e.target.files;
             // for (let i = 0; i < selectedFiles.length; i++) {
@@ -134,8 +135,15 @@ export default {
             this.pdf = selectedFiles
         },
         getUrl(){
-            const storageRef=storage.ref(`${this.pdf[0].name}`).put(this.pdf[0]);
-            storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*50; }, error=>{console.log(error.message)},
+            const storageRef=  storage.ref(`/books/${this.newBook.BookName}/${this.pdf[0].name}`).put(this.pdf[0]);
+            storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100 }, error=>{
+                swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Invalid Credentials',
+                    showConfirmButton: false,
+                    timer: 1500
+                })},
             () => {
                 storageRef.snapshot.ref.getDownloadURL().then((url)=>{
                     this.newBook.pdf = url
@@ -144,8 +152,15 @@ export default {
             });
         },
         UploadAll(){
-            const storageRef=storage.ref(`${this.images[0].name}`).put(this.images[0]);
-            storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*50 }, error=>{console.log(error.message)},
+            const storageRef=  storage.ref(`/books/${this.newBook.BookName}/${this.images[0].name}`).put(this.images[0]);
+            storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100 }, error=>{
+                swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Invalid Credentials',
+                    showConfirmButton: false,
+                    timer: 1500
+                })},
             () => {
                 this.uploadValue=100;
                 storageRef.snapshot.ref.getDownloadURL().then((url)=>{

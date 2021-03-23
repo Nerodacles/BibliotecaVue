@@ -36,7 +36,6 @@ export default new Vuex.Store({
                     showConfirmButton: false,
                     timer: 1500
                 })
-
             });
 
             // fetch user profile and set in state
@@ -175,12 +174,13 @@ export default new Vuex.Store({
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // booksCollection.doc(book.id).delete()
-                    swalWithBootstrapButtons.fire(
-                    'Deleted!',
-                    'The book was erased.',
-                    'success'
-                )
+                    booksCollection.doc(book.id.id).delete().then(
+                        fb.storage.refFromURL(book.id.coverUrl).delete().then(
+                            fb.storage.refFromURL(book.id.bookUrl).delete().then(
+                                swalWithBootstrapButtons.fire('Deleted!', 'The book was erased.', 'success')
+                            ).catch(function(error) {swal.fire({position: 'top-end', icon: 'error', title: error.code, showConfirmButton: false, timer: 1500})})
+                        ).catch(function(error) {swal.fire({position: 'top-end', icon: 'error', title: error.code, showConfirmButton: false, timer: 1500})})
+                    ).catch(function(error) {swal.fire({position: 'top-end', icon: 'error', title: error.code, showConfirmButton: false, timer: 1500})})
                 } else if (
                     result.dismiss === swal.DismissReason.cancel
                 ) {
