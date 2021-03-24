@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar toggleable="lg" type="dark" variant="info" class="fixed-top">
+        <b-navbar toggleable="lg" type="dark" variant="dark" class="fixed-top">
             <br>
             <b-navbar-brand href="/"><img src="@/assets/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy"> Biblioteca Virtual JM</b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>

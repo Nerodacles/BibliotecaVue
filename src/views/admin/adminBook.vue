@@ -1,7 +1,7 @@
 
 <template>
     <div>
-        <div class="panel-body pt-4">
+        <div class="panel-body px-4 pt-4">
             <table class="table table-striped">
                 <thead>
                     <tr>

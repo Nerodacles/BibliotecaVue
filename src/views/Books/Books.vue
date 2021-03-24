@@ -2,16 +2,16 @@
     <div class="">
         <div class="">
             <div class="container">
-                <div class="content">
-                    Libros
-                </div>
-                <div class="row justify-content-center">
+                <div class="content">Libros</div>
+                <div class="row">
                     <router-link :to="'/book/' + book.id" v-for="book in this.AllBooks" :key="book.id" class="item col-sm-6 col-md-4 col-xl-3 col-xxl-3">
-                        <div>
-                            <p>{{book.title}}</p>
-                            <img :src="book.coverUrl" class="img">
-                            <p>{{ book.author }}</p>
-                            <p>{{ book.categories[0] }}</p>
+                        <div class="card m-2" style="width: 15rem;">
+                            <img class="card-img-top" :src="book.coverUrl" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{book.title}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ book.author}}</h6>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ book.categories[0] }}</h6>
+                            </div>
                         </div>
                     </router-link>
                 </div>
@@ -55,9 +55,9 @@ export default {
         color: rgb(167, 167, 167);
         font-weight: 600;
     }
-    .img {
-        height: 150px;
-        width: 150px;
+    .card-img-top {
+        height: 174px;
+        width: 238px;
         object-fit: cover;
     }
 </style>
