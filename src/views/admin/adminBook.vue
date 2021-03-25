@@ -1,6 +1,7 @@
 
 <template>
     <div>
+        <div class="content">Administrate Books</div>
         <div class="panel-body px-4 pt-4">
             <table class="table table-striped">
                 <thead>
@@ -56,5 +57,14 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        font-size: 50px;
+        color: rgb(46, 46, 46);
+        font-weight: 600;
+    }
 </style>

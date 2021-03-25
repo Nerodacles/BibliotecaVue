@@ -8,7 +8,7 @@
                         <div class="card m-2" style="width: 15rem;">
                             <img class="card-img-top" :src="book.coverUrl" alt="Card image cap">
                             <div class="card-body">
-                                <h5 class="card-title">{{book.title}}</h5>
+                                <h5 class="card-title text-nero">{{book.title}}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">{{ book.author}}</h6>
                                 <h6 class="card-subtitle mb-2 text-muted">{{ book.categories[0] }}</h6>
                             </div>
@@ -52,12 +52,15 @@ export default {
         height: 100%;
         width: 100%;
         font-size: 60px;
-        color: rgb(167, 167, 167);
+        color: rgb(46, 46, 46);
         font-weight: 600;
     }
     .card-img-top {
         height: 174px;
         width: 238px;
         object-fit: cover;
+    }
+    .text-nero {
+        color: black;
     }
 </style>

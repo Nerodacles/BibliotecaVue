@@ -38,7 +38,7 @@ export default {
                 password: this.password
             })
         }
-    }
+    },
 }
 </script>
 

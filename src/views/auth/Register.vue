@@ -16,6 +16,7 @@
 						<button type="submit" class="btn btn-primary btn-lg btn-block"> Submit </button>
 					</div>
 				</form>
+                <p class="text-center small text-bluewhite"> Already have an account? <router-link to="/login" class="text-darkblue">Login here!</router-link></p>
 			</div>
 		</div>
 	</div>

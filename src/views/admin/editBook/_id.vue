@@ -1,5 +1,6 @@
 <template>
-        <div class="mx-5">
+    <div class="mx-5">
+        <div class="content">Edit Books</div>
         <b-form @submit="onSubmit" @reset="onCancel" v-if="show && !loading" class="m-4 p-3">
             <b-form-group label="Book Name:" label-for="Bookname">
                 <b-form-input v-model="book.title" type="text" placeholder="book name" required></b-form-input>
@@ -16,7 +17,7 @@
             <b-form-group>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Enter the Description</label>
-                    <textarea class="form-control" v-model="book.description" rows="5"></textarea>
+                    <textarea class="form-control" v-model="book.description" rows="10"></textarea>
                 </div>
             </b-form-group>
             <b-button type="submit" class="mx-1" variant="primary">Submit</b-button>
@@ -63,5 +64,15 @@ export default {
         margin: 0 auto 30px;
         background-size: cover;
         background-position: center center;
+    }
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        font-size: 50px;
+        color: rgb(46, 46, 46);
+        font-weight: 600;
     }
 </style>

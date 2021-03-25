@@ -32,12 +32,13 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Books,
-        meta: {requireAuth: true},
+        meta: {requireAuth: true, title: 'Books'},
     },
     {
         path: '/login',
         name: 'login',
         component: Login,
+        meta: {title: 'Login Page'},
         beforeEnter(to, from, next){
             if(auth.currentUser){
                 next('/')
@@ -48,6 +49,7 @@ const routes = [
         path: '/register',
         name: 'register',
         component: Register,
+        meta: {title: 'Register Page'},
         beforeEnter(to, from, next){
             if(auth.currentUser){
                 next('/')
@@ -57,20 +59,21 @@ const routes = [
     {
         path: '/about',
         name: 'About',
+        meta: {title: 'About'},
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
     },
     {
         path: '/user',
         name: 'user',
         component: User,
-        meta: {requireAuth: true}
+        meta: {requireAuth: true, title: 'User Page'}
     },
     {
         path: '/user/profile/:id',
         name: 'Profile',
         props: true,
         component: Profile,
-        meta: {requireAuth: true},
+        meta: {requireAuth: true, title: 'Profile'},
         beforeEnter(to, from, next){
             if(to.path != '/user/profile/'+auth.currentUser.uid){
                 next('/user')
@@ -88,13 +91,13 @@ const routes = [
         name: 'Book',
         props: true,
         component: Book,
-        meta: {requireAuth: true}
+        meta: {requireAuth: true, title: 'Book'}
     },
     {
         path: '/admin',
         name: 'admin',
         component: Admin,
-        meta: {requireAuth: true},
+        meta: {requireAuth: true, title: 'Admin Page'},
         beforeEnter(to, from, next){
             var user = []
             usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {
@@ -109,7 +112,7 @@ const routes = [
         path: '/admin/AddBook',
         name: 'AddBook',
         component: AddBook,
-        meta: {requireAuth: true},
+        meta: {requireAuth: true, title: 'Add Books'},
         beforeEnter(to, from, next){
             var user = []
             usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {
@@ -124,7 +127,7 @@ const routes = [
         path: '/admin/AdminBooks',
         name: 'AdminBooks',
         component: AdminBooks,
-        meta: {requireAuth: true},
+        meta: {requireAuth: true, title: 'Administrate Books'},
         beforeEnter(to, from, next){
             var user = []
             usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {user = snap.data()
@@ -139,7 +142,7 @@ const routes = [
         name: 'EditBooks',
         props: true,
         component: EditBooks,
-        meta: {requireAuth: true},
+        meta: {requireAuth: true, title: 'Edit Books'},
         beforeEnter(to, from, next){
             var user = [];var book = []
             booksCollection.doc(to.params.id).onSnapshot(snap=>{book = snap.data()

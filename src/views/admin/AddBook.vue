@@ -1,5 +1,6 @@
 <template>
     <div class="mx-5">
+        <div class="content">Register Books</div>
         <b-form @submit="onSubmit" @reset="onReset" v-if="show" class="m-4 p-3">
             <b-form-group label="Upload Cover:" label-for="UploadImage">
                 <div class="custom-file">
@@ -44,7 +45,7 @@
                 <v-select taggable multiple push-tags :options="categories" v-model="newBook.categories" class="" placeholder="select one or more"></v-select>
             </b-form-group>
             <b-form-group label="Sinopsis:">
-                <textarea class="form-control" v-model="newBook.Description" rows="5"></textarea>
+                <textarea class="form-control" v-model="newBook.Description" rows="10"></textarea>
             </b-form-group>
             <div v-if="images[0] && pdf">
                 <p>Progress: {{uploadValue.toFixed()+"%"}}
@@ -183,11 +184,21 @@ export default {
 
 <style scoped>
     .imagePreviewWrapper {
-        width: 200px;
-        height: 200px;
+        width: 100px;
+        height: 100px;
         display: block;
-        margin: 0 auto 30px;
+        margin: 0 auto 10px;
         background-size: cover;
         background-position: center center;
+    }
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        font-size: 50px;
+        color: rgb(46, 46, 46);
+        font-weight: 600;
     }
 </style>
