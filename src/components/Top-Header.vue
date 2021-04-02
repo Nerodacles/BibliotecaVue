@@ -15,6 +15,19 @@
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto" v-if="this.loggedIn">
+                    <div>
+                        <b-nav-item-dropdown size="lg" right variant="link" toggle-class="text-decoration-none" no-caret>
+                            <template #button-content>
+                                <span class="fas fa-bell"></span>
+                            </template>
+                            <b-dropdown-header id="dropdown-header-label">
+                                Notifications
+                            </b-dropdown-header>
+                            <b-dropdown-item href="#">Acsdfdsfsdfsdfsdfsdfsdfsdfsfsftion</b-dropdown-item>
+                            <b-dropdown-divider></b-dropdown-divider>
+                            <b-dropdown-item href="#">Another sdfsfdsfdsfsdfsdfsdfsdfsaction</b-dropdown-item>
+                        </b-nav-item-dropdown>
+                    </div>
                     <b-nav-item-dropdown right>
                         <template #button-content>
                             <em>{{userData.name}}</em>

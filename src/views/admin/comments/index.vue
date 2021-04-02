@@ -99,8 +99,8 @@
                     <template #cell(actions)="row">
                         <b-button @click="info(row.item, row.index, $event.target)" class="fas fa-edit mr-1 btn btn-dark fas fa-info text-white"><i class="fas fa-info-circle"></i></b-button>
                         <!-- <b-button @click="row.toggleDetails" class="mr-1 btn-dark">{{ row.detailsShowing ? 'Hide' : 'Show' }} Details</b-button> -->
-                        <b-button class="mr-1 far fa-trash-alt btn btn-dark" title="Delete Comment" v-on:click="deleteComment(data.item)"></b-button>
-                        <b-button class="fas fa-edit btn btn-dark" title="Edit Comment" v-on:click="updateComment(data.item)"></b-button>
+                        <b-button class="mr-1 far fa-trash-alt btn btn-dark" title="Delete Comment" v-on:click="deleteComment(row.item)"></b-button>
+                        <b-button class="fas fa-edit btn btn-dark" title="Edit Comment" v-on:click="updateComment(row.item)"></b-button>
                     </template>
 
                     <template #row-details="row">

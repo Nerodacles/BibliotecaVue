@@ -1,7 +1,7 @@
 <template>
     <div class="test">
         <div class="comments">
-            <h2>Leave a comment below!</h2>
+            <h4>Leave a comment below!</h4>
             <div class="comments-form">
                 <form @submit.prevent="handleSubmit">
                     <ul>
@@ -22,7 +22,7 @@
 
             <div class="comments-list">
                 <div class="comment" v-for="comment in comments" :key="comment.id">
-                <h4>{{ comment.username }} says</h4>
+                <h5>{{ comment.username }} says</h5>
                 <p>{{ comment.message }}</p>
                 <p class="comment-time">{{ comment.date }}</p>
                 <div v-if="comment && comment.user == userUID">

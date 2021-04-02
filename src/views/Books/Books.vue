@@ -4,13 +4,13 @@
             <div class="container">
                 <div class="content">Libros</div>
                 <div class="row">
-                    <router-link :to="'/book/' + book.id" v-for="book in this.AllBooks" :key="book.id" class="item col-sm-6 col-md-4 col-xl-3 col-xxl-3">
-                        <div class="card m-2" style="width: 15rem;">
+                    <router-link :to="'/book/' + book.id" v-for="book in this.AllBooks" :key="book.id" class="col-sm-6 col-md-6 col-xl-2 col-xxl-3">
+                        <div class="card m-2" style="width: 10rem;">
                             <img class="card-img-top" :src="book.coverUrl" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title text-nero">{{book.title}}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">{{ book.author}}</h6>
-                                <h6 class="card-subtitle mb-2 text-muted">{{ book.categories[0] }}</h6>
+                                <h6 class="card-subtitle mb-2 texto text-muted">{{ book.author}}</h6>
+                                <h6 class="card-subtitle mb-2 texto text-muted">{{ book.categories[0] }}</h6>
                             </div>
                         </div>
                     </router-link>
@@ -39,7 +39,6 @@ export default {
         AllBooks: [],
     }),
     methods: {
-        
     },
 }
 </script>
@@ -51,16 +50,34 @@ export default {
         align-items: center;
         height: 100%;
         width: 100%;
-        font-size: 60px;
+        font-size: 40px;
         color: rgb(46, 46, 46);
         font-weight: 600;
+        margin-top: 10px;
     }
     .card-img-top {
-        height: 174px;
-        width: 238px;
+        height: 150px;
+        width: 158px;
         object-fit: cover;
     }
     .text-nero {
         color: black;
+        font-size: 18px;
+        height: 24px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+    }
+
+    .texto{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+    }
+
+    a{
+        width: 12rem;
+        padding: 0;
+        margin: 0;
     }
 </style>

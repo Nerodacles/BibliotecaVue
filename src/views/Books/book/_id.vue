@@ -12,17 +12,24 @@
         </div>
         <div class="container mx-auto mt-2 flex flex-col md:flex-row ">
             <div class="row">
-                <div class="col-3">
+                <div class="col-4">
                     <div>
-                        <a :href="`${book.bookUrl}`"><img src="../../../assets/pdf.png" style="width:100px" alt="pdf"></a>
-                        
+                        <a :href="`${book.bookUrl}`"><img :src="book.coverUrl" id="imagen" style="width:100px" alt="pdf"></a>
                     </div>
-                    <h4>Aqui Iria el Boton de Fav</h4>
+                    <h6 class="font-weight-bold">Isbn:  <span class="font-weight-normal">{{book.ISBN}}</span> </h6> 
+                    <h6 class="font-weight-bold">Categories:  <span class="font-weight-normal">{{book.categories[0]}}</span> </h6>
+                    <h6 class="font-weight-bold">Author:  <span class="font-weight-normal">{{book.author}}</span></h6> 
+                    <div>
+                        <span class="like far fa-heart"></span>
+                        <span class="like fas fa-heart"></span>
+                    </div>
                 </div>
                 <div class="col-8">
                     <div>
+                        <h4>Description</h4>
                         {{book.description}}
                     </div>
+                    <br>
                     <comments></comments>
                 </div>
             </div>
@@ -51,7 +58,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    #prueba{
+    #imagen{
         margin-top: -45px;
+        margin-bottom: 20px;
     }
+
+    .like{
+        font-size: 40px;
+    }
+
 </style>
