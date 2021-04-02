@@ -1,13 +1,13 @@
 <template>
     <div id="app">
         <top-header></top-header>
-        <div v-if="nero">
+        <!-- <div v-if="nero"> -->
             <sidebarAdmin v-if="userData.isAdmin"></sidebarAdmin>
             <sidebarUser v-if="!userData.isAdmin"></sidebarUser>
-        </div>
-        <div v-if="!nero">
+        <!-- </div> -->
+        <!-- <div v-if="!nero">
             <router-view />
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -35,12 +35,12 @@ export default {
         }else this.nero = false
     },
     watch: {
-      '$route':{
-        handler: (to, from) => {
-          document.title = to.meta.title || 'Your Website'
-        },
-         immediate: true
-      }
+        '$route':{
+            handler: (to, from) => {
+                document.title = to.meta.title || 'Your Website'
+            },
+            immediate: true
+        }
     },
 }
 </script>

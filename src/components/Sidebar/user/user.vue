@@ -77,37 +77,37 @@ export default {
 
 body,
 html {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 18px;
-  background-color: #f2f4f7;
-  color: #262626;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 18px;
+	background-color: #f2f4f7;
+	color: #262626;
 }
 
 #demo {
-  padding-left: 250px;
-  transition: 0.3s ease;
+	padding-left: 250px;
+	transition: 0.3s ease;
 }
 #demo.collapsed {
-  padding-left: 50px;
+	padding-left: 50px;
 }
 #demo.onmobile {
-  padding-left: 50px;
+	padding-left: 50px;
 }
 
 .sidebar-overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: #000;
-  opacity: 0.5;
-  z-index: 900;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-color: #000;
+	opacity: 0.5;
+	z-index: 900;
 }
 
 .demo {
@@ -115,12 +115,12 @@ body {
 }
 
 pre {
-  font-family: Consolas, monospace;
-  color: #000;
-  background: #fff;
-  border-radius: 2px;
-  padding: 15px;
-  line-height: 1.5;
-  overflow: auto;
+	font-family: Consolas, monospace;
+	color: #000;
+	background: #fff;
+	border-radius: 2px;
+	padding: 15px;
+	line-height: 1.5;
+	overflow: auto;
 }
 </style>

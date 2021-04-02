@@ -15,6 +15,7 @@ import Admin from '../views/admin/index.vue'
 import AddBook from '../views/admin/AddBook.vue'
 import AdminBooks from '../views/admin/adminBook.vue'
 import EditBooks from '../views/admin/editBook/_id.vue'
+import AdminComments from '../views/admin/comments'
 
 // Books
 import Books from '../views/Books/Books.vue'
@@ -91,7 +92,7 @@ const routes = [
         name: 'Book',
         props: true,
         component: Book,
-        meta: {requireAuth: true, title: 'Book'}
+        meta: {requireAuth: true, title: 'Book'},
     },
     {
         path: '/admin',
@@ -150,9 +151,23 @@ const routes = [
                     if(user.isAdmin != true || user.isActive != true){
                         next("/")
                     } else 
-                        if(book.user == auth.currentUser.uid || auth.currentUser.uid == 'sMRFpB1X1tMWFWfpcddok0K5Qav1'){ next() }
+                    if(book.user == auth.currentUser.uid || auth.currentUser.uid == 'sMRFpB1X1tMWFWfpcddok0K5Qav1'){ next() }
                 });
             })
+        }
+    },
+    {
+        path: '/admin/AdminComments',
+        name: 'AdminComments',
+        component: AdminComments,
+        meta: {requireAuth: true, title: 'Administrate Comments'},
+        beforeEnter(to, from, next){
+            var user = []
+            usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {user = snap.data()
+                if(user.isAdmin != true || user.isActive != true){
+                    next("/")
+                } else next()
+            });
         }
     },
 ]

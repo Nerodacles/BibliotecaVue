@@ -2,23 +2,17 @@
 <template>
     <div>
         <div class="content">Administrate Books</div>
-        <div class="panel-body px-4 pt-4">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="book in AllBooks" :key="book.id">
-                        <td v-if="book.user == userUID || userUID == 'sMRFpB1X1tMWFWfpcddok0K5Qav1' "><a v-bind:href="book.url">{{book.title}}</a></td>
-                        <td v-if="book.user == userUID || userUID == 'sMRFpB1X1tMWFWfpcddok0K5Qav1' ">{{book.author}}</td>
-                        <td v-if="book.user == userUID || userUID == 'sMRFpB1X1tMWFWfpcddok0K5Qav1' "><span class="far fa-trash-alt px-1" aria-hidden="true" v-on:click="removeBook(book)"></span><span class="fas fa-edit" aria-hidden="true" v-on:click="$router.push('/admin/editBook/'+book.id)"></span></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div>
+            <b-table striped hover :items="AllBooks" :fields="fields" bordered borderless outlined dark head-variant="dark" table-variant="secondary" >
+                <template #cell(title)="data">
+                    <a :href="'/book/'+data.item.id" class="text-light">{{data.value}}</a>
+                </template>
+                <template #cell(actions)="data">
+                    <button class="far fa-trash-alt btn btn-dark" v-on:click="removeBook(data.item)"></button>
+                    <span class="px-1"></span>
+                    <button class="fas fa-edit btn btn-dark" v-on:click="$router.push('/admin/editBook/'+ data.item.id)"></button>
+                </template>
+            </b-table>
         </div>
     </div>
 </template>
@@ -45,6 +39,12 @@ export default {
 
     data:() => ({
         AllBooks: [],
+        fields: [
+            {key:'title', sortable: true},
+            {key: 'author', sortable: true},
+            {key:'actions'},
+            {key: 'isActive', label: 'Is Active', formatter: (value, key, item) => { return value ? 'Yes' : 'No' }, sortable: true, sortByFormatted: true, filterByFormatted: true },
+        ]
     }),
     methods: {
         removeBook: function (book) {

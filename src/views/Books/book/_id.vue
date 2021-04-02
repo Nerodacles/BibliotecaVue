@@ -20,7 +20,10 @@
                     <h4>Aqui Iria el Boton de Fav</h4>
                 </div>
                 <div class="col-8">
-                    {{book.description}}
+                    <div>
+                        {{book.description}}
+                    </div>
+                    <comments></comments>
                 </div>
             </div>
         </div>
@@ -34,8 +37,10 @@
 
 <script>
 import { booksCollection } from '../../../firebase'
+import comments from '../comments.vue';
 
 export default {
+    components: { 'comments': comments },
     data: () => ({
         book: null
     }),

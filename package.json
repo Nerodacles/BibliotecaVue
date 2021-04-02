@@ -23,6 +23,7 @@
     "vue-select": "^3.11.2",
     "vue-sidebar-menu": "^4.7.4",
     "vue-toastr": "^2.1.2",
+    "vue-toggle-btn": "^0.1.2",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

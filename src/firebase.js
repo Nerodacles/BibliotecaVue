@@ -25,7 +25,6 @@ const analytics = firebase.analytics()
 // collection references
 const usersCollection = db.collection('users')
 const booksCollection = db.collection('books')
-const commentsCollection = db.collection('comments')
 const likesCollection = db.collection('likes')
 
 // export utils/refs
@@ -37,5 +36,4 @@ export {
     likesCollection,
     booksCollection,
     usersCollection,
-    commentsCollection,
 }

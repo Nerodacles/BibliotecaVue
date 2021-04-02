@@ -110,7 +110,8 @@ export default new Vuex.Store({
                 ISBN: book.ISBN,
                 categories: book.category,
                 description: book.description,
-                user: book.user
+                user: book.user,
+                isActive: true
             }).then(function() {
                 swal.fire({
                     position: 'top-end',
@@ -189,8 +190,108 @@ export default new Vuex.Store({
                         "The book wasn't erased.",
                         'error'
                     )
-                }
+                } 
             })
+        },
+        async commentActions({dispatch},comment){
+            if (comment.action == "create"){
+                await booksCollection.doc(comment.id).collection("comments").doc().set({
+                    bookID: comment.id,
+                    user: comment.user,
+                    username: comment.username,
+                    message: comment.message,
+                    date: comment.time,
+                    likedCount: comment.likedCount,
+                    isActive: true,
+                }).then(function() {
+                    swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: `Comment Created!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }).catch(function(error){
+                    swal.fire({
+                        title: 'Error!',
+                        text: error,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    })
+                });
+            }
+            else if (comment.action == "delete"){
+                const swalWithBootstrapButtons = swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        booksCollection.doc(comment.bookID).collection("comments").doc(comment.id).delete().then(
+                            swalWithBootstrapButtons.fire('Deleted!', 'The comment was erased.', 'success')
+                        ).catch(function(error) {swal.fire({position: 'top-end', icon: 'error', title: error.code, showConfirmButton: false, timer: 1500})})
+                    } else if (
+                        result.dismiss === swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            "The comment wasn't erased.",
+                            'error'
+                        )
+                    } 
+                })
+            }
+            else if (comment.action == "update"){
+                booksCollection.doc(comment.bookID).collection("comments").doc(comment.id).onSnapshot(snap=> {
+                    let user = snap.data();
+                    swal.fire({
+                        title: 'Edit your comment!',
+                        html: `<input type="text" id="comment" class="swal2-input" value="${user.message}" placeholder="Username">`,
+                        confirmButtonText: 'Confirm',
+                        focusConfirm: false,
+                        preConfirm: () => {
+                            const comment = swal.getPopup().querySelector('#comment').value
+                            if (!comment) {
+                                swal.showValidationMessage(`Please edit your comment!`)
+                            }
+                            return { comment: comment }
+                        }
+                        }).then((result) => {
+                            if (result.isConfirmed){
+                                booksCollection.doc(comment.bookID).collection("comments").doc(comment.id).update({
+                                    message: result.value.comment
+                                }).then(function() {
+                                    swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: `Your comment has been edited succesfully!`,
+                                        showConfirmButton: false,
+                                        timer: 2500
+                                    })
+                                }).catch(function(error){
+                                    swal.fire({
+                                        title: 'Error!',
+                                        text: error,
+                                        icon: 'error',
+                                        confirmButtonText: 'Ok'
+                                    })
+                                });
+                            }
+                        })
+                })
+            }
         },
         async Getuser({commit}){
             const userProfile = await fb.usersCollection.doc(auth.currentUser.uid).get()
