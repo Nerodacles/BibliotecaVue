@@ -4,16 +4,18 @@
             <div class="container">
                 <div class="content">Libros</div>
                 <div class="row">
-                    <router-link :to="'/book/' + book.id" v-for="book in this.AllBooks" :key="book.id" class="col-sm-6 col-md-6 col-xl-2 col-xxl-3">
-                        <div class="card m-2" style="width: 10rem;">
-                            <img class="card-img-top" :src="book.coverUrl" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title text-nero">{{book.title}}</h5>
-                                <h6 class="card-subtitle mb-2 texto text-muted">{{ book.author}}</h6>
-                                <h6 class="card-subtitle mb-2 texto text-muted">{{ book.categories[0] }}</h6>
+                    <div v-for="book in this.AllBooks" :key="book.id">
+                        <router-link :to="'/book/' + book.id" class="col-sm-6 col-md-6 col-xl-2 col-xxl-3" v-if="book.isActive">
+                            <div class="card m-2" style="width: 10rem;">
+                                <img class="card-img-top" :src="book.coverUrl" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title text-nero">{{book.title}}</h5>
+                                    <h6 class="card-subtitle mb-2 texto text-muted">{{ book.author}}</h6>
+                                    <h6 class="card-subtitle mb-2 texto text-muted">{{ book.categories[0] }}</h6>
+                                </div>
                             </div>
-                        </div>
-                    </router-link>
+                        </router-link>
+                    </div>
                 </div>
             </div>
         </div>

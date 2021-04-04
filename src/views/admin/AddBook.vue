@@ -70,6 +70,8 @@ export default {
 	components: { vSelect },
 	created() {
 		db.collection("default").doc("categories").onSnapshot(snap=> {this.categories = snap.data().name})
+        this.$store.dispatch('getBookData')
+        this.$store.dispatch('getBookData',{title: 'Grimorio 13'})
 	},
 	data: () =>  ({
 		newBook: {
@@ -88,6 +90,9 @@ export default {
         pdf: null,
 		}),
 	methods: {
+        newNotification(){
+            this.$store.dispatch('notificationStates',{state: 'set', title: this.BookName, category: this.categories[0]})
+        },
 		async onSubmit(event) {
 			event.preventDefault()
             this.picture=null;

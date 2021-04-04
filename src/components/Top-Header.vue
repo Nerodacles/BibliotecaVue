@@ -7,25 +7,35 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
                     <b-nav-item href="/login" v-if="!loggedIn">Login</b-nav-item>
-                    <!-- <b-nav-item href="/user" v-if="loggedIn && !userData.isAdmin">Dashboard</b-nav-item>
-                    <b-nav-item href="/admin" v-if="loggedIn && userData.isAdmin">Dashboard</b-nav-item> -->
                     <b-nav-item href="/register" v-if="!loggedIn">Register</b-nav-item>
                     <b-nav-item href="/about">About</b-nav-item>
-                    <!-- <b-nav-item href="#" disabled>Disabled</b-nav-item> -->
+                    <button class="btn text-primary" @click="newNotification"></button>
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto" v-if="this.loggedIn">
                     <div>
                         <b-nav-item-dropdown size="lg" right variant="link" toggle-class="text-decoration-none" no-caret>
                             <template #button-content>
-                                <span class="fas fa-bell"></span>
+                                <div v-if="userNotifications[0]">
+                                    <span class="fas fa-bell"></span>
+                                </div>
+
+                                <div v-if="!userNotifications[0]">
+                                    <span class="far fa-bell"></span>
+                                </div>
                             </template>
                             <b-dropdown-header id="dropdown-header-label">
-                                Notifications
+                                <div v-if="this.userNotifications[0]">
+                                    Notifications
+                                </div>
+                                <div v-if="!this.userNotifications[0]">
+                                    You don't have notifications!
+                                </div>
                             </b-dropdown-header>
-                            <b-dropdown-item href="#">Acsdfdsfsdfsdfsdfsdfsdfsdfsfsftion</b-dropdown-item>
-                            <b-dropdown-divider></b-dropdown-divider>
-                            <b-dropdown-item href="#">Another sdfsfdsfdsfsdfsdfsdfsdfsaction</b-dropdown-item>
+                                <div v-for="notif in this.userNotifications" :key="notif.id">
+                                    <b-dropdown-item :href="notif.href">{{notif.message}}</b-dropdown-item>
+                                    <b-dropdown-divider></b-dropdown-divider>
+                                </div>
                         </b-nav-item-dropdown>
                     </div>
                     <b-nav-item-dropdown right>
@@ -55,6 +65,9 @@ export default {
         userUID(){
             return this.$store.state.userUID
         },
+        userNotifications(){
+            return this.$store.state.notifications
+        },
     },
     created() {
         auth.onAuthStateChanged(user=> {
@@ -62,6 +75,7 @@ export default {
             if(this.loggedIn){
                 this.$store.dispatch('Getuser')
                 this.$store.dispatch('getAuthUser')
+                this.$store.dispatch('notificationStates',{state: 'get'})
             }
         });
     },
@@ -72,6 +86,9 @@ export default {
     methods: {
         logout() {
             this.$store.dispatch('logout')
+        },
+        newNotification(){
+            this.$store.dispatch('notificationStates',{state: 'set', title: 'Grimorio 13'})
         },
     }
 }

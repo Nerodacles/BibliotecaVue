@@ -203,14 +203,6 @@ export default {
                 bookID: comment.bookID,
             })
         },
-        searchBook(bookID){
-            let book = null
-            for (book in this.AllBooks){
-                if(this.AllBooks[book].id == bookID){
-                    return this.AllBooks[book].title
-                }
-            }
-        },
         disableComment(commentId){
             console.log(commentId)
         },

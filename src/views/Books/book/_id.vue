@@ -1,10 +1,10 @@
 <template>
-    <div class="">
+    <div class="" v-if="book">
         <div class="text-white">
             <div class="hero bg-gray-600" :style="`background:url(${book.coverUrl}); background-size:cover`">
                 <div class="container d-flex justify-content-center flex-col md:flex-row align-items-end pb-4" style="height:200px">
                     <div class="d-flex">
-                        <h1 class="font-heading">{{ book.title }}</h1>
+                        <!-- <h1 class="font-heading">{{ book.title }}</h1> -->
                         <!-- <div v-if="book.author">{{ book.author }}</div> -->
                     </div>
                 </div>
@@ -16,12 +16,15 @@
                     <div>
                         <a :href="`${book.bookUrl}`"><img :src="book.coverUrl" id="imagen" style="width:100px" alt="pdf"></a>
                     </div>
-                    <h6 class="font-weight-bold">Isbn:  <span class="font-weight-normal">{{book.ISBN}}</span> </h6> 
-                    <h6 class="font-weight-bold">Categories:  <span class="font-weight-normal">{{book.categories[0]}}</span> </h6>
+                    <h2 class="font-weight-bold">{{ book.title }}</h2> 
+                    <h6 class="font-weight-bold">ISBN:  <span class="font-weight-normal">{{book.ISBN}}</span> </h6> 
+                    <h6 class="font-weight-bold">Categories:  <span class="font-weight-normal" v-for="category in book.categories" :key="category.id">{{category}}, </span> </h6>
                     <h6 class="font-weight-bold">Author:  <span class="font-weight-normal">{{book.author}}</span></h6> 
-                    <div>
-                        <span class="like far fa-heart"></span>
-                        <span class="like fas fa-heart"></span>
+                    <div v-if="likedBook || likedBook == undefined">
+                        <button class="btn" @click="likedState">
+                            <span v-if="!likedBook" class="like far fa-heart"></span>
+                            <span v-if="likedBook" class="like fas fa-heart"></span>
+                        </button>
                     </div>
                 </div>
                 <div class="col-8">
@@ -34,26 +37,33 @@
                 </div>
             </div>
         </div>
-        <!-- <p v-for="b in book.Categories" :key="b">
-            {{b}}
-        </p>
-        {{book.ISBN}}
-        {{book.bookUrl}} -->
     </div>
 </template>
 
 <script>
-import { booksCollection } from '../../../firebase'
+import { auth, booksCollection, usersCollection } from '../../../firebase'
 import comments from '../comments.vue';
 
 export default {
     components: { 'comments': comments },
+    computed: {
+        userData(){
+            return this.$store.state.userProfile
+        },
+    },
     data: () => ({
-        book: null
+        book: null,
+        likedBook: null,
     }),
     created(){
         booksCollection.doc(this.$attrs.id).onSnapshot(snap=> {this.book = snap.data()});
-    }
+        usersCollection.doc(auth.currentUser.uid).collection('likedBooks').doc(this.$attrs.id).onSnapshot(snap=> {this.likedBook = snap.data()});
+    },
+    methods: {
+        likedState(){
+            this.$store.dispatch('likedState',{bookID: this.$attrs.id, liked: this.likedBook})
+        },
+    },
 }
 </script>
 
