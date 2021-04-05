@@ -20,6 +20,7 @@ import AdminComments from '../views/admin/comments'
 // Books
 import Books from '../views/Books/Books.vue'
 import Book from '../views/Books/book/_id.vue'
+import AdvancedSearch from '../views/Books/AdvancedSearch.vue'
 
 // Firebase Get users/databases/auth
 import { auth } from '../firebase'
@@ -34,6 +35,12 @@ const routes = [
         name: 'Home',
         component: Books,
         meta: {requireAuth: true, title: 'Books'},
+    },
+    {
+        path: '/Search',
+        name: 'Search',
+        component: AdvancedSearch,
+        meta: {requireAuth: true, title: 'Search'},
     },
     {
         path: '/login',

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar toggleable="lg" type="dark" variant="dark" class="fixed-top">
+        <b-navbar toggleable="lg" type="dark" variant="dark" class="fixed-top bg-mix">
             <br>
             <b-navbar-brand href="/"><img src="@/assets/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy"> Virtual Library</b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -95,4 +95,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.bg-mix {
+    background: linear-gradient(to right, #1d1b1b,#1d1b1b, #9b9b9b);
+}
 </style>

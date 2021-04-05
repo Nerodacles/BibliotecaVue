@@ -82,6 +82,7 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600');
 .v-sidebar-menu{
 	margin-top: 56px;
+	background-color: #1d1b1b ;
 }
 
 body,
@@ -132,4 +133,5 @@ pre {
 	line-height: 1.5;
 	overflow: auto;
 }
+
 </style>

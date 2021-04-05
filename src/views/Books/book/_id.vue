@@ -16,18 +16,22 @@
                     <div>
                         <a :href="`${book.bookUrl}`"><img :src="book.coverUrl" id="imagen" style="width:100px" alt="pdf"></a>
                     </div>
-                    <h2 class="font-weight-bold">{{ book.title }}</h2> 
+                    
                     <h6 class="font-weight-bold">ISBN:  <span class="font-weight-normal">{{book.ISBN}}</span> </h6> 
                     <h6 class="font-weight-bold">Categories:  <span class="font-weight-normal" v-for="category in book.categories" :key="category.id">{{category}}, </span> </h6>
                     <h6 class="font-weight-bold">Author:  <span class="font-weight-normal">{{book.author}}</span></h6> 
                     <div v-if="likedBook || likedBook == undefined">
                         <button class="btn" @click="likedState">
-                            <span v-if="!likedBook" class="like far fa-heart"></span>
-                            <span v-if="likedBook" class="like fas fa-heart"></span>
+                            <span v-if="!likedBook" title="Like" class="like far fa-heart"></span>
+                            <span v-if="likedBook" title="Dislike" class="like fas fa-heart"></span>
                         </button>
                     </div>
                 </div>
                 <div class="col-8">
+                    <div>
+                        <h2 class="font-weight-bold">{{ book.title }}</h2>
+                        <br>
+                    </div>
                     <div>
                         <h4>Description</h4>
                         {{book.description}}
