@@ -16,6 +16,7 @@ export default new Vuex.Store({
         BookCollection: [],
         bookID: [],
         userUID: null,
+        test: {users: [], likedBooks: []},
     },
     mutations: {
         setUserProfile(state, val) {
@@ -85,7 +86,7 @@ export default new Vuex.Store({
             router.push('/login')
         },
         async newBook({ dispatch }, book){
-            await booksCollection.doc().set({
+            await booksCollection.add({
                 createdAt: Date(),
                 coverUrl: book.covers,
                 bookUrl: book.file,
@@ -97,9 +98,9 @@ export default new Vuex.Store({
                 user: book.user,
                 isActive: true
             })
-                .then(function() { 
-                    swal.fire({ position: 'top-end', icon: 'success', title: `You succesfully added: ${book.name}`, showConfirmButton: false, timer: 1500 }),
-                    dispatch('notificationStates',{state: 'set', title: book.name, category: book.category[0]})
+                .then(function(docRef) { 
+                    swal.fire({ position: 'top-end', icon: 'success', title: `You succesfully added: ${book.name}`, showConfirmButton: false, timer: 1500 })
+                    dispatch('notificationStates',{state: 'set', title: book.name, category: book.category[0], bookID: docRef.id})
                 })
                 .catch(function(error){ swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' }) })
         },
@@ -145,7 +146,7 @@ export default new Vuex.Store({
         async commentActions({dispatch},comment){
             if (comment?.action == null) return swal.fire({position: 'top-end', icon: 'error', title: "Error", showConfirmButton: false, timer: 1500})
             if (comment.action == "create"){
-                await booksCollection.doc(comment.id).collection("comments").doc().set({
+                await booksCollection.doc(comment.id).collection("comments").add({
                     bookID: comment.id,
                     user: comment.user,
                     username: comment.username,
@@ -156,7 +157,7 @@ export default new Vuex.Store({
                 }).then(function() {swal.fire({ position: 'top-end', icon: 'success', title: `Comment Created!`, showConfirmButton: false, timer: 1500})
                 }).catch(function(error){swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok'})})
             }
-            else if (comment.action == "delete"){
+            if (comment.action == "delete"){
                 const swalWithBootstrapButtons = swal.mixin({
                     customClass: {
                         confirmButton: 'btn btn-success',
@@ -189,7 +190,7 @@ export default new Vuex.Store({
                     } 
                 })
             }
-            else if (comment.action == "update"){
+            if (comment.action == "update"){
                 booksCollection.doc(comment.bookID).collection("comments").doc(comment.id).onSnapshot(snap=> {
                     let user = snap.data()
                     swal.fire({
@@ -234,7 +235,7 @@ export default new Vuex.Store({
 
             // dispatch('Getuser')
         },
-        async notificationStates({dispatch, commit}, data){
+        async notificationStates({dispatch, commit, state}, data){
             if (data.state == 'get'){
                 fb.usersCollection.doc(auth.currentUser.uid).collection('notifications').onSnapshot(snap=> {
                     this.state.notifications = []
@@ -247,58 +248,69 @@ export default new Vuex.Store({
             }
             if (data.state == 'set'){
                 dispatch('getBookData')
-                dispatch('getBookData',{title: data.title})
-                let book = null
-                fb.usersCollection.onSnapshot(snap=> {
-                    snap.forEach(user=> {
-                        var userData = user.data();
-                        userData.id = user.id;
-                        fb.usersCollection.doc(userData.id).collection('likedBooks').onSnapshot(snap=> {
-                            snap.forEach(likedBook=> {
-                                var likedData = likedBook.data()
-                                likedData.id = likedBook.id
-                                for(book in this.state.BookCollection){
-                                    if(this.state.BookCollection[book].id == likedData.id){
-                                        if(this.state.BookCollection[book].categories[0] == data.category){
-                                            fb.usersCollection.doc(userData.id).collection("notifications").doc().set({
-                                                message: `This book may interest you: ${data.title}`,
-                                                href: `/book/${this.state.bookID[0].id}`,
-                                            }).catch(function(error){swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok'})})
-                                            return
+                
+                var user = null
+                var likeds = null
+                var books = null
+                var category = null
+                
+                for(user in state.test.users){
+                    dispatch('getBookData',{title: data.title})
+                    var userHasBook = 0
+                    for(likeds in state.test.likedBooks){
+                        if(state.test.users[user].id == state.test.likedBooks[likeds].userID){
+                            for(books in state.BookCollection){
+                                if(state.test.likedBooks[likeds].id == state.BookCollection[books].id){
+                                    for(category in state.BookCollection[books].categories){
+                                        if (state.BookCollection[books].categories[category] == data.category){
+                                            if (userHasBook == 0) {
+                                                fb.usersCollection.doc(state.test.users[user].id).collection("notifications").add({
+                                                    message: `This book may interest you: ${data.title}`,
+                                                    href: `/book/${data.bookID}`,
+                                                }).catch(function(error){swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok'})})
+                                                userHasBook++
+                                            }
                                         }
                                     }
                                 }
-                            })
-                        })
-                    });
-                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(data.state == 'del'){
+                fb.usersCollection.doc(auth.currentUser.uid).collection('notifications').doc(data.notificationID).delete()
+                    // .then(function() {swal.fire({ position: 'top-end', icon: 'success', title: `The notification has been deleted succesfully!`, showConfirmButton: false, timer: 1500 }) })
             }
         },
         getBookData({state},data){
-            if(!data){
-                booksCollection.where('isActive', '==', true).onSnapshot(snap=>{
-                    this.state.BookCollection = []
-                    snap.forEach(test=> {
-                        var data = test.data()
-                        data.id = test.id
-                        state.BookCollection.push(data)
+            booksCollection.where('isActive', '==', true).onSnapshot(snap=>{
+                state.BookCollection = []
+                snap.forEach(test=> {
+                    var data = test.data()
+                    data.id = test.id
+                    state.BookCollection.push(data)
+                    })
+            })
+
+            fb.usersCollection.onSnapshot(snap => {
+                state.test.users = []
+                state.test.likedBooks = []
+                snap.forEach(user=> {
+                    var userData = user.data();
+                    userData.id = user.id;
+                    state.test.users.push(userData)
+                    fb.usersCollection.doc(userData.id).collection('likedBooks').onSnapshot(snap => {
+                        snap.forEach(likedBook=> {
+                            var likedData = likedBook.data();
+                            likedData.id = likedBook.id;
+                            likedData.userID = userData.id;
+                            state.test.likedBooks.push(likedData)
+                        })
                     })
                 })
-            }
-
-            if(data){
-                booksCollection.where('title','==',data.title).onSnapshot(snap=>{
-                    this.state.bookID = []
-                    snap.forEach(test=> {
-                        var data = test.data()
-                        data.id = test.id
-                        this.state.bookID.push(data)
-                    })
-                })
-            }
-
-
-            return this.state.BookCollection
+            })
         },
         async Getuser({commit}){
             const userProfile = await fb.usersCollection.doc(auth.currentUser.uid).get()

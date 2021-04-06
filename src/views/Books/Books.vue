@@ -9,7 +9,7 @@
                     <div class="d-flex justify-content-end col-md-9 col-sm-9"><a href="/Search">Advanced Search >></a></div>
                 </div>
                 <div class="row justify-content-center">
-                    <div v-for="book in pageOfItems" :key="book.id" class="justify-content-end">
+                    <div v-for="book in BooksPagination" :key="book.id" class="justify-content-end">
                         <router-link :to="'/book/' + book.id" class="col-sm-6 col-md-4 col-xl-3 col-xxl-3" v-if="book.isActive">
                             <div class="card m-2" style="width: 9rem;">
                                 <img class="card-img-top" :src="book.coverUrl" :alt="book.title">
@@ -47,13 +47,12 @@ export default {
 
     data:() => ({
         AllBooks: [],
-        pageOfItems: []
+        BooksPagination: []
     }),
     methods: {
-        onChangePage(pageOfItems) {
-            console.log(pageOfItems)
+        onChangePage(BooksPagination) {
             // update page of items
-            this.pageOfItems = pageOfItems;
+            this.BooksPagination = BooksPagination;
         }
     },
 }

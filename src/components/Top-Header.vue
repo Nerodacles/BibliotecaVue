@@ -9,7 +9,6 @@
                     <b-nav-item href="/login" v-if="!loggedIn">Login</b-nav-item>
                     <b-nav-item href="/register" v-if="!loggedIn">Register</b-nav-item>
                     <b-nav-item href="/about">About</b-nav-item>
-                    <button class="btn text-primary" @click="newNotification"></button>
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto" v-if="this.loggedIn">
@@ -34,6 +33,7 @@
                             </b-dropdown-header>
                                 <div v-for="notif in this.userNotifications" :key="notif.id">
                                     <b-dropdown-item :href="notif.href">{{notif.message}}</b-dropdown-item>
+                                        <button class="btn btn-light" @click="deleteNotif(notif.id)"><span class="fas fa-times"></span></button>
                                     <b-dropdown-divider></b-dropdown-divider>
                                 </div>
                         </b-nav-item-dropdown>
@@ -76,6 +76,7 @@ export default {
                 this.$store.dispatch('Getuser')
                 this.$store.dispatch('getAuthUser')
                 this.$store.dispatch('notificationStates',{state: 'get'})
+                this.$store.dispatch('getBookData')
             }
         });
     },
@@ -87,9 +88,9 @@ export default {
         logout() {
             this.$store.dispatch('logout')
         },
-        newNotification(){
-            this.$store.dispatch('notificationStates',{state: 'set', title: 'Grimorio 13'})
-        },
+        deleteNotif(notifID){
+            this.$store.dispatch('notificationStates',{state: 'del', notificationID: notifID})
+        }
     }
 }
 </script>
