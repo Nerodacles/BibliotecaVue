@@ -16,7 +16,7 @@
                         <b-nav-item-dropdown size="lg" right variant="link" toggle-class="text-decoration-none" no-caret>
                             <template #button-content>
                                 <div v-if="userNotifications[0]">
-                                    <span class="fas fa-bell"></span>
+                                    <button class="fas fa-bell"><span class="badge rounded-pill bg-danger">{{userNotifications.length}}</span></button>
                                 </div>
 
                                 <div v-if="!userNotifications[0]">

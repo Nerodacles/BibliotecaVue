@@ -195,7 +195,7 @@ export default new Vuex.Store({
                     let user = snap.data()
                     swal.fire({
                         title: 'Edit your comment!',
-                        html: `<input type="text" id="comment" class="swal2-input" value="${user.message}" placeholder="Username">`,
+                        html: `<input type="text" id="comment" class="swal2-input" value="${user.message}" placeholder="Edit comment">`,
                         confirmButtonText: 'Confirm',
                         focusConfirm: false,
                         preConfirm: () => {
