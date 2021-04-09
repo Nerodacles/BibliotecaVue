@@ -47,7 +47,7 @@ export default {
     methods: {
         async onSubmit(event) {
 			event.preventDefault()
-            this.$store.dispatch('editBook',{bk: this.book, id: this.$attrs.id})
+            this.$store.dispatch('bookActions',{action: 'update', bk: this.book, id: this.$attrs.id})
 		},
 		onCancel() {
 			this.$router.push('/admin/AdminBooks')

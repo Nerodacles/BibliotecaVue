@@ -25,7 +25,9 @@ const analytics = firebase.analytics()
 // collection references
 const usersCollection = db.collection('users')
 const booksCollection = db.collection('books')
-const likesCollection = db.collection('likes')
+
+// Collections Groups
+const commentsCollections = db.collectionGroup('comments')
 
 // export utils/refs
 export {
@@ -33,7 +35,7 @@ export {
     auth,
     storage,
     analytics,
-    likesCollection,
     booksCollection,
     usersCollection,
+    commentsCollections,
 }

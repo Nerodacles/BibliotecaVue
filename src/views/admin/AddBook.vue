@@ -105,7 +105,7 @@ export default {
 			this.pdf = null
 			this.newBook.categories = []
 			this.show = false
-            this.uploadValue=0;
+            this.uploadValue = 0
             this.images = []
 			this.$nextTick(() => {
 				this.show = true
@@ -139,13 +139,7 @@ export default {
         getUrl(){
             const storageRef=  storage.ref(`/books/${this.newBook.BookName}/${this.pdf[0].name}`).put(this.pdf[0]);
             storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100 }, error=>{
-                swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: 'Invalid Credentials',
-                    showConfirmButton: false,
-                    timer: 1500
-                })},
+                swal.fire({ position: 'top-end', icon: 'error', title: error, showConfirmButton: false, timer: 1500  })},
             () => {
                 storageRef.snapshot.ref.getDownloadURL().then((url)=>{
                     this.newBook.pdf = url
@@ -156,17 +150,12 @@ export default {
         UploadAll(){
             const storageRef=  storage.ref(`/books/${this.newBook.BookName}/${this.images[0].name}`).put(this.images[0]);
             storageRef.on(`state_changed`,snapshot=>{ this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100 }, error=>{
-                swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: 'Invalid Credentials',
-                    showConfirmButton: false,
-                    timer: 1500
-                })},
+                swal.fire({ position: 'top-end', icon: 'error', title: error, showConfirmButton: false, timer: 1500 })},
             () => {
                 this.uploadValue=100;
                 storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-                    this.$store.dispatch('newBook',{
+                    this.$store.dispatch('bookActions',{
+                        action: 'create',
                         covers: url,
                         file: this.newBook.pdf,
                         name: this.newBook.BookName,
@@ -176,8 +165,8 @@ export default {
                         description: this.newBook.Description,
                         user: auth.currentUser.uid
                     })
-                });
-            });
+                })
+            })
         },
     }
 }

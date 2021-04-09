@@ -2,8 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as fb from '../firebase'
 import router from '../router/index'
-import { booksCollection } from '../firebase'
-import { auth } from '../firebase'
+import { booksCollection, auth, db } from '../firebase'
 import swal from 'sweetalert2'
 
 Vue.use(Vuex)
@@ -16,7 +15,7 @@ export default new Vuex.Store({
         BookCollection: [],
         bookID: [],
         userUID: null,
-        test: {users: [], likedBooks: []},
+        BooksInfo: {users: [], likeds: [], comments: []},
     },
     mutations: {
         setUserProfile(state, val) {
@@ -33,7 +32,7 @@ export default new Vuex.Store({
             const { user } = await auth.setPersistence("session").then(() => {
                 return auth.signInWithEmailAndPassword(form.email, form.password)
             })
-            .catch(function() { swal.fire({ position: 'top-end', icon: 'error', title: 'Invalid Credentials', showConfirmButton: false, timer: 1500 }) });
+            .catch(function() { swal.fire({ position: 'top-end', icon: 'error', title: 'Invalid Credentials', showConfirmButton: false, timer: 1500 }) })
 
             // fetch user profile and set in state
             dispatch('fetchUserProfile', user)
@@ -52,7 +51,7 @@ export default new Vuex.Store({
             }).then(function(){
                 swal.fire({ position: 'top-end', icon: 'success', title: 'User Registed Successfully!', showConfirmButton: false, timer: 1500
                 })
-            }).catch(function(error){ swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' }) });
+            }).catch(function(error){ swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' }) })
 
             // fetch user profile and set in state
             dispatch('fetchUserProfile', user)
@@ -85,84 +84,85 @@ export default new Vuex.Store({
             commit('setUserProfile', {})
             router.push('/login')
         },
-        async newBook({ dispatch }, book){
-            await booksCollection.add({
-                createdAt: Date(),
-                coverUrl: book.covers,
-                bookUrl: book.file,
-                title: book.name,
-                author: book.author,
-                ISBN: book.ISBN,
-                categories: book.category,
-                description: book.description,
-                user: book.user,
-                isActive: true
-            })
-                .then(function(docRef) { 
-                    swal.fire({ position: 'top-end', icon: 'success', title: `You succesfully added: ${book.name}`, showConfirmButton: false, timer: 1500 })
-                    dispatch('notificationStates',{state: 'set', title: book.name, category: book.category[0], bookID: docRef.id})
+        async bookActions({ dispatch }, book){
+            if (book?.action == null ) return
+            if (book.action == 'create'){
+                await booksCollection.add({
+                    createdAt: Date(),
+                    coverUrl: book.covers,
+                    bookUrl: book.file,
+                    title: book.name,
+                    author: book.author,
+                    ISBN: book.ISBN,
+                    categories: book.category,
+                    description: book.description,
+                    user: book.user,
+                    isActive: true
                 })
-                .catch(function(error){ swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' }) })
-        },
-        async editBook({dispatch},book){
-            await booksCollection.doc(book.id).update({
-                lastModified: Date(),
-                title: book.bk.title,
-                author: book.bk.author,
-                ISBN: book.bk.ISBN,
-                categories: book.bk.categories,
-                description: book.bk.description,
-            }).then(function() {
-                swal.fire({ position: 'top-end', icon: 'success', title: `${book.bk.title} has been edited succesfully!`, showConfirmButton: false, timer: 2500})
-                .then(function() { router.push('/admin/AdminBooks') })
-            }).catch(function(error){swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok'})})
-        },
-        async deleteBook({ dispatch },book){
-            const swalWithBootstrapButtons = swal.mixin({
-                customClass: { confirmButton: 'btn btn-success', cancelButton: 'btn btn-danger'},
-                buttonsStyling: false
-            })
-
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    booksCollection.doc(book.id.id).delete().then(
-                        fb.storage.refFromURL(book.id.coverUrl).delete().then(
-                            fb.storage.refFromURL(book.id.bookUrl).delete().then(
-                                swalWithBootstrapButtons.fire('Deleted!', 'The book was erased.', 'success')
+                    .then(function(docRef) { 
+                        swal.fire({ position: 'top-end', icon: 'success', title: `You succesfully added: ${book.name}`, showConfirmButton: false, timer: 1500 })
+                        dispatch('notificationStates',{state: 'set', title: book.name, category: book.category[0], bookID: docRef.id})
+                    })
+                    .catch(function(error){ swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' }) })
+            }
+            if (book.action == 'update'){
+                await booksCollection.doc(book.id).update({
+                    lastModified: Date(),
+                    title: book.bk.title,
+                    author: book.bk.author,
+                    ISBN: book.bk.ISBN,
+                    categories: book.bk.categories,
+                    description: book.bk.description,
+                }).then(function() {
+                    swal.fire({ position: 'top-end', icon: 'success', title: `${book.bk.title} has been edited succesfully!`, showConfirmButton: false, timer: 2500})
+                    .then(function() { router.push('/admin/AdminBooks') })
+                }).catch(function(error){swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok'})})
+            }
+            if (book.action == 'delete'){
+                const swalWithBootstrapButtons = swal.mixin({
+                    customClass: { confirmButton: 'btn btn-success', cancelButton: 'btn btn-danger'},
+                    buttonsStyling: false
+                })
+    
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        booksCollection.doc(book.id.id).delete().then(
+                            fb.storage.refFromURL(book.id.coverUrl).delete().then(
+                                fb.storage.refFromURL(book.id.bookUrl).delete().then(
+                                    swalWithBootstrapButtons.fire('Deleted!', 'The book was erased.', 'success')
+                                ).catch(function(error) {swal.fire({position: 'top-end', icon: 'error', title: error.code, showConfirmButton: false, timer: 1500})})
                             ).catch(function(error) {swal.fire({position: 'top-end', icon: 'error', title: error.code, showConfirmButton: false, timer: 1500})})
                         ).catch(function(error) {swal.fire({position: 'top-end', icon: 'error', title: error.code, showConfirmButton: false, timer: 1500})})
-                    ).catch(function(error) {swal.fire({position: 'top-end', icon: 'error', title: error.code, showConfirmButton: false, timer: 1500})})
-                } else if (result.dismiss === swal.DismissReason.cancel) {swalWithBootstrapButtons.fire( 'Cancelled', "The book wasn't erased.", 'error') } 
-            })
+                    } else if (result.dismiss === swal.DismissReason.cancel) {swalWithBootstrapButtons.fire( 'Cancelled', "The book wasn't erased.", 'error') } 
+                })
+            }
         },
         async commentActions({dispatch},comment){
             if (comment?.action == null) return swal.fire({position: 'top-end', icon: 'error', title: "Error", showConfirmButton: false, timer: 1500})
             if (comment.action == "create"){
-                await booksCollection.doc(comment.id).collection("comments").add({
-                    bookID: comment.id,
+                await db.collection(`/books/${comment.bookID}/comments`).add({
+                    bookID: comment.bookID,
                     user: comment.user,
                     username: comment.username,
                     message: comment.message,
                     date: comment.time,
                     likedCount: comment.likedCount,
                     isActive: true,
-                }).then(function() {swal.fire({ position: 'top-end', icon: 'success', title: `Comment Created!`, showConfirmButton: false, timer: 1500})
-                }).catch(function(error){swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok'})})
+                })
+                    // .then(function() {swal.fire({ position: 'top-end', icon: 'success', title: `Comment Created!`, showConfirmButton: false, timer: 1500}) })
+                    .catch(function(error){swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok'})})
             }
             if (comment.action == "delete"){
                 const swalWithBootstrapButtons = swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
+                    customClass: { confirmButton: 'btn btn-success', cancelButton: 'btn btn-danger' },
                     buttonsStyling: false
                 })
 
@@ -176,58 +176,48 @@ export default new Vuex.Store({
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        booksCollection.doc(comment.bookID).collection("comments").doc(comment.id).delete().then(
+                        db.collection(`/books/${comment.bookID}/comments/`).doc(comment.id).delete().then(
                             swalWithBootstrapButtons.fire('Deleted!', 'The comment was erased.', 'success')
                         ).catch(function(error) {swal.fire({position: 'top-end', icon: 'error', title: error.code, showConfirmButton: false, timer: 1500})})
-                    } else if (
-                        result.dismiss === swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                            'Cancelled',
-                            "The comment wasn't erased.",
-                            'error'
-                        )
-                    } 
+                    } else if (result.dismiss === swal.DismissReason.cancel) { swalWithBootstrapButtons.fire( 'Cancelled', "The comment wasn't erased.", 'error' ) } 
                 })
             }
             if (comment.action == "update"){
-                booksCollection.doc(comment.bookID).collection("comments").doc(comment.id).onSnapshot(snap=> {
-                    let user = snap.data()
-                    swal.fire({
-                        title: 'Edit your comment!',
-                        html: `<input type="text" id="comment" class="swal2-input" value="${user.message}" placeholder="Edit comment">`,
-                        confirmButtonText: 'Confirm',
-                        focusConfirm: false,
-                        preConfirm: () => {
-                            const comment = swal.getPopup().querySelector('#comment').value
-                            if (!comment) {
-                                swal.showValidationMessage(`Please edit your comment!`)
-                            }
-                            return { comment: comment }
+                swal.fire({
+                    title: 'Edit your comment!',
+                    html: `<input type="text" id="comment" class="swal2-input" value="${comment.message}" placeholder="Edit this comment!">`,
+                    confirmButtonText: 'Confirm',
+                    focusConfirm: false,
+                    preConfirm: () => {
+                        const comment = swal.getPopup().querySelector('#comment').value
+                        if (!comment) {
+                            swal.showValidationMessage(`Please edit your comment!`)
                         }
-                        }).then(function(result) {
-                            if (result.isConfirmed){
-                                booksCollection.doc(comment.bookID).collection("comments").doc(comment.id).update({
-                                    message: result.value.comment
-                                }).then(function() {
-                                    swal.fire({ position: 'top-end', icon: 'success', title: `Your comment has been edited succesfully!`, showConfirmButton: false, timer: 2500 })
-                                }).catch(function(error){
-                                    swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' })
-                                })
-                            }
+                        return { comment: comment }
+                    }
+                }).then(function(result) {
+                    console.info(comment.bookID, comment.id)
+                    if (result.isConfirmed){
+                        db.collection(`/books/${comment.bookID}/comments/`).doc(comment.id).update({
+                            message: result.value.comment
+                        }).then(function() {
+                            swal.fire({ position: 'top-end', icon: 'success', title: `The comment has been edited succesfully!`, showConfirmButton: false, timer: 2500 })
+                        }).catch(function(error){
+                            swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' })
                         })
+                    }
                 })
             }
         },
         async likedState({dispatch}, data){
             if (data.liked){
-                fb.usersCollection.doc(auth.currentUser.uid).collection('likedBooks').doc(data.bookID).delete()
+                db.collection(`/users/${auth.currentUser.uid}/likedBooks/`).doc(data.bookID).delete()
                     // .then(swal.fire({ position: 'top-end', icon: 'success', title: `You dont like the book`, showConfirmButton: false, timer: 2500 }))
                     .catch(function(error){swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' }) })
                 return
             }
 
-            fb.usersCollection.doc(auth.currentUser.uid).collection('likedBooks').doc(data.bookID).set({
+            db.collection(`/users/${auth.currentUser.uid}/likedBooks/`).doc(data.bookID).set({
                 liked: true
             })  
                 // .then(swal.fire({ position: 'top-end', icon: 'success', title: ``, showConfirmButton: false, timer: 2500 }))
@@ -254,17 +244,17 @@ export default new Vuex.Store({
                 var books = null
                 var category = null
                 
-                for(user in state.test.users){
+                for(user in state.BooksInfo.users){
                     dispatch('getBookData',{title: data.title})
                     var userHasBook = 0
-                    for(likeds in state.test.likedBooks){
-                        if(state.test.users[user].id == state.test.likedBooks[likeds].userID){
+                    for(likeds in state.BooksInfo.likeds){
+                        if(state.BooksInfo.users[user].id == state.BooksInfo.likeds[likeds].userID){
                             for(books in state.BookCollection){
-                                if(state.test.likedBooks[likeds].id == state.BookCollection[books].id){
+                                if(state.BooksInfo.likeds[likeds].id == state.BookCollection[books].id){
                                     for(category in state.BookCollection[books].categories){
                                         if (state.BookCollection[books].categories[category] == data.category){
                                             if (userHasBook == 0) {
-                                                fb.usersCollection.doc(state.test.users[user].id).collection("notifications").add({
+                                                fb.usersCollection.doc(state.BooksInfo.users[user].id).collection("notifications").add({
                                                     message: `This book may interest you: ${data.title}`,
                                                     href: `/book/${data.bookID}`,
                                                 }).catch(function(error){swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok'})})
@@ -284,29 +274,30 @@ export default new Vuex.Store({
                     // .then(function() {swal.fire({ position: 'top-end', icon: 'success', title: `The notification has been deleted succesfully!`, showConfirmButton: false, timer: 1500 }) })
             }
         },
-        getBookData({state},data){
+        getBookData({state, dispatch}){
             booksCollection.where('isActive', '==', true).onSnapshot(snap=>{
                 state.BookCollection = []
+                state.BooksInfo.comments = []
                 snap.forEach(test=> {
                     var data = test.data()
                     data.id = test.id
                     state.BookCollection.push(data)
-                    })
+                })
             })
 
             fb.usersCollection.onSnapshot(snap => {
-                state.test.users = []
-                state.test.likedBooks = []
+                state.BooksInfo.users = []
+                state.BooksInfo.likeds = []
                 snap.forEach(user=> {
-                    var userData = user.data();
-                    userData.id = user.id;
-                    state.test.users.push(userData)
+                    var userData = user.data()
+                    userData.id = user.id
+                    state.BooksInfo.users.push(userData)
                     fb.usersCollection.doc(userData.id).collection('likedBooks').onSnapshot(snap => {
                         snap.forEach(likedBook=> {
-                            var likedData = likedBook.data();
-                            likedData.id = likedBook.id;
-                            likedData.userID = userData.id;
-                            state.test.likedBooks.push(likedData)
+                            var likedData = likedBook.data()
+                            likedData.id = likedBook.id
+                            likedData.userID = userData.id
+                            state.BooksInfo.likeds.push(likedData)
                         })
                     })
                 })
@@ -320,6 +311,6 @@ export default new Vuex.Store({
         },
         async getAuthUser({state}){
             state.userUID = await auth.currentUser.uid
-        }
+        },
     }
 })

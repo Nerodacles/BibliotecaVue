@@ -55,7 +55,7 @@ export default {
         handleSubmit() {
             this.$store.dispatch('commentActions',{
                 action: "create",
-                id: this.$route.params.id,
+                bookID: this.$route.params.id,
                 user: this.escapeHTML(auth.currentUser.uid),
                 username: this.escapeHTML(this.userData.name),
                 message: this.escapeHTML(this.comment),

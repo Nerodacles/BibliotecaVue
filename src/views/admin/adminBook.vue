@@ -48,7 +48,8 @@ export default {
     }),
     methods: {
         removeBook: function (book) {
-            this.$store.dispatch('deleteBook',{
+            this.$store.dispatch('bookActions',{
+                action: 'delete',
                 id: book
             })
         },

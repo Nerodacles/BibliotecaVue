@@ -88,12 +88,12 @@
                         {{ row.value.first }} {{ row.value.last }}
                     </template>
 
-                    <template #cell(bookTitle)="row">
-                        <a :href="'/book/'+row.item.bookID" class="text-light">{{row.value}}</a>
+                    <template #cell(bookID)="row">
+                        <a :href="'/book/'+row.item.bookID" class="text-light">{{row.item.bookName}}</a>
                     </template>
 
                     <template #cell(isActive)="row">
-                        <b-form-checkbox switch v-model="row.item.isActive" :checked="disableComment(row.item.isActive)" size="lg"><b-button v-on:click="disableComment(row.item.isActive)">test</b-button></b-form-checkbox>
+                        <b-button v-on:click="disableComment(row.item.isActive)">test</b-button>
                     </template>
 
                     <template #cell(actions)="row">
@@ -122,9 +122,11 @@
 </template>
 
 <script>
-import { booksCollection } from '../../../firebase'
+import { booksCollection, commentsCollections, likedBookCollections, db } from '../../../firebase'
+// import VueToggleBtn from '@'
 
 export default {
+    // components: {VueToggleBtn},
     computed: {
         userUID(){
             return this.$store.state.userUID
@@ -142,24 +144,19 @@ export default {
 		window.addEventListener('resize', this.onResize)
 	},
     created() {
-		booksCollection.onSnapshot(snap=> {
-            this.AllBooks = []
+        commentsCollections.onSnapshot(snap =>{
             this.comments = []
-            snap.forEach(book=> {
-                var bookData = book.data();
-                bookData.id = book.id;
-                this.AllBooks.push(bookData);
-                booksCollection.doc(bookData.id).collection("comments").onSnapshot(snap=> {
-                    snap.forEach(comment=> {
-                        var commentData = comment.data();
-                        commentData.id = comment.id;
-                        commentData.bookTitle = bookData.title
-                        this.comments.push(commentData);
-                        this.totalRows = this.comments.length
-                    });
-                });
-            });
-        });
+            snap.forEach(comment =>{
+                var commentData = comment.data()
+                commentData.id = comment.id
+                booksCollection.doc(commentData.bookID).onSnapshot(book=> { 
+                    let bookData = book.data()
+                    commentData.bookName = bookData.title
+                    this.comments.push(commentData)
+                    this.totalRows = this.comments.length
+                })
+            })
+        })
 	},
 
     data:() => ({
@@ -167,10 +164,9 @@ export default {
         sortDesc: false,
         onMobile: false,
         comments: [],
-        AllBooks: [],
         fields: [
             {key:'username', label: 'User', sortable: true}, 
-            {key: 'bookTitle', label: 'Book', sortable: true}, 
+            {key: 'bookID', label: 'Book', sortable: true}, 
             {key: 'message', label: "Comment", class: 'text-center'},
             {key: 'isActive', label: 'Is Active', formatter: (value, key, item) => { return value ? 'Yes' : 'No' }, sortable: true, sortByFormatted: true, filterByFormatted: true },
             {key: 'actions'},
@@ -200,6 +196,7 @@ export default {
             this.$store.dispatch('commentActions',{
                 action: "update",
                 id: comment.id,
+                message: comment.message,
                 bookID: comment.bookID,
             })
         },
@@ -226,7 +223,7 @@ export default {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length
             this.currentPage = 1
-        }
+        },
     },
 }
 </script>

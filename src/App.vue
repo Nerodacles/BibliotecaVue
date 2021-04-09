@@ -1,13 +1,13 @@
 <template>
     <div id="app">
         <top-header></top-header>
-        <!-- <div v-if="nero"> -->
+        <div v-if="userData.isActive">
             <sidebarAdmin v-if="userData.isAdmin"></sidebarAdmin>
             <sidebarUser v-if="!userData.isAdmin"></sidebarUser>
-        <!-- </div> -->
-        <!-- <div v-if="!nero">
+        </div>
+        <div v-if="!userData.isActive">
             <router-view />
-        </div> -->
+        </div>
     </div>
 </template>
 
@@ -21,18 +21,10 @@ import { auth } from "./firebase"
 
 export default {
     components: {'top-header': TopHeader, 'sidebarAdmin': sidebarAdmin, 'sidebarUser': sidebarUser},
-    data: ()=> ({
-        nero: null
-    }),
     computed: {
         userData(){
             return this.$store.state.userProfile
         },
-    },
-    created(){
-        if(auth.currentUser){
-            this.nero = true
-        }else this.nero = false
     },
     watch: {
         '$route':{
