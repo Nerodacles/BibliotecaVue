@@ -168,7 +168,12 @@ export default {
                 })
             })
         },
-    }
+    },
+    metaInfo() {
+        return {
+            title: "Add Books",
+        }
+    },
 }
 </script>
 

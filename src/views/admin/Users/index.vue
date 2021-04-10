@@ -88,9 +88,9 @@
                         {{ row.item.title.init }}
                     </template>
 
-                    <template #cell(isActive)="row">
+                    <!-- <template #cell(isActive)="row">
                         <b-button v-on:click="disableUser(row.item)"><ToggleButton :id="row.item.id" :default-state="row.item.isActive" /></b-button>
-                    </template>
+                    </template> -->
 
                     <template #cell(isAdmin)="row">
                         <b-button v-on:click="upgradeUser(row.item)"><ToggleButton :id="row.item.createdAt" :default-state="row.item.isAdmin" /></b-button>
@@ -159,7 +159,7 @@ export default {
         fields: [
             {key:'name', label: 'User', sortable: true},
             {key:'title', label: 'University', sortable: true},
-            {key: 'isActive', label: 'Status', formatter: (value, key, item) => { return value ? 'Yes' : 'No' }, sortable: true, sortByFormatted: true, filterByFormatted: true },
+            // {key: 'isActive', label: 'Status', formatter: (value, key, item) => { return value ? 'Yes' : 'No' }, sortable: true, sortByFormatted: true, filterByFormatted: true },
             {key: 'isAdmin', label: 'Administrator', formatter: (value, key, item) => { return value ? 'Yes' : 'No' }, sortable: true, sortByFormatted: true, filterByFormatted: true },
             {key: 'actions'},
             
@@ -201,6 +201,11 @@ export default {
             this.totalRows = filteredItems.length
             this.currentPage = 1
         },
+    },
+    metaInfo() {
+        return {
+            title: "Administrate Users",
+        }
     },
 }
 </script>

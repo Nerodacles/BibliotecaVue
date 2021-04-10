@@ -1,11 +1,6 @@
 # BibliotecaVue
 ![OSSAR](https://github.com/Nerodacles/BibliotecaVue/workflows/OSSAR/badge.svg)
 
-Trabajo para Anteproyecto - Ingenieria del Software
-
-### **This is for Anteproyecto and Ingenieria del Software.**
-
-
 ## Built With
 
 * [NodeJS](https://nodejs.org/es/) - The backend framework used

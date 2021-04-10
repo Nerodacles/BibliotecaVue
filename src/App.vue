@@ -17,7 +17,8 @@
 import TopHeader from "./components/Top-Header"
 import sidebarUser from "./components/Sidebar/user/user.vue"
 import sidebarAdmin from "./components/Sidebar/admin/admin.vue"
-import { auth } from "./firebase"
+import { auth, isPWA, analytics } from "./firebase"
+import { version } from "../package.json"
 
 export default {
     components: {'top-header': TopHeader, 'sidebarAdmin': sidebarAdmin, 'sidebarUser': sidebarUser},
@@ -26,13 +27,33 @@ export default {
             return this.$store.state.userProfile
         },
     },
-    watch: {
-        '$route':{
-            handler: (to, from) => {
-                document.title = to.meta.title || 'Your Website'
-            },
-            immediate: true
+    metaInfo: {
+        changed(metaInfo) {
+            analytics.setCurrentScreen(metaInfo.title)
+            analytics.logEvent("page_view")
+            analytics.logEvent("screen_view", {
+                app_name: isPWA() ? "pwa" : "web",
+                screen_name: metaInfo.title,
+                app_version: version
+            })
         }
+    },
+    mounted() {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                analytics.setUserId(user.uid)
+                if (this.userData?.isAdmin == true){
+                    analytics.setUserProperties({
+                        account_type: "Admin"
+                    })
+                }
+                if (this.userData?.isAdmin == false){
+                    analytics.setUserProperties({
+                        account_type: "Basic"
+                    })
+                }
+            }
+        })
     },
 }
 </script>

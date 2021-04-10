@@ -29,10 +29,15 @@ const booksCollection = db.collection('books')
 // Collections Groups
 const commentsCollections = db.collectionGroup('comments')
 
+function isPWA() {
+    return window && window.matchMedia("(display-mode: standalone)").matches;
+}
+
 // export utils/refs
 export {
     db,
     auth,
+    isPWA,
     storage,
     analytics,
     booksCollection,

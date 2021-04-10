@@ -3,9 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from "axios"
-import { auth } from './firebase'
+import { auth, analytics } from './firebase'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueSidebarMenu from 'vue-sidebar-menu'
+import VueMeta from 'vue-meta'
+
 
 
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
@@ -14,11 +16,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import JwPagination from 'jw-vue-pagination'
 
 Vue.component('pagination', JwPagination)
+Vue.use(VueMeta)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueSidebarMenu)
 
 Vue.config.productionTip = false
+Vue.prototype.$analytics = analytics
 
 let app
 auth.onAuthStateChanged(() => {

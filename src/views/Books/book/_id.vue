@@ -71,6 +71,11 @@ export default {
             this.$store.dispatch('likedState',{bookID: this.$attrs.id, liked: this.likedBook})
         },
     },
+    metaInfo() {
+        return {
+            title: `Book: ${this.book.title}`
+        }
+    },
 }
 </script>
 

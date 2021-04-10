@@ -51,7 +51,12 @@ export default {
 		onCancel() {
 			this.$router.push('/admin/AdminBooks')
 		},
-    }
+    },
+    metaInfo() {
+        return {
+            title: `Edit Book: ${this.book.title}`,
+        }
+    },
 }
 </script>
 

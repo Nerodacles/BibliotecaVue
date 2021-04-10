@@ -1,11 +1,10 @@
 {
   "name": "test-login-firebase",
-  "version": "0.8.1",
+  "version": "0.9.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "start": "vue-cli-service serve",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -20,6 +19,7 @@
     "jw-vue-pagination": "^1.0.3",
     "sweetalert2": "^10.15.6",
     "vue": "^2.6.11",
+    "vue-meta": "^2.4.0",
     "vue-router": "^3.2.0",
     "vue-select": "^3.11.2",
     "vue-sidebar-menu": "^4.7.4",

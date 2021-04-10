@@ -158,10 +158,9 @@ export default {
 
     data:() => ({
         AllBooks: [],
-                sortBy: '',
+        sortBy: '',
         sortDesc: false,
         onMobile: false,
-        comments: [],
         fields: [
             {key:'title', sortable: true, label: 'Title'},
             {key: 'author', sortable: true, label: 'Author'},
@@ -209,6 +208,11 @@ export default {
             this.totalRows = filteredItems.length
             this.currentPage = 1
         },
+    },
+    metaInfo() {
+        return {
+            title: "Administrate Books",
+        }
     },
 }
 </script>

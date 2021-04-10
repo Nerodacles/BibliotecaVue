@@ -65,6 +65,11 @@ export default {
                     })
                 })
             }
+        },
+    },
+    metaInfo() {
+        return {
+            title: "Books"
         }
     },
     watch: {

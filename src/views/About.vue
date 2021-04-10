@@ -1,115 +1,122 @@
 <template>
-    <div>
-        <div class="macbook">
-  <div class="inner">
-    <div class="screen">
-      <div class="face-one">
-        <div class="camera"></div>
-        <div class="display">
-          <div class="shade"></div>
+  <div>
+    <div class="macbook">
+      <div class="inner">
+        <div class="screen">
+          <div class="face-one">
+            <div class="camera"></div>
+            <div class="display">
+              <div class="shade"></div>
+            </div>
+            <span>Virtual Library</span>
+          </div>
+          <img src="@/assets/logo.svg" class="logo" />
         </div>
-        <span>Virtual Library</span>
+        <div class="body">
+          <div class="face-one">
+            <div class="touchpad"></div>
+            <div class="keyboard">
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key space"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+              <div class="key f"></div>
+            </div>
+          </div>
+          <div class="pad one"></div>
+          <div class="pad two"></div>
+          <div class="pad three"></div>
+          <div class="pad four"></div>
+        </div>
       </div>
-      <img src="@/assets/logo.svg" class="logo"/>
+      <div class="shadow"></div>
     </div>
-    <div class="body">
-      <div class="face-one">
-        <div class="touchpad">
-        </div>
-        <div class="keyboard">
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key space"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-          <div class="key f"></div>
-        </div>
-      </div>
-      <div class="pad one"></div>
-      <div class="pad two"></div>
-      <div class="pad three"></div>
-      <div class="pad four"></div>
+    <div class="links">
+      @Juanma_Canahuate
+      <div>@Michael_Gonzales</div>
     </div>
   </div>
-  <div class="shadow"></div>
-</div>
-<div class='links'>
-    @Juanma_Canahuate
-    <div>
-        @Michael_Gonzales
-    </div>
-</div>
-    </div>
 </template>
+
+<script>
+export default {
+  metaInfo() {
+    return {
+      title: "About Us",
+    }
+  },
+}
+</script>
 
 <style>
 body {
@@ -132,7 +139,7 @@ body {
   left: 40px;
   top: 160px;
   transform: rotateX(80deg) rotateY(0deg) rotateZ(0deg);
-  box-shadow: 0 0 60px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 0 60px 40px rgba(0, 0, 0, 0.3);
   animation: shadow infinite 7s ease;
 }
 .inner {
@@ -143,7 +150,7 @@ body {
   left: 0;
   top: 0;
   transform-style: preserve-3d;
-  transform:rotateX(-20deg) rotateY(0deg) rotateZ(0deg);
+  transform: rotateX(-20deg) rotateY(0deg) rotateZ(0deg);
   animation: rotate infinite 7s ease;
 }
 .screen {
@@ -158,10 +165,14 @@ body {
   transform-origin: 50% 93px;
   transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
   animation: lid-screen infinite 7s ease;
-  background-image: linear-gradient(45deg, rgba(0,0,0,0.34) 0%,rgba(0,0,0,0) 100%);
+  background-image: linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.34) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
   background-position: left bottom;
   background-size: 300px 300px;
-  box-shadow: inset 0 3px 7px rgba(255,255,255,0.5);
+  box-shadow: inset 0 3px 7px rgba(255, 255, 255, 0.5);
 }
 .screen .logo {
   position: absolute;
@@ -181,7 +192,11 @@ body {
   border-radius: 7px;
   background: #d3d3d3;
   transform: translateZ(2px);
-  background-image: linear-gradient(45deg,rgba(0,0,0,0.24) 0%,rgba(0,0,0,0) 100%);
+  background-image: linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.24) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 .screen .face-one .camera {
   width: 3px;
@@ -197,11 +212,12 @@ body {
   width: 130px;
   height: 74px;
   margin: 10px;
-  background: url("http://www.pcmag.com/media/images/507124-mac-os-sierra.jpg?thumb=y&width=150&height=96") no-repeat center center #000;
+  background: url("http://www.pcmag.com/media/images/507124-mac-os-sierra.jpg?thumb=y&width=150&height=96")
+    no-repeat center center #000;
   background-size: 100% 100%;
   border-radius: 1px;
   position: relative;
-  box-shadow: inset 0 0 2px rgba(0,0,0,1);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 1);
 }
 .screen .face-one .display .shade {
   position: absolute;
@@ -209,7 +225,12 @@ body {
   top: 0;
   width: 130px;
   height: 74px;
-  background: linear-gradient(-135deg, rgba(255,255,255,0) 0%,rgba(255,255,255,0.1) 47%,rgba(255,255,255,0) 48%);
+  background: linear-gradient(
+    -135deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 47%,
+    rgba(255, 255, 255, 0) 48%
+  );
   animation: screen-shade infinite 7s ease;
   background-size: 300px 200px;
   background-position: 0px 0px;
@@ -219,7 +240,7 @@ body {
   top: 85px;
   left: 57px;
   font-size: 6px;
-  color: #666
+  color: #666;
 }
 
 .body {
@@ -234,7 +255,11 @@ body {
   transform-origin: 50% bottom;
   transform: rotateX(-90deg);
   animation: lid-body infinite 7s ease;
-  background-image: linear-gradient(45deg, rgba(0,0,0,0.24) 0%,rgba(0,0,0,0) 100%);
+  background-image: linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.24) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 .body .face-one {
   width: 150px;
@@ -247,7 +272,11 @@ body {
   background: #dfdfdf;
   animation: lid-keyboard-area infinite 7s ease;
   transform: translateZ(-2px);
-  background-image: linear-gradient(30deg, rgba(0,0,0,0.24) 0%,rgba(0,0,0,0) 100%);
+  background-image: linear-gradient(
+    30deg,
+    rgba(0, 0, 0, 0.24) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 .body .touchpad {
   width: 40px;
@@ -258,21 +287,29 @@ body {
   border-radius: 4px;
   margin: -44px 0 0 -18px;
   background: #cdcdcd;
-  background-image: linear-gradient(30deg, rgba(0,0,0,0.24) 0%,rgba(0,0,0,0) 100%);
+  background-image: linear-gradient(
+    30deg,
+    rgba(0, 0, 0, 0.24) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
   box-shadow: inset 0 0 3px #888;
 }
 .body .keyboard {
-width: 130px;
-height: 45px;
-position: absolute;
-left: 7px;
-top: 41px;
-border-radius: 4px;
-transform-style: preserve-3d;
-background: #cdcdcd;
-background-image: linear-gradient(30deg, rgba(0,0,0,0.24) 0%,rgba(0,0,0,0) 100%);
-box-shadow: inset 0 0 3px #777;
-padding: 0 0 0 2px;
+  width: 130px;
+  height: 45px;
+  position: absolute;
+  left: 7px;
+  top: 41px;
+  border-radius: 4px;
+  transform-style: preserve-3d;
+  background: #cdcdcd;
+  background-image: linear-gradient(
+    30deg,
+    rgba(0, 0, 0, 0.24) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  box-shadow: inset 0 0 3px #777;
+  padding: 0 0 0 2px;
 }
 .keyboard .key {
   width: 6px;
@@ -390,15 +427,12 @@ padding: 0 0 0 2px;
 @keyframes lid-body {
   0% {
     transform: rotateX(-90deg);
-    
   }
   50% {
     transform: rotateX(-90deg);
-    
   }
   100% {
     transform: rotateX(-90deg);
-    
   }
 }
 
@@ -471,26 +505,26 @@ padding: 0 0 0 2px;
 @keyframes shadow {
   0% {
     transform: rotateX(80deg) rotateY(0deg) rotateZ(0deg);
-    box-shadow: 0 0 60px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 0 60px 40px rgba(0, 0, 0, 0.3);
   }
   5% {
     transform: rotateX(80deg) rotateY(10deg) rotateZ(0deg);
-    box-shadow: 0 0 60px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 0 60px 40px rgba(0, 0, 0, 0.3);
   }
   20% {
     transform: rotateX(30deg) rotateY(-20deg) rotateZ(-20deg);
-    box-shadow: 0 0 50px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 0 50px 30px rgba(0, 0, 0, 0.3);
   }
   25% {
     transform: rotateX(80deg) rotateY(-20deg) rotateZ(50deg);
-    box-shadow: 0 0 35px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 0 35px 15px rgba(0, 0, 0, 0.1);
   }
   60% {
     transform: rotateX(80deg) rotateY(0deg) rotateZ(-50deg) translateX(30px);
-    box-shadow: 0 0 60px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 0 60px 40px rgba(0, 0, 0, 0.3);
   }
   100% {
-    box-shadow: 0 0 60px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 0 60px 40px rgba(0, 0, 0, 0.3);
   }
 }
 .links {
@@ -499,7 +533,7 @@ padding: 0 0 0 2px;
   bottom: 20px;
 }
 .links a {
-  color : #555;
+  color: #555;
   margin-left: 10px;
   text-decoration: none;
 }

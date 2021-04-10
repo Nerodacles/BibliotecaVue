@@ -49,6 +49,11 @@ export default {
         uni: '',
         universities: []
     }),
+    metaInfo() {
+        return {
+            title: "Register",
+        }
+    },
 }
 </script>
 

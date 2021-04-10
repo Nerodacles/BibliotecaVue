@@ -25,5 +25,10 @@ export default {
     }),
     methods: {
     },
+    metaInfo() {
+        return {
+        title: "Profile",
+        }
+    },
 }
 </script>

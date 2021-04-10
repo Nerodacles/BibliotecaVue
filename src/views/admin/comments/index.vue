@@ -222,6 +222,11 @@ export default {
             this.currentPage = 1
         },
     },
+    metaInfo() {
+        return {
+            title: "Administrate Comments",
+        }
+    },
 }
 </script>
 

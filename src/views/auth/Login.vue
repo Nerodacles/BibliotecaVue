@@ -39,6 +39,11 @@ export default {
             })
         }
     },
+    metaInfo() {
+        return {
+            title: "Login",
+        }
+    },
 }
 </script>
 
