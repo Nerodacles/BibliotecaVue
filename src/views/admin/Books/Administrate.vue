@@ -1,6 +1,7 @@
+
 <template>
     <div>
-        <div class="content">Administrate Comments</div>
+        <div class="content">Administrate Books</div>
         <div>
             <b-container fluid>
                 <!-- User Interface controls -->
@@ -50,8 +51,8 @@
                             v-slot="{ ariaDescribedby }">
 
                         <b-form-checkbox-group v-model="filterOn" :aria-describedby="ariaDescribedby" class="mt-1">
-                            <b-form-checkbox value="username">Name</b-form-checkbox>
-                            <b-form-checkbox value="bookTitle">Book</b-form-checkbox>
+                            <b-form-checkbox value="author">Author</b-form-checkbox>
+                            <b-form-checkbox value="book">Book</b-form-checkbox>
                             <b-form-checkbox value="isActive">Active</b-form-checkbox>
                             </b-form-checkbox-group>
                         </b-form-group>
@@ -70,7 +71,7 @@
 
                 <!-- Main table element -->
                 <b-table
-                    :items="comments"
+                    :items="AllBooks"
                     :fields="fields"
                     :current-page="currentPage"
                     :per-page="perPage"
@@ -93,14 +94,14 @@
                     </template>
 
                     <template #cell(isActive)="row">
-                        <b-button v-on:click="disableComment(row.item)"><ToggleButton :id="row.item.id" :default-state="row.item.isActive" /></b-button>
+                        <b-button v-on:click="disableBook(row.item)"><ToggleButton :id="row.item.id" :default-state="row.item.isActive"/></b-button>
                     </template>
 
                     <template #cell(actions)="row">
                         <b-button @click="info(row.item, row.index, $event.target)" title="Details" class="fas fa-edit mr-1 btn btn-dark fas fa-info text-white"><i class="fas fa-info-circle"></i></b-button>
                         <!-- <b-button @click="row.toggleDetails" class="mr-1 btn-dark">{{ row.detailsShowing ? 'Hide' : 'Show' }} Details</b-button> -->
-                        <b-button class="mr-1 far fa-trash-alt btn btn-dark" title="Delete Comment" v-on:click="deleteComment(row.item)"></b-button>
-                        <b-button class="fas fa-edit btn btn-dark" title="Edit Comment" v-on:click="updateComment(row.item)"></b-button>
+                        <b-button class="mr-1 far fa-trash-alt btn btn-dark" title="Delete Book" v-on:click="removeBook(row.item)"></b-button>
+                        <b-button class="fas fa-edit btn btn-dark" title="Edit Book" v-on:click="$router.push('/admin/editBook/'+ row.item.id)"></b-button>
                     </template>
 
                     <template #row-details="row">
@@ -122,12 +123,15 @@
 </template>
 
 <script>
-import { booksCollection, commentsCollections, likedBookCollections, db } from '../../../firebase'
+import { booksCollection } from '../../../firebase'
 import ToggleButton from '@/components/ToggleButton.vue'
 
 export default {
     components: {ToggleButton},
     computed: {
+        userUID(){
+            return this.$store.state.userUID
+        },
         sortOptions() {
             return this.fields
                 .filter(f => f.sortable)
@@ -141,30 +145,26 @@ export default {
 		window.addEventListener('resize', this.onResize)
 	},
     created() {
-        commentsCollections.onSnapshot(snap =>{
-            this.comments = []
-            snap.forEach(comment =>{
-                var commentData = comment.data()
-                commentData.id = comment.id
-                booksCollection.doc(commentData.bookID).onSnapshot(book=> { 
-                    let bookData = book.data()
-                    commentData.bookName = bookData.title
-                    this.comments.push(commentData)
-                    this.totalRows = this.comments.length
-                })
+		booksCollection.onSnapshot(snap=> {
+            this.AllBooks = []
+            snap.forEach(book=> {
+                var bookData = book.data()
+                bookData.id = book.id
+                this.AllBooks.push(bookData)
+                this.totalRows = this.AllBooks.length
             })
         })
 	},
 
     data:() => ({
-        sortBy: '',
+        AllBooks: [],
+                sortBy: '',
         sortDesc: false,
         onMobile: false,
         comments: [],
         fields: [
-            {key:'username', label: 'User', sortable: true}, 
-            {key: 'bookID', label: 'Book', sortable: true}, 
-            {key: 'message', label: 'Comment', class: 'text-center'},
+            {key:'title', sortable: true, label: 'Title'},
+            {key: 'author', sortable: true, label: 'Author'},
             {key: 'isActive', label: 'Status', formatter: (value, key, item) => { return value ? 'Yes' : 'No' }, sortable: true, sortByFormatted: true, filterByFormatted: true },
             {key: 'actions'},
         ],
@@ -179,28 +179,16 @@ export default {
             id: 'info-modal',
             title: '',
             content: ''
-        }
+        },
     }),
     methods: {
-        deleteComment: function (comment) {
-            this.$store.dispatch('commentActions',{
-                action: "delete",
-                id: comment.id,
-                bookID: comment.bookID,
-            })
+        removeBook(book) {
+            this.$store.dispatch('bookActions',{ action: 'delete', id: book })
         },
-        updateComment: function (comment){
-            this.$store.dispatch('commentActions',{
-                action: "update",
-                id: comment.id,
-                message: comment.message,
-                bookID: comment.bookID,
-            })
+        disableBook(book){
+            this.$store.dispatch('bookActions',{ action: 'disable', id: book.id, isActive: !book.isActive })
         },
-        disableComment(comment){
-            this.$store.dispatch('commentActions',{action: "disable", id: comment.id, bookID: comment.bookID, isActive: !comment.isActive})
-        },
-        onResize () {
+        onResize() {
 			if (window.innerWidth <= 767) {
 				this.onMobile = true
 			} else {

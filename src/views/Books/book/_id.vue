@@ -14,9 +14,12 @@
             <div class="row">
                 <div class="col-4">
                     <div>
-                        <a :href="`${book.bookUrl}`"><img :src="book.coverUrl" id="imagen" style="width:100px" alt="pdf"></a>
+                        <img :src="book.coverUrl" id="imagen" style="width:100px" alt="pdf">
                     </div>
-                    
+                    <div>
+                        <a :href="`${book.bookUrl}`"><img src="@/assets/pdf.png" style="width: 50px" class=""></a>
+                    </div>
+                    <span>Aqui habrá un espacio entre el pdf y lo de abajo</span>
                     <h6 class="font-weight-bold">ISBN:  <span class="font-weight-normal">{{book.ISBN}}</span> </h6> 
                     <h6 class="font-weight-bold">Categories:  <span class="font-weight-normal" v-for="category in book.categories" :key="category.id">{{category}}, </span> </h6>
                     <h6 class="font-weight-bold">Author:  <span class="font-weight-normal">{{book.author}}</span></h6> 

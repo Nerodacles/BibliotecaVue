@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as fb from '../firebase'
 import router from '../router/index'
-import { booksCollection, auth, db } from '../firebase'
+import { booksCollection, auth, db, } from '../firebase'
 import swal from 'sweetalert2'
 
 Vue.use(Vuex)
@@ -48,9 +48,7 @@ export default new Vuex.Store({
                 title: form.uni,
                 isActive: true,
                 isAdmin: false
-            }).then(function(){
-                swal.fire({ position: 'top-end', icon: 'success', title: 'User Registed Successfully!', showConfirmButton: false, timer: 1500
-                })
+            }).then(function(){ swal.fire({ position: 'top-end', icon: 'success', title: 'User Registed Successfully!', showConfirmButton: false, timer: 1500 })
             }).catch(function(error){ swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' }) })
 
             // fetch user profile and set in state
@@ -62,20 +60,19 @@ export default new Vuex.Store({
 
             // set user profile in state
             commit('setUserProfile', userProfile.data())
-            
-            //change route to books
+
+            // change route to books
             // router.push('/')
+
             // change route to dashboard
             dispatch('dashboard')
         },
         async dashboard() {
             // change route to dashboard
             if(this.state.userProfile.isAdmin){
-                router.push('/admin/AdminBooks')
+                return router.push('/admin/AdminBooks')
             }
-            else{
-                router.push('/')
-            }
+            router.push('/')
         },
         async logout({ commit }) {
             await fb.auth.signOut()
@@ -83,6 +80,15 @@ export default new Vuex.Store({
             // clear userProfile and redirect to /login
             commit('setUserProfile', {})
             router.push('/login')
+        },
+        async userActions({dispatch}, user){
+            if (user?.action == null ) return
+            if (user.action == 'updateLVL'){
+                fb.usersCollection.doc(user.id).update({ isAdmin: user.isAdmin })
+            }
+            if (user.action == 'disable'){
+                fb.usersCollection.doc(user.id).update({ isActive: user.isActive })
+            }
         },
         async bookActions({ dispatch }, book){
             if (book?.action == null ) return
@@ -143,6 +149,9 @@ export default new Vuex.Store({
                         ).catch(function(error) {swal.fire({position: 'top-end', icon: 'error', title: error.code, showConfirmButton: false, timer: 1500})})
                     } else if (result.dismiss === swal.DismissReason.cancel) {swalWithBootstrapButtons.fire( 'Cancelled', "The book wasn't erased.", 'error') } 
                 })
+            }
+            if (book.action == 'disable'){
+                booksCollection.doc(book.id).update({ isActive: book.isActive })
             }
         },
         async commentActions({dispatch},comment){
@@ -207,6 +216,9 @@ export default new Vuex.Store({
                         })
                     }
                 })
+            }
+            if (comment.action == "disable"){
+                db.collection(`/books/${comment.bookID}/comments/`).doc(comment.id).update({ isActive: comment.isActive })
             }
         },
         async likedState({dispatch}, data){

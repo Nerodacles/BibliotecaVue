@@ -59,9 +59,9 @@
 </template>
 
 <script>
-import { storage } from '../../firebase'
-import { db } from '../../firebase'
-import { auth } from '../../firebase'
+import { storage } from '../../../firebase'
+import { db } from '../../../firebase'
+import { auth } from '../../../firebase'
 import swal from 'sweetalert2'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';

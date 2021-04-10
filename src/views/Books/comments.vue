@@ -21,13 +21,15 @@
             </div>
 
             <div class="comments-list">
-                <div class="comment" v-for="comment in comments" :key="comment.id">
-                <h5>{{ comment.username }} says</h5>
-                <p>{{ comment.message }}</p>
-                <p class="comment-time">{{ comment.date }}</p>
-                <div v-if="comment && comment.user == userUID">
-                    <span class="far fa-trash-alt px-1" aria-hidden="true" v-on:click="deleteComment(comment)"></span><span class="fas fa-edit" v-on:click="updateComment(comment)" aria-hidden="true"></span>
-                </div>
+                <div v-for="comment in comments" :key="comment.id">
+                    <div v-if="comment.isActive" class="comment">
+                        <h5>{{ comment.username }} says</h5>
+                        <p>{{ comment.message }}</p>
+                        <p class="comment-time">{{ comment.date }}</p>
+                        <div v-if="comment && comment.user == userUID">
+                            <span class="far fa-trash-alt px-1" aria-hidden="true" v-on:click="deleteComment(comment)"></span><span class="fas fa-edit" v-on:click="updateComment(comment)" aria-hidden="true"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,7 +37,7 @@
 </template>
 
 <script>
-import { auth } from "../../firebase"
+import { auth, db } from "../../firebase"
 import { booksCollection } from "../../firebase"
 
 export default {
@@ -97,14 +99,14 @@ export default {
         }
     },
     created() {
-		booksCollection.doc(this.$route.params.id).collection("comments").onSnapshot(snap=> {
+		db.collection(`books/${this.$route.params.id}/comments`).onSnapshot(snap=> {
             this.comments = []
             snap.forEach(comment=> {
                 var commentData = comment.data();
                 commentData.id = comment.id;
                 this.comments.push(commentData);
-            });
-        });
+            })
+        })
 	},
 }
 </script>

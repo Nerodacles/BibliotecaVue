@@ -4,9 +4,7 @@
             <div class="container">
                 <h5 class="content">Libros</h5>
                 <div class="my-2">
-                    <h6 id="search" class="font-weight-bold">Search Book</h6> <input class="col-md-8 col-sm-5" type="text" placeholder="Book Title">
-                    <a href="#" class="icon fas fa-search fa-2x"></a>
-                    <div class="d-flex justify-content-end col-md-9 col-sm-9"><a href="/Search">Advanced Search >></a></div>
+                    <h6 id="search" class="font-weight-bold">Search Book</h6> <input class="col-md-8 col-sm-5" type="text" v-model="keyword" placeholder="Book Title">
                 </div>
                 <div class="row justify-content-center">
                     <div v-for="book in BooksPagination" :key="book.id" class="justify-content-end">
@@ -25,7 +23,7 @@
             </div>
         </div>
         <div class="card-footer pb-0 pt-3">
-            <pagination :pageSize=10 :items="AllBooks" @changePage="onChangePage"></pagination>
+            <pagination :pageSize=14 :items="AllBooks" @changePage="onChangePage"></pagination>
         </div>
     </div>
 </template>
@@ -38,23 +36,40 @@ export default {
 		booksCollection.onSnapshot(snap=> {
             this.AllBooks = []
             snap.forEach(book=> {
-                var bookData = book.data();
-                bookData.id = book.id;
-                this.AllBooks.push(bookData);
-            });
-        });
+                var bookData = book.data()
+                bookData.id = book.id
+                this.AllBooks.push(bookData)
+            })
+        })
 	},
 
     data:() => ({
         AllBooks: [],
-        BooksPagination: []
+        BooksPagination: [],
+        keyword: null
     }),
     methods: {
         onChangePage(BooksPagination) {
             // update page of items
             this.BooksPagination = BooksPagination;
+        },
+        busquedaDePaginas(){
+            if (this.keyword == null) return
+            if (this.keyword != null){
+                booksCollection.where('title', '>=', this.keyword).onSnapshot(snap=>{
+                    this.AllBooks = []
+                    snap.forEach(test=> {
+                        var data = test.data()
+                        data.id = test.id
+                        this.AllBooks.push(data)
+                    })
+                })
+            }
         }
     },
+    watch: {
+        keyword(newKeyword, oldKeyword){ this.busquedaDePaginas() },
+    }
 }
 </script>
 
@@ -83,13 +98,11 @@ export default {
         white-space: nowrap;
         text-overflow:ellipsis;
     }
-
     .texto{
         overflow: hidden;
         white-space: nowrap;
         text-overflow:ellipsis;
     }
-
     .icon{
         width: 10px;
         height: 10px;

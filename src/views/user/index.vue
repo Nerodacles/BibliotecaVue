@@ -1,10 +1,10 @@
 <template>
     <div>
-        <sidebar></sidebar>
         <p>Welcome {{fetchUser.name}}</p>
         <!-- <p>You're from: {{fetchUser.title.init}}</p> -->
         <p>User Email: {{email}}</p>
         <p>You're Admin: {{fetchUser.isAdmin}}</p>
+        <p>{{userUID}}</p>
     </div>
 </template>
 
@@ -20,7 +20,8 @@ export default {
     created(){
     },
     data:() => ({
-        email: auth.currentUser.email
+        email: auth.currentUser.email,
+        userUID: auth.currentUser.uid
     }),
     methods: {
     },

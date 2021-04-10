@@ -27,8 +27,7 @@
 </template>
 
 <script>
-import { booksCollection } from '../../../firebase'
-import { db } from '../../../firebase'
+import { booksCollection, db } from '../../../../firebase'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 

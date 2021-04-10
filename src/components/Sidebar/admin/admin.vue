@@ -52,6 +52,11 @@ export default {
 				title: 'Admin Comments',
 				icon: 'fa fa-cogs'
 			},
+			{
+				href: '/admin/AdminUsers',
+				title: 'Admin Users',
+				icon: 'fa fa-cogs'
+			},
 		],
 		collapsed: false,
 		selectedTheme: 'default-theme',

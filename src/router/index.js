@@ -1,6 +1,7 @@
 // Vue
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import swal from 'sweetalert2'
 
 // Login/Register
 import Login from '../views/auth/Login.vue'
@@ -12,20 +13,22 @@ import Profile from '../views/user/profile/_id.vue'
 
 // Admin
 import Admin from '../views/admin/index.vue'
-import AddBook from '../views/admin/AddBook.vue'
-import AdminBooks from '../views/admin/adminBook.vue'
-import EditBooks from '../views/admin/editBook/_id.vue'
-import AdminComments from '../views/admin/comments'
+    //Admin CRUD Books
+        import AddBook from '../views/admin/Books/Add.vue'
+        import AdminBooks from '../views/admin/Books/Administrate.vue'
+        import EditBooks from '../views/admin/Books/Edit/_id.vue'
+    // Admin Comments
+        import AdminComments from '../views/admin/comments'
+    // Admin Users  
+        import AdminUsers from '../views/admin/Users'
 
 // Books
 import Books from '../views/Books/Books.vue'
 import Book from '../views/Books/book/_id.vue'
 import AdvancedSearch from '../views/Books/AdvancedSearch.vue'
 
-// Firebase Get users/databases/auth
-import { auth } from '../firebase'
-import { usersCollection } from '../firebase'
-import { booksCollection } from '../firebase'
+// Firebase Get databases/auth
+import { auth, usersCollection, booksCollection } from '../firebase'
 
 Vue.use(VueRouter)
 
@@ -77,14 +80,14 @@ const routes = [
         meta: {requireAuth: true, title: 'User Page'}
     },
     {
-        path: '/user/profile/:id',
+        path: '/profile/:id',
         name: 'Profile',
         props: true,
         component: Profile,
         meta: {requireAuth: true, title: 'Profile'},
         beforeEnter(to, from, next){
-            if(to.path != '/user/profile/'+auth.currentUser.uid){
-                next('/user')
+            if(to.path != '/profile/' + auth.currentUser.uid){
+                next('/')
             } else next()
         },
     },
@@ -100,6 +103,22 @@ const routes = [
         props: true,
         component: Book,
         meta: {requireAuth: true, title: 'Book'},
+        beforeEnter(to, from, next){
+            let book = null
+            booksCollection.doc(to.params.id).onSnapshot(snap=> { 
+                book = snap.data()
+                if(!book?.isActive){
+                    next("/")
+                }
+                if(book?.isActive == undefined){
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Book Not Found',
+                        timer: 4000
+                    })
+                }else next()
+            })
+        }
     },
     {
         path: '/admin',
@@ -113,7 +132,7 @@ const routes = [
                 if(user.isAdmin != true || user.isActive != true){
                     next("/")
                 } else next()
-            });
+            })
         }
     },
     {
@@ -175,6 +194,27 @@ const routes = [
                     next("/")
                 } else next()
             });
+        }
+    },
+    {
+        path: '/admin/AdminUsers',
+        name: 'AdminUsers',
+        component: AdminUsers,
+        meta: {requireAuth: true, title: 'Administrate Users'},
+        beforeEnter(to, from, next){
+            var user = []
+            usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {user = snap.data()
+                if(user.isAdmin != true || user.isActive != true){
+                    next("/")
+                } else next()
+            });
+        }
+    },
+    {
+        path: '/404',
+        name: '404',
+        component: {
+            template: '<h1 class="text-danger">Book Not Found!</h1>'
         }
     },
 ]

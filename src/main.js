@@ -11,15 +11,13 @@ import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import JwPagination from 'jw-vue-pagination'
 
-import JwPagination from 'jw-vue-pagination';
-Vue.component('pagination', JwPagination);
-
+Vue.component('pagination', JwPagination)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueSidebarMenu)
 
-Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 let app
