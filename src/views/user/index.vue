@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 import { auth } from '../../firebase'
 
 export default {
@@ -18,6 +19,7 @@ export default {
 		},
     },
     created(){
+        Swal.fire({})
     },
     data:() => ({
         email: auth.currentUser.email,

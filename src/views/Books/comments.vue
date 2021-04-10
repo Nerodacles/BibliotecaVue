@@ -21,7 +21,7 @@
             </div>
 
             <div class="comments-list">
-                <div v-for="comment in comments" :key="comment.id">
+                <div v-for="comment in comments" :key="comment.createdAt">
                     <div v-if="comment.isActive" class="comment">
                         <h5>{{ comment.username }} says</h5>
                         <p>{{ comment.message }}</p>

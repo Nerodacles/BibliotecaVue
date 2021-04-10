@@ -73,7 +73,7 @@ export default {
     },
     metaInfo() {
         return {
-            title: `Book: ${this.book.title}`
+            title: `Book: ${this.book?.title}`
         }
     },
 }

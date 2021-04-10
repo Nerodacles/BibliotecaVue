@@ -64,7 +64,6 @@ import { db } from '../../../firebase'
 import { auth } from '../../../firebase'
 import swal from 'sweetalert2'
 import vSelect from 'vue-select'
-import 'vue-select/dist/vue-select.css';
 
 export default {
 	components: { vSelect },

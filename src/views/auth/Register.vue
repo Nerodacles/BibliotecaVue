@@ -25,7 +25,6 @@
 <script>
 import { db } from '../../firebase'
 import vSelect from 'vue-select'
-import 'vue-select/dist/vue-select.css';
 
 export default {
     components: { vSelect },
