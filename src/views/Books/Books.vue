@@ -3,8 +3,15 @@
         <div class="">
             <div class="container">
                 <h5 class="content">Libros</h5>
-                <div class="my-2">
-                    <h6 id="search" class="font-weight-bold">Search Book</h6> <input class="col-md-8 col-sm-5" type="text" v-model="keyword" placeholder="Book Title">
+                <h6 id="search" class="font-weight-bold">Search Book</h6> 
+                <div class="row my-2 justify-content-center">
+                    <select v-model="Filtrar" class="col-md-2 mx-2" placeholder="Select one...">
+                        <option disabled value="">Select one...</option>
+                        <option value="title">Title</option>
+                        <option value="category">Category</option>
+                        <option value="author">Author</option>
+                    </select>
+                    <input class="col-md-5 col-sm-5" type="text" v-model="search" placeholder="Search Books Title">
                 </div>
                 <div class="row justify-content-center">
                     <div v-for="book in BooksPagination" :key="book.id" class="justify-content-end">
@@ -13,7 +20,7 @@
                                 <img class="card-img-top" :src="book.coverUrl" :alt="book.title">
                                 <div class="card-body">
                                     <h5 class="card-title text-nero">{{book.title}}</h5>
-                                    <h6 class="card-subtitle mb-2 texto text-muted">{{ book.author}}</h6>
+                                    <h6 class="card-subtitle mb-2 texto text-muted">{{book.author}}</h6>
                                     <h6 class="card-subtitle mb-2 texto text-muted">{{ book.categories[0] }}</h6>
                                 </div>
                             </div>
@@ -23,7 +30,7 @@
             </div>
         </div>
         <div class="card-footer pb-0 pt-3">
-            <pagination :pageSize=14 :items="AllBooks" @changePage="onChangePage"></pagination>
+            <pagination :pageSize=14 :items="filteredBooks" @changePage="onChangePage"></pagination>
         </div>
     </div>
 </template>
@@ -44,37 +51,53 @@ export default {
 	},
 
     data:() => ({
+        Filtrar: '',
         AllBooks: [],
         BooksPagination: [],
-        keyword: null
+        search: ''
     }),
+    computed:{
+        filteredBooks(){
+            return this.AllBooks.filter((book) => {
+                if(this.Filtrar == 'title' || this.Filtrar == ''){
+                    return book.title.match(this.search)
+                }
+                if(this.Filtrar == 'category'){
+                    return book.categories[0].match(this.search)
+                }
+                if(this.Filtrar == 'author'){
+                    return book.author.match(this.search)
+                }
+            })
+        }
+    },
     methods: {
         onChangePage(BooksPagination) {
             // update page of items
             this.BooksPagination = BooksPagination;
         },
-        busquedaDePaginas(){
-            if (this.keyword == null) return
-            if (this.keyword != null){
-                booksCollection.where('title', '>=', this.keyword).onSnapshot(snap=>{
-                    this.AllBooks = []
-                    snap.forEach(test=> {
-                        var data = test.data()
-                        data.id = test.id
-                        this.AllBooks.push(data)
-                    })
-                })
-            }
-        },
+        // busquedaDePaginas(){
+        //     // if (this.keyword == null) return
+        //     // if (this.keyword != null){
+        //     //     booksCollection.where('title', '>=', this.keyword).onSnapshot(snap=>{
+        //     //         this.AllBooks = []
+        //     //         snap.forEach(test=> {
+        //     //             var data = test.data()
+        //     //             data.id = test.id
+        //     //             this.AllBooks.push(data)
+        //     //         })
+        //     //     })
+        //     // }
+        // },
     },
     metaInfo() {
         return {
             title: "Books"
         }
     },
-    watch: {
-        keyword(newKeyword, oldKeyword){ this.busquedaDePaginas() },
-    }
+    // watch: {
+    //     keyword(newKeyword, oldKeyword){ this.busquedaDePaginas() },
+    // }
 }
 </script>
 
