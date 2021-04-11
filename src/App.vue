@@ -55,6 +55,11 @@ export default {
             }
         })
     },
+    metaInfo() {
+        return {
+            title: `Virtual Library`
+        }
+    },
 }
 </script>
 
@@ -68,4 +73,8 @@ export default {
     background-color: #f0efef;
     min-height: 100vh;
 }
+</style>
+
+<style lang="scss">
+@import '~@sweetalert2/theme-dark/dark.css';
 </style>

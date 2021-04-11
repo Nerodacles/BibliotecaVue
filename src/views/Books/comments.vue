@@ -21,7 +21,7 @@
             </div>
 
             <div class="comments-list">
-                <div v-for="comment in comments" :key="comment.id">
+                <div v-for="comment in comments" :key="comment.createdAt">
                     <div v-if="comment.isActive" class="comment">
                         <h5>{{ comment.username }} says</h5>
                         <p>{{ comment.message }}</p>
@@ -71,14 +71,15 @@ export default {
             this.$store.dispatch('commentActions',{
                 action: "delete",
                 id: comment.id,
-                bookID: this.$route.params.id,
+                bookID: comment.bookID,
             })
         },
         updateComment: function (comment){
             this.$store.dispatch('commentActions',{
                 action: "update",
                 id: comment.id,
-                bookID: this.$route.params.id,
+                message: comment.message,
+                bookID: comment.bookID,
             })
         },
         escapeHTML(html) {

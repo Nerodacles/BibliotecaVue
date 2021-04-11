@@ -205,7 +205,6 @@ export default new Vuex.Store({
                         return { comment: comment }
                     }
                 }).then(function(result) {
-                    console.info(comment.bookID, comment.id)
                     if (result.isConfirmed){
                         db.collection(`/books/${comment.bookID}/comments/`).doc(comment.id).update({
                             message: result.value.comment

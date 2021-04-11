@@ -97,8 +97,3 @@ export default {
     }
 }
 </script>
-
-<style>
-@import '~@sweetalert2/themes/dark/dark.css';
-
-</style>
