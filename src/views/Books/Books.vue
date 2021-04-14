@@ -4,27 +4,31 @@
             <div class="container">
                 <h5 class="content">Libros</h5>
                 <h6 id="search" class="font-weight-bold">Search Book</h6> 
-                <div class="row my-2 justify-content-center">
-                    <select v-model="Filtrar" class="col-md-2 mx-2" placeholder="Select one...">
+                <div class="row my-3  justify-content-center">
+                    <select v-model="Filtrar" class="col-md-3 mx-2" placeholder="Select one...">
                         <option disabled value="">Select one...</option>
                         <option value="title">Title</option>
                         <option value="category">Category</option>
                         <option value="author">Author</option>
                     </select>
-                    <input class="col-md-5 col-sm-5" type="text" v-model="search" placeholder="Search Books Title">
+                    <br>
+                    <input class="col-md-5 col-sm-4 mx-2" type="text" v-model="search" @keyup="Capitalize" placeholder="Search Books Title">
+
                 </div>
-                <div class="row justify-content-center">
-                    <div v-for="book in BooksPagination" :key="book.id" class="justify-content-end">
-                        <router-link :to="'/book/' + book.id" class="col-sm-6 col-md-4 col-xl-3 col-xxl-3" v-if="book.isActive">
-                            <div class="card m-2" style="width: 9rem;">
-                                <img class="card-img-top" :src="book.coverUrl" :alt="book.title">
-                                <div class="card-body">
-                                    <h5 class="card-title text-nero">{{book.title}}</h5>
-                                    <h6 class="card-subtitle mb-2 texto text-muted">{{book.author}}</h6>
-                                    <h6 class="card-subtitle mb-2 texto text-muted">{{ book.categories[0] }}</h6>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div v-for="book in BooksPagination" :key="book.id" class="">
+                            <router-link :to="'/book/' + book.id" class="col-sm-6 col-md-4 col-xl-3 col-xxl-3" v-if="book.isActive">
+                                <div class="card m-2" style="width: 9rem;">
+                                    <img class="card-img-top" :src="book.coverUrl" :alt="book.title">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-nero">{{book.title }}</h5>
+                                        <h6 class="card-subtitle mb-2 texto text-muted">{{book.author }}</h6>
+                                        <h6 class="card-subtitle mb-2 texto text-muted">{{ book.categories[0] }}</h6>
+                                    </div>
                                 </div>
-                            </div>
-                        </router-link>
+                            </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,6 +64,7 @@ export default {
         filteredBooks(){
             return this.AllBooks.filter((book) => {
                 if(this.Filtrar == 'title' || this.Filtrar == ''){
+
                     return book.title.match(this.search)
                 }
                 if(this.Filtrar == 'category'){
@@ -76,6 +81,12 @@ export default {
             // update page of items
             this.BooksPagination = BooksPagination;
         },
+        Capitalize() {
+            if (this.search) {
+                this.search = this.search.toString()
+                this.search = this.search.charAt(0).toUpperCase() + this.search.slice(1)
+            }
+        }
         // busquedaDePaginas(){
         //     // if (this.keyword == null) return
         //     // if (this.keyword != null){

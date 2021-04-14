@@ -115,6 +115,7 @@ export default {
 <style lang="sass">
 @import url('https://fonts.googleapis.com/css?family=Quicksand:400,700')
 
+@import '~@sweetalert2/theme-dark/dark.scss';
 
 .test
   font-family: 'Quicksand', sans-serif

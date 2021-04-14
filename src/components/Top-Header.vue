@@ -6,8 +6,7 @@
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item href="/login" v-if="!loggedIn">Login</b-nav-item>
-                    <b-nav-item href="/register" v-if="!loggedIn">Register</b-nav-item>
+                    <b-nav-item href="/login" v-if="!loggedIn">Login/Register</b-nav-item>
                     <b-nav-item href="/about">About</b-nav-item>
                 </b-navbar-nav>
 
@@ -16,7 +15,10 @@
                         <b-nav-item-dropdown size="lg" right variant="link" toggle-class="text-decoration-none" no-caret>
                             <template #button-content>
                                 <div v-if="userNotifications[0]">
-                                    <button class="fas fa-bell"><span class="badge rounded-pill bg-danger">{{userNotifications.length}}</span></button>
+                                    <a>
+                                        <span class="fas fa-bell"></span>
+                                        <span class="badge badge-notify rounded-pill">{{userNotifications.length}}</span>
+                                    </a>
                                 </div>
 
                                 <div v-if="!userNotifications[0]">
@@ -32,8 +34,10 @@
                                 </div>
                             </b-dropdown-header>
                                 <div v-for="notif in this.userNotifications" :key="notif.id">
-                                    <b-dropdown-item :href="notif.href">{{notif.message}}</b-dropdown-item>
-                                        <button class="btn btn-light" @click="deleteNotif(notif.id)"><span class="fas fa-times"></span></button>
+                                    <div class="d-flex bd-highlight">
+                                        <b-dropdown-item class="p-2 w-100 bd-highlight" :href="notif.href">{{notif.message}}  </b-dropdown-item>
+                                        <div class="p-2 flex-shrink-1 bd-highlight"><button class="btn btn-light" @click="deleteNotif(notif.id)"><span class="fas fa-times"></span></button></div>
+                                    </div>
                                     <b-dropdown-divider></b-dropdown-divider>
                                 </div>
                         </b-nav-item-dropdown>
@@ -99,4 +103,21 @@ export default {
 .bg-mix {
     background: linear-gradient(to right, #1d1b1b,#1d1b1b, #9b9b9b);
 }
+
+.badge-notify{
+   background:red;
+   width: 15px;
+   height: 15px;
+   position: absolute;
+   display: flex;
+   color: #fff;
+   justify-content: center;
+   align-items: center;
+   top: 3px;
+   right: -1px;
+  }
+  .container{
+      margin-left: 0;
+      margin-right: 0;
+  }
 </style>

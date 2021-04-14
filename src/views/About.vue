@@ -6,7 +6,7 @@
           <div class="face-one">
             <div class="camera"></div>
             <div class="display">
-              <div class="shade"></div>
+              <div class="shade"><img src="../assets/unknown.png" alt="" srcset=""></div>
             </div>
             <span>Virtual Library</span>
           </div>
@@ -102,8 +102,8 @@
       <div class="shadow"></div>
     </div>
     <div class="links">
-      @Juanma_Canahuate
-      <div>@Michael_Gonzales</div>
+      <div> Juan Canahuate Vargas (2018-1004) - <a href="https://github.com/Nerodacles">@Nerodacles</a></div>
+      <div>Michael Gonzalez Tiburcio (2018-1452) - <a href="https://github.com/MichaelGT4">@MichaelGT4</a></div>
     </div>
   </div>
 </template>
@@ -119,6 +119,10 @@ export default {
 </script>
 
 <style>
+img{
+  width: 50px;
+  margin: 5px;
+}
 body {
   background: #fff;
 }
@@ -530,6 +534,7 @@ body {
 .links {
   position: absolute;
   right: 20px;
+  font-size: 25px;
   bottom: 20px;
 }
 .links a {

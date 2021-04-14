@@ -1,34 +1,62 @@
 <template>
-    <div>
-		<div class="">
-			<div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="error">
-				<span>{{error}}</span>
-			</div>
-			<div class="login-form">
-				<form @submit.prevent="login">
-					<h2 class="text-center display-4 text-bluewhite">Login</h2>
-					<div class="form-group has-error">
-						<input type="email" class="form-control" v-model="email" autocomplete="current-email" placeholder="Username" required="required"/>
-					</div>
-					<div class="form-group">
-						<input type="password" class="form-control" v-model="password" placeholder="Password" autocomplete="current-password" required="required"/>
-					</div>
-					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-lg btn-block"> Sign in </button>
-					</div>
-					<p><a href="#">Lost your Password?</a></p>
-				</form>
-				<p class="text-center small text-bluewhite"> Don't have an account? <router-link to="/register" class="text-darkblue">Sign up here!</router-link></p>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row align-items-center justify-content-center mt-4">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="error">
+            <span>{{error}}</span>
+        </div>
+            <div class="col-sm-6">
+                <div class="card mt-5">
+                    <div class="login-box">
+                        <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Login</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+                            <div class="login-space">
+                                <div class="login">
+                                    <form @submit.prevent="login">
+                                        <div class="br"></div>
+                                        <div class="group"> <label for="email" class="label">Email</label> <input id="email" v-model="email" autocomplete="current-email" type="email" class="input" placeholder="Enter your email"> </div>
+                                        <div class="group"> <label for="password" class="label">Password</label> <input id="password"  v-model="password" autocomplete="current-password" required="required" type="password" class="input" data-type="password" placeholder="Enter your password"> </div>
+                                        <div class="br"></div>
+                                        <div class="group"> <input type="submit" class="button" value="Sign In"> </div>
+                                        <div class="hr"></div>
+                                        <!-- <div class="foot"> <a href="#">Forgot Password?</a> </div> -->
+                                    </form>
+                                </div>
+                                <div class="sign-up-form">
+                                    <form @submit.prevent="signup">
+                                        <div class="group"> <label for="email" class="label">Email</label> <input id="email" type="text" class="input" v-model="email" autocomplete="email" placeholder="Email"> </div>
+                                        <div class="group"> <label for="pass" class="label">Password</label> <input id="pass" type="password" class="input" data-type="password" v-model="password" minlength="6" autocomplete="new-password" placeholder="Password" required> </div>
+                                        <div class="group"> <label for="pass" class="label">Name</label> <input id="pass" v-model.trim="name" class="input"  type="text" autocomplete="name" placeholder="Name" required> </div>
+                                        <div class="group"> <label for="pass" class="label">University</label> <v-select :options="universities" label="init" type="text" class="input style-chooser" v-model="uni" placeholder="Select an University"></v-select> </div>
+                                        <div class="br"></div>
+                                        <div class="group"> <input type="submit" class="button" value="Sign Up"> </div>
+                                        <div class="foot"> <label class="text-light" for="tab-1">Already Member?</label> </div>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </template>
 
 <script>
+import { db } from '../../firebase'
+import vSelect from 'vue-select'
+
 export default {
+    components: { vSelect },
+    created() {
+		db.collection("default").doc("Uni").onSnapshot(snap=> {this.universities = snap.data().unis})
+	},
     data: () => ({
         email: "",
         password: "",
+        name: '',
+        uni: '',
+        universities: [],
         error: ""
     }),
     methods: {
@@ -37,72 +65,248 @@ export default {
                 email: this.email,
                 password: this.password
             })
-        }
+        },
+        signup() {
+            this.$store.dispatch('signup', {
+                email: this.email,
+                password: this.password,
+                name: this.name,
+                uni: this.uni,
+            })
+        },
     },
     metaInfo() {
         return {
-            title: "Login",
+            title: "Login/Register",
         }
     },
 }
 </script>
 
 <style>
-.text-bluewhite {
-	color: rgb(28, 91, 163);
+
+.vs__selected{
+    color: #b3b3b3;
+  }
+
+.style-chooser .vs__clear,
+    .style-chooser .vs__open-indicator {
+    fill: #b3b3b3;
+  }
+
+.login-box {
+    width: 100%;
+    margin: auto;
+    max-width: 525px;
+    min-height: 570px;
+    position: relative;
+    background: url(https://images.unsplash.com/photo-1507208773393-40d9fc670acf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1268&q=80) no-repeat center;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19)
 }
-.form-control {
-    min-height: 41px;
-    background: #f2f2f2;
-    box-shadow: none !important;
-    border: transparent;
+
+.login-snip {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 20px 70px 50px 70px;
+    background: rgba(0, 77, 77, .9)
 }
-.form-control:focus {
-    background: #ffffff;
+
+.login-snip .login,
+.login-snip .sign-up-form {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    transition: all .4s linear
 }
-.form-control,
-.btn {
-    border-radius: 2px;
+
+label.tab{
+    color: #FFFFFF80;
 }
-.login-form {
-    width: 350px;
-    margin: 30px auto;
-    text-align: center;
+.login-snip .sign-in,
+.login-snip .sign-up,
+.login-space .group .check {
+    display: none
 }
-.login-form h2 {
-    margin: 10px 0 25px;
+
+.login-snip .tab,
+.login-space .group .label,
+.login-space .group .button {
+    text-transform: uppercase
 }
-.login-form form {
-    color: #ffffff;
-    border-radius: 3px;
-    margin-bottom: 15px;
-    background: #fff;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    padding: 30px;
+
+.login-snip .tab {
+    font-size: 22px;
+    margin-right: 15px;
+    padding-bottom: 5px;
+    margin: 0 15px 10px 0;
+    display: inline-block;
+    border-bottom: 2px solid transparent
 }
-.login-form .btn {
-    font-size: 16px;
-    font-weight: bold;
-    background: #3598dc;
+
+.login-snip .sign-in:checked+.tab,
+.login-snip .sign-up:checked+.tab {
+    color: #fff;
+    border-color: #1161ee
+}
+
+.login-space {
+    min-height: 345px;
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d
+}
+
+.login-space .group {
+    margin-bottom: 15px
+}
+
+.login-space .group .label,
+.login-space .group .input,
+.login-space .group .button {
+    width: 100%;
+    color: #fff;
+    display: block
+}
+
+.login-space .group .input,
+.login-space .group .button {
     border: none;
-    outline: none !important;
+    padding: 7px 15px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, .1)
 }
-.login-form .btn:hover,
-.login-form .btn:focus {
-    background: #2389cd;
+
+.login-space .group input[data-type="password"] {
+    -webkit-text-security: circle
 }
-.login-form a {
-    color: rgb(51, 146, 255);
-    text-decoration: underline;
+
+.login-space .group .label {
+    color: #aaa;
+    font-size: 12px
 }
-.login-form a:hover {
-    text-decoration: none;
+
+.login-space .group .button {
+    background: #1161ee
 }
-.login-form form a {
-    color: #7a7a7a;
-    text-decoration: none;
+
+.login-space .group label .icon {
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    position: relative;
+    display: inline-block;
+    background: rgba(255, 255, 255, .1)
 }
-.login-form form a:hover {
-    text-decoration: underline;
+
+.login-space .group label .icon:before,
+.login-space .group label .icon:after {
+    content: '';
+    width: 10px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    transition: all .2s ease-in-out 0s
 }
+
+.login-space .group label .icon:before {
+    left: 3px;
+    width: 5px;
+    bottom: 6px;
+    transform: scale(0) rotate(0)
+}
+
+.login-space .group label .icon:after {
+    top: 6px;
+    right: 0;
+    transform: scale(0) rotate(0)
+}
+
+.login-space .group .check:checked+label {
+    color: #fff
+}
+
+.login-space .group .check:checked+label .icon {
+    background: #1161ee
+}
+
+.login-space .group .check:checked+label .icon:before {
+    transform: scale(1) rotate(45deg)
+}
+
+.login-space .group .check:checked+label .icon:after {
+    transform: scale(1) rotate(-45deg)
+}
+
+.login-snip .sign-in:checked+.tab+.sign-up+.tab+.login-space .login {
+    transform: rotate(0)
+}
+
+.login-snip .sign-up:checked+.tab+.login-space .sign-up-form {
+    transform: rotate(0)
+}
+
+*,
+:after,
+:before {
+    box-sizing: border-box
+}
+
+.clearfix:after,
+.clearfix:before {
+    content: '';
+    display: table
+}
+
+.clearfix:after {
+    clear: both;
+    display: block
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+.br {
+    margin: 60px 0 50px 0;
+    background: rgba(255, 255, 255, .2)
+}
+
+.hr {
+    height: 2px;
+    margin: 60px 0 50px 0;
+    background: rgba(255, 255, 255, .2)
+}
+
+.foot {
+    text-align: center
+}
+
+@media only screen and (max-width: 575px) {
+  .card {
+    width: 500px;
+    margin-right: 0;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+  .card {
+    width: 500px;
+    }
+}
+
+::placeholder {
+    color: #b3b3b3
+}
+
+.style-chooser .vs__search::placeholder,
+  .style-chooser .vs__dropdown-toggle,
+  .style-chooser .vs__dropdown-menu {
+    border: none;
+    color: #b3b3b3;
+  }
 </style>

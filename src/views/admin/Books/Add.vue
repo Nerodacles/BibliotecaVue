@@ -1,50 +1,66 @@
 <template>
-    <div class="mx-5">
+    <div class="">
         <div class="content">Register Books</div>
         <b-form @submit="onSubmit" @reset="onReset" v-if="show" class="m-4 p-3">
-            <b-form-group label="Upload Cover:" label-for="UploadImage">
-                <div class="custom-file">
-                    <!-- <input multiple ref="fileInput" lang="en" accept="image/*" type="file" @input="pickFile" class="custom-file-input"> -->
-                    <input type="file" accept="image/*" @change="uploadImage" class="custom-file-input"/>
-                    <label class="custom-file-label" for="customFile">select cover</label>
-                    <div v-if="images" class="container">
-                        <div v-for="(image, key) in images" :key="key" class="col-sm-3 col-md-4 col-lg-2">
-                            <div class="">
-                                <img class="preview imagePreviewWrapper row" :ref="'image'"/>
-                                    {{ image.name }}
+            <div class="row">
+                <div class="col-md-6">
+                    <b-form-group label-size="lg" label="Upload Cover:" label-for="UploadImage">
+                        <div class="custom-file">
+                            <!-- <input multiple ref="fileInput" lang="en" accept="image/*" type="file" @input="pickFile" class="custom-file-input"> -->
+                            <input type="file" accept="image/*" @change="uploadImage" class="custom-file-input"/>
+                            <label class="custom-file-label" for="customFile">Select cover</label>
+                            <div v-if="images" class="container">
+                                <div v-for="(image, key) in images" :key="key" class="m-2">
+                                    <img class="preview imagePreviewWrapper row" :ref="'image'"/>
+                                        {{ image.name }}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </b-form-group>
                 </div>
-            </b-form-group>
-            <b-form-group label="Upload Book:" label-for="UploadBookFile">
-                <div class="custom-file">
-                    <!-- <input multiple ref="fileInput" lang="en" accept="image/*" type="file" @input="pickFile" class="custom-file-input"> -->
-                    <input type="file" accept="application/pdf" @change="uploadBook" class="custom-file-input"/>
-                    <label class="custom-file-label" for="customFile">select pdf</label>
-                    <div v-if="pdf" class="">
-                        <div v-for="(pdf, key) in pdf" :key="key" class="">
-                            <div class="">
-                                <img class="preview mt-2" src="@/assets/pdf.png" width="40" height="40"/>
-                                    {{ pdf.name }}
+                <div class="col-md-6">
+                    <b-form-group label-size="lg" label="Upload Book:" label-for="UploadBookFile">
+                        <div class="custom-file">
+                            <!-- <input multiple ref="fileInput" lang="en" accept="image/*" type="file" @input="pickFile" class="custom-file-input"> -->
+                            <input type="file" accept="application/pdf" @change="uploadBook" class="custom-file-input"/>
+                            <label class="custom-file-label" for="customFile">Select pdf</label>
+                            <div v-if="pdf" class="">
+                                <div v-for="(pdf, key) in pdf" :key="key" class="">
+                                    <div class="">
+                                        <img class="preview mt-2" src="@/assets/pdf.png" width="40" height="40"/>
+                                            {{ pdf.name }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </b-form-group>
                 </div>
-            </b-form-group>
-            <b-form-group label="Book Name:">
-                <b-form-input v-model="newBook.BookName" type="text" placeholder="book name" required></b-form-input>
-            </b-form-group>
-            <b-form-group label="Author:">
-                <b-form-input v-model="newBook.Author" type="text" placeholder="author" required></b-form-input>
-            </b-form-group>
-            <b-form-group label="ISBN:">
-                <b-form-input type="number" v-model="newBook.ISBN" placeholder="ISBN" required></b-form-input>
-            </b-form-group>
-            <b-form-group label="Categories:">
-                <v-select taggable multiple push-tags :options="categories" v-model="newBook.categories" class="" placeholder="select one or more"></v-select>
-            </b-form-group>
-            <b-form-group label="Sinopsis:">
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <b-form-group label-size="lg" label="Book Name:">
+                        <b-form-input v-model="newBook.BookName" type="text" placeholder="Book name" required></b-form-input>
+                    </b-form-group>
+                </div>
+                <div class="col-md-4">
+                    <b-form-group label-size="lg" label="ISBN:">
+                        <b-form-input type="number" v-model="newBook.ISBN" placeholder="ISBN" required></b-form-input>
+                    </b-form-group>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <b-form-group label-size="lg" label="Author:">
+                        <b-form-input v-model="newBook.Author" type="text" placeholder="Author" required></b-form-input>
+                    </b-form-group>
+                </div>
+                <div class="col-md-6">
+                    <b-form-group label-size="lg" label="Categories:">
+                        <v-select taggable multiple push-tags :options="categories" v-model="newBook.categories" class="style-choooser" placeholder="Select one or more"></v-select>
+                    </b-form-group>
+                </div>
+            </div>
+            <b-form-group label-size="lg" label="Sinopsis:">
                 <textarea class="form-control" v-model="newBook.Description" rows="10"></textarea>
             </b-form-group>
             <div v-if="images[0] && pdf">
@@ -176,7 +192,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+    .style-choooser .vs__dropdown-toggle {
+    background: #fff;
+    border: 1px solid #ced4da;
+    background-clip: padding-box;
+    padding: 2px;
+    border-radius: 0.25rem;
+  }
+    .style-choooser .vs__search::placeholder{
+        color: #495057;
+    }
+    
+
+  .style-choooser .vs__clear,
+  .style-choooser .vs__open-indicator {
+    fill: #394066;
+  }
     .imagePreviewWrapper {
         width: 100px;
         height: 100px;

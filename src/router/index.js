@@ -5,7 +5,6 @@ import swal from 'sweetalert2'
 
 // Login/Register
 import Login from '../views/auth/Login.vue'
-import Register from '../views/auth/Register.vue'
 
 // Users
 import User from '../views/user/index.vue'
@@ -49,17 +48,6 @@ const routes = [
         path: '/login',
         name: 'login',
         component: Login,
-        meta: {},
-        beforeEnter(to, from, next){
-            if(auth.currentUser){
-                next('/')
-            } else next()
-        }
-    },
-    {
-        path: '/register',
-        name: 'register',
-        component: Register,
         meta: {},
         beforeEnter(to, from, next){
             if(auth.currentUser){

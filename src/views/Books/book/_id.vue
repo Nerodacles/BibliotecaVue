@@ -14,21 +14,25 @@
             <div class="row">
                 <div class="col-4">
                     <div>
-                        <img :src="book.coverUrl" id="imagen" style="width:100px" alt="pdf">
+                        <img :src="book.coverUrl" id="imagen" style="width:200px" alt="pdf">
                     </div>
-                    <div>
-                        <a :href="`${book.bookUrl}`"><img src="@/assets/pdf.png" style="width: 50px" class=""></a>
-                    </div>
-                    <span>Aqui habrá un espacio entre el pdf y lo de abajo</span>
                     <h6 class="font-weight-bold">ISBN:  <span class="font-weight-normal">{{book.ISBN}}</span> </h6> 
                     <h6 class="font-weight-bold">Categories:  <span class="font-weight-normal" v-for="category in book.categories" :key="category.id">{{category}}, </span> </h6>
                     <h6 class="font-weight-bold">Author:  <span class="font-weight-normal">{{book.author}}</span></h6> 
-                    <div v-if="likedBook || likedBook == undefined">
+                    <div class="mt-3 row justify-content-center">
+                        <div v-if="likedBook || likedBook == undefined">
                         <button class="btn" @click="likedState">
                             <span v-if="!likedBook" title="Like" class="like far fa-heart"></span>
                             <span v-if="likedBook" title="Dislike" class="like fas fa-heart"></span>
                         </button>
+                        </div>
+                        <div>
+                            <a class="btn" :href="`${book.bookUrl}`">
+                                <span class="like fas fa-file-pdf"></span>
+                            </a>
+                        </div>
                     </div>
+                    
                 </div>
                 <div class="col-8">
                     <div>
@@ -36,8 +40,10 @@
                         <br>
                     </div>
                     <div>
-                        <h4>Description</h4>
-                        {{book.description}}
+                        <h4 class="font-weight-bold">Description</h4>
+                        <div class="pre-formatted">
+                            {{ book.description }}
+                        </div>
                     </div>
                     <br>
                     <comments></comments>
@@ -80,8 +86,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .pre-formatted {
+        text-align: justify;
+        white-space: pre-line;
+    }
+
     #imagen{
-        margin-top: -45px;
+        margin-top: -65px;
         margin-bottom: 20px;
     }
 

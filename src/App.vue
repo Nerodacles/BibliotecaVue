@@ -5,7 +5,7 @@
             <sidebarAdmin v-if="userData.isAdmin"></sidebarAdmin>
             <sidebarUser v-if="!userData.isAdmin"></sidebarUser>
         </div>
-        <div v-if="!userData.isActive">
+        <div v-if="!userData.isActive" class="mt-4">
             <router-view />
         </div>
     </div>
@@ -71,10 +71,9 @@ export default {
     text-align: center;
     color: #2c3e50;
     background-color: #f0efef;
-    min-height: 100vh;
 }
 </style>
 
-<style lang="scss">
+<style lang="sass">
 @import '~@sweetalert2/theme-dark/dark.css';
 </style>

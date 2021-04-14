@@ -29,13 +29,13 @@ export default {
 		menu: [
 			{
 				header: true,
-				title: 'Getting Started',
+				title: 'Menu',
 				hiddenOnCollapse: true
 			},
 			{
 				href: '/',
 				title: 'Books',
-				icon: 'fa fa-code',
+				icon: 'fas fa-book',
 			},
 		],
 		collapsed: false,

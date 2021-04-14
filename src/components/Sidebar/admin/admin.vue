@@ -29,33 +29,33 @@ export default {
 		menu: [
 			{
 				header: true,
-				title: 'Getting Started',
+				title: 'Menu',
 				hiddenOnCollapse: true
 			},
 			{
 				href: '/',
 				title: 'Books',
-				icon: 'fa fa-code',
+				icon: 'fas fa-book',
 			},
 			{
 				href: '/admin/AddBook',
 				title: 'Add Book',
-				icon: 'fa fa-code'
+				icon: 'fas fa-plus-square'
 			},
 			{
 				href: '/admin/AdminBooks',
 				title: 'Admin Books',
-				icon: 'fa fa-cogs'
+				icon: 'fas fa-book-open'
 			},
 			{
 				href: '/admin/AdminComments',
 				title: 'Admin Comments',
-				icon: 'fa fa-cogs'
+				icon: 'fas fa-comment-dots'
 			},
 			{
 				href: '/admin/AdminUsers',
 				title: 'Admin Users',
-				icon: 'fa fa-cogs'
+				icon: 'fas fa-users-cog'
 			},
 		],
 		collapsed: false,
