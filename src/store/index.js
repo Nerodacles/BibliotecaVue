@@ -54,6 +54,12 @@ export default new Vuex.Store({
             // fetch user profile and set in state
             dispatch('fetchUserProfile', user)
         },
+        async recoverpass({ dispatch }, form) {
+            auth.sendPasswordResetEmail(form.email)
+            .then(function(){ swal.fire({title: 'Password Reset', text:'Recovery email sent sucessfully!', icon:'success', confirmButtonText: 'Ok'})
+                .then(function() { router.push('/login') }) })
+            .catch(function(error){ swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' }) })
+        },
         async fetchUserProfile({ commit, dispatch }, user) {
             // fetch user profile
             const userProfile = await fb.usersCollection.doc(user.uid).get()
@@ -70,7 +76,8 @@ export default new Vuex.Store({
         async dashboard() {
             // change route to dashboard
             if(this.state.userProfile.isAdmin){
-                return router.push('/admin/AdminBooks')
+                // return router.push('/admin/AdminBooks')
+                return router.push('/admin/AddBook')
             }
             router.push('/')
         },

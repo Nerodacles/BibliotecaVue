@@ -5,6 +5,7 @@ import swal from 'sweetalert2'
 
 // Login/Register
 import Login from '../views/auth/Login.vue'
+    import RPass from '../views/auth/RPassword'
 
 // Users
 import User from '../views/user/index.vue'
@@ -48,6 +49,17 @@ const routes = [
         path: '/login',
         name: 'login',
         component: Login,
+        meta: {},
+        beforeEnter(to, from, next){
+            if(auth.currentUser){
+                next('/')
+            } else next()
+        }
+    },
+    {
+        path: '/recoverpass',
+        name: 'Recover Pass',
+        component: RPass,
         meta: {},
         beforeEnter(to, from, next){
             if(auth.currentUser){

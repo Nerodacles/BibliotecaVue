@@ -1,36 +1,19 @@
 <template>
     <div class="container">
         <div class="row align-items-center justify-content-center mt-4">
-        <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="error">
-            <span>{{error}}</span>
-        </div>
             <div class="col-sm-6">
                 <div class="card mt-5">
                     <div class="login-box">
-                        <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Login</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+                        <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Forgot Password!</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label class="tab"></label>
                             <div class="login-space">
                                 <div class="login">
-                                    <form @submit.prevent="login">
+                                    <form @submit.prevent="RecoverPass">
                                         <div class="br"></div>
                                         <div class="group"> <label for="email" class="label">Email</label> <input id="email" v-model="email" autocomplete="current-email" type="email" class="input" placeholder="Enter your email"> </div>
-                                        <div class="group"> <label for="password" class="label">Password</label> <input id="password"  v-model="password" autocomplete="current-password" required="required" type="password" class="input" data-type="password" placeholder="Enter your password"> </div>
                                         <div class="br"></div>
                                         <div class="group"> <input type="submit" class="button" value="Sign In"> </div>
                                         <div class="hr"></div>
-                                        <div class="foot"> <a href="/recoverpass" class="text-light">Forgot Password?</a> </div>
                                     </form>
-                                </div>
-                                <div class="sign-up-form">
-                                    <form @submit.prevent="signup">
-                                        <div class="group"> <label for="email" class="label">Email</label> <input id="email" type="text" class="input" v-model="email" autocomplete="current-email" placeholder="Email"> </div>
-                                        <div class="group"> <label for="pass" class="label">Password</label> <input id="pass" type="password" class="input" data-type="new-password" v-model="password" minlength="6" autocomplete="new-password" placeholder="Password" required> </div>
-                                        <div class="group"> <label for="pass" class="label">Name</label> <input id="pass" v-model.trim="name" class="input"  type="text" autocomplete="name" placeholder="Name" required> </div>
-                                        <div class="group"> <label for="pass" class="label">University</label> <v-select :options="universities" label="init" type="text" class="input style-chooser" v-model="uni" placeholder="Select an University"></v-select> </div>
-                                        <div class="br"></div>
-                                        <div class="group"> <input type="submit" class="button" value="Sign Up"> </div>
-                                        <div class="foot"> <label class="text-light" for="tab-1">Already Member?</label> </div>
-                                    </form>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -39,52 +22,29 @@
             </div>
         </div>
     </div>
-    
 </template>
 
 <script>
-import { db } from '../../firebase'
-import vSelect from 'vue-select'
-
 export default {
-    components: { vSelect },
-    created() {
-		db.collection("default").doc("Uni").onSnapshot(snap=> {this.universities = snap.data().unis})
-	},
     data: () => ({
         email: "",
-        password: "",
-        name: '',
-        uni: '',
-        universities: [],
-        error: ""
     }),
     methods: {
-        login(){
-            this.$store.dispatch('login',{
+        RecoverPass(){
+            this.$store.dispatch('recoverpass',{
                 email: this.email,
-                password: this.password
-            })
-        },
-        signup() {
-            this.$store.dispatch('signup', {
-                email: this.email,
-                password: this.password,
-                name: this.name,
-                uni: this.uni,
             })
         },
     },
     metaInfo() {
         return {
-            title: "Login/Register",
+            title: "Recover Password",
         }
     },
 }
 </script>
 
 <style>
-
 .vs__selected{
     color: #b3b3b3;
   }
@@ -112,25 +72,8 @@ export default {
     background: rgba(0, 77, 77, .9)
 }
 
-.login-snip .login,
-.login-snip .sign-up-form {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-    transform: rotateY(180deg);
-    backface-visibility: hidden;
-    transition: all .4s linear
-}
-
 label.tab{
     color: #FFFFFF80;
-}
-.login-snip .sign-in,
-.login-snip .sign-up,
-.login-space .group .check {
-    display: none
 }
 
 .login-snip .tab,
@@ -139,20 +82,15 @@ label.tab{
     text-transform: uppercase
 }
 
-.login-snip .tab {
+/* .login-snip .tab {
     font-size: 22px;
     margin-right: 15px;
     padding-bottom: 5px;
     margin: 0 15px 10px 0;
     display: inline-block;
     border-bottom: 2px solid transparent
-}
+} */
 
-.login-snip .sign-in:checked+.tab,
-.login-snip .sign-up:checked+.tab {
-    color: #fff;
-    border-color: #1161ee
-}
 
 .login-space {
     min-height: 345px;
@@ -240,14 +178,6 @@ label.tab{
 
 .login-space .group .check:checked+label .icon:after {
     transform: scale(1) rotate(-45deg)
-}
-
-.login-snip .sign-in:checked+.tab+.sign-up+.tab+.login-space .login {
-    transform: rotate(0)
-}
-
-.login-snip .sign-up:checked+.tab+.login-space .sign-up-form {
-    transform: rotate(0)
 }
 
 *,

@@ -33,7 +33,7 @@ export default {
 				hiddenOnCollapse: true
 			},
 			{
-				href: '/',
+				// href: '/',
 				title: 'Books',
 				icon: 'fas fa-book',
 			},
@@ -43,17 +43,17 @@ export default {
 				icon: 'fas fa-plus-square'
 			},
 			{
-				href: '/admin/AdminBooks',
+				// href: '/admin/AdminBooks',
 				title: 'Admin Books',
 				icon: 'fas fa-book-open'
 			},
 			{
-				href: '/admin/AdminComments',
+				// href: '/admin/AdminComments',
 				title: 'Admin Comments',
 				icon: 'fas fa-comment-dots'
 			},
 			{
-				href: '/admin/AdminUsers',
+				// href: '/admin/AdminUsers',
 				title: 'Admin Users',
 				icon: 'fas fa-users-cog'
 			},
