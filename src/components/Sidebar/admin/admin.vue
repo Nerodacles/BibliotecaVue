@@ -33,7 +33,7 @@ export default {
 				hiddenOnCollapse: true
 			},
 			{
-				// href: '/',
+				href: '/',
 				title: 'Books',
 				icon: 'fas fa-book',
 			},
