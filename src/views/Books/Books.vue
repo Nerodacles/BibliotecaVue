@@ -2,7 +2,7 @@
     <div class="">
         <div class="">
             <div class="container">
-                <h5 class="content">Libros</h5>
+                <h5 class="content">Books</h5>
                 <h6 id="search" class="font-weight-bold">Search Book</h6> 
                 <div class="row my-3  justify-content-center">
                     <select v-model="Filtrar" class="col-md-3 mx-2" placeholder="Select one...">
@@ -119,7 +119,7 @@ export default {
         align-items: center;
         height: 100%;
         width: 100%;
-        font-size: 40px;
+        font-size: 50px;
         color: rgb(46, 46, 46);
         font-weight: 600;
         margin-top: 10px;
