@@ -64,7 +64,6 @@ export default {
         filteredBooks(){
             return this.AllBooks.filter((book) => {
                 if(this.Filtrar == 'title' || this.Filtrar == ''){
-
                     return book.title.match(this.search)
                 }
                 if(this.Filtrar == 'category'){
@@ -87,28 +86,12 @@ export default {
                 this.search = this.search.charAt(0).toUpperCase() + this.search.slice(1)
             }
         }
-        // busquedaDePaginas(){
-        //     // if (this.keyword == null) return
-        //     // if (this.keyword != null){
-        //     //     booksCollection.where('title', '>=', this.keyword).onSnapshot(snap=>{
-        //     //         this.AllBooks = []
-        //     //         snap.forEach(test=> {
-        //     //             var data = test.data()
-        //     //             data.id = test.id
-        //     //             this.AllBooks.push(data)
-        //     //         })
-        //     //     })
-        //     // }
-        // },
     },
     metaInfo() {
         return {
             title: "Books"
         }
     },
-    // watch: {
-    //     keyword(newKeyword, oldKeyword){ this.busquedaDePaginas() },
-    // }
 }
 </script>
 

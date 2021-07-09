@@ -35,7 +35,7 @@
                             </b-dropdown-header>
                                 <div v-for="notif in this.userNotifications" :key="notif.id">
                                     <div class="d-flex bd-highlight">
-                                        <b-dropdown-item class="p-2 w-100 bd-highlight" :href="notif.href">{{notif.message}}  </b-dropdown-item>
+                                        <b-dropdown-item class="p-2 w-100 bd-highlight" :href="notif.href">{{notif.message}}</b-dropdown-item>
                                         <div class="p-2 flex-shrink-1 bd-highlight"><button class="btn btn-light" @click="deleteNotif(notif.id)"><span class="fas fa-times"></span></button></div>
                                     </div>
                                     <b-dropdown-divider></b-dropdown-divider>
@@ -47,7 +47,6 @@
                             <em>{{userData.name}}</em>
                         </template>
                         <b-dropdown-item :href="'/profile/' + userUID">Profile</b-dropdown-item>
-                        <!-- <b-dropdown-item>Profile</b-dropdown-item> -->
                         <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
@@ -58,8 +57,6 @@
 
 <script>
 import { auth } from '../firebase'
-import { db } from '../firebase' 
-import { usersCollection } from '../firebase' 
 
 export default {
     computed: {

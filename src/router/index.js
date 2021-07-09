@@ -2,9 +2,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import swal from 'sweetalert2'
+import store from '../store'
 
-// Login/Register
+// Login / Register
 import Login from '../views/auth/Login.vue'
+    // Recover Password
     import RPass from '../views/auth/RPassword'
 
 // Users
@@ -26,6 +28,10 @@ import Admin from '../views/admin/index.vue'
 import Books from '../views/Books/Books.vue'
 import Book from '../views/Books/book/_id.vue'
 import AdvancedSearch from '../views/Books/AdvancedSearch.vue'
+
+// Error Pages
+    // 404
+        import pNotFound from '../views/errorPages/404.vue'
 
 // Firebase Get databases/auth
 import { auth, usersCollection, booksCollection } from '../firebase'
@@ -87,7 +93,8 @@ const routes = [
         meta: {requireAuth: true},
         beforeEnter(to, from, next){
             if(to.path != '/profile/' + auth.currentUser.uid){
-                next('/')
+                swal.fire({ icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: true, timer: 5000 })
+                    .then(function() { next('/') })
             } else next()
         },
     },
@@ -124,45 +131,19 @@ const routes = [
         path: '/admin',
         name: 'admin',
         component: Admin,
-        meta: {requireAuth: true},
-        beforeEnter(to, from, next){
-            var user = []
-            usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {
-                user = snap.data()
-                if(user.isAdmin != true || user.isActive != true){
-                    next("/")
-                } else next()
-            })
-        }
+        meta: { requireAuth: true, requireAdmin: true },
     },
     {
         path: '/admin/AddBook',
         name: 'AddBook',
         component: AddBook,
-        meta: {requireAuth: true},
-        beforeEnter(to, from, next){
-            var user = []
-            usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {
-                user = snap.data()
-                if(user.isAdmin != true || user.isActive != true){
-                    next("/")
-                } else next()
-            });
-        }
+        meta: { requireAuth: true, requireAdmin: true },
     },
     {
         path: '/admin/AdminBooks',
         name: 'AdminBooks',
         component: AdminBooks,
-        meta: {requireAuth: true},
-        beforeEnter(to, from, next){
-            var user = []
-            usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {user = snap.data()
-                if(user.isAdmin != true || user.isActive != true){
-                    next("/")
-                } else next()
-            });
-        }
+        meta: { requireAuth: true, requireAdmin: true },
     },
     {
         path: '/admin/editBook/:id',
@@ -171,51 +152,44 @@ const routes = [
         component: EditBooks,
         meta: {requireAuth: true},
         beforeEnter(to, from, next){
-            var user = [];var book = []
+            var book = []
             booksCollection.doc(to.params.id).onSnapshot(snap=>{book = snap.data()
-                usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {user = snap.data()
-                    if(user.isAdmin != true || user.isActive != true){
-                        next("/")
-                    } else 
-                    if(book.user == auth.currentUser.uid || auth.currentUser.uid == 'sMRFpB1X1tMWFWfpcddok0K5Qav1'){ next() }
-                });
+                if(book.user == auth.currentUser.uid || auth.currentUser.uid == 'sMRFpB1X1tMWFWfpcddok0K5Qav1'){ next() }
+                else{
+                    swal.fire({ icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: true, timer: 5000 })
+                        .then(function() { next('/') })
+                }
             })
         }
+        // beforeEnter(to, from, next){
+        //     var user = [];var book = []
+        //     booksCollection.doc(to.params.id).onSnapshot(snap=>{book = snap.data()
+        //         usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {user = snap.data()
+        //             if(user.isAdmin != true || user.isActive != true){
+        //                 swal.fire({ icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: true, timer: 5000 })
+        //                     .then(function() { next('/') })
+        //             } else 
+        //             if(book.user == auth.currentUser.uid || auth.currentUser.uid == 'sMRFpB1X1tMWFWfpcddok0K5Qav1'){ next() }
+        //         })
+        //     })
+        // }
     },
     {
         path: '/admin/AdminComments',
         name: 'AdminComments',
         component: AdminComments,
-        meta: {requireAuth: true},
-        beforeEnter(to, from, next){
-            var user = []
-            usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {user = snap.data()
-                if(user.isAdmin != true || user.isActive != true){
-                    next("/")
-                } else next()
-            });
-        }
+        meta: { requireAuth: true, requireAdmin: true },
     },
     {
         path: '/admin/AdminUsers',
         name: 'AdminUsers',
         component: AdminUsers,
-        meta: {requireAuth: true},
-        beforeEnter(to, from, next){
-            var user = []
-            usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {user = snap.data()
-                if(user.isAdmin != true || user.isActive != true){
-                    next("/")
-                } else next()
-            });
-        }
+        meta: { requireAuth: true, requireAdmin: true },
     },
     {
-        path: '/404',
+        path: `/404`,
         name: '404',
-        component: {
-            template: '<h1 class="text-danger">Book Not Found!</h1>'
-        }
+        component: pNotFound,
     },
 ]
 
@@ -226,13 +200,25 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next)=> {
-    const requireAuth = to.matched.some(record => record.meta.requireAuth);
-    if(requireAuth && !auth.currentUser){
-        next("/login")
+    const requireAuth = to.matched.some(record => record.meta.requireAuth)
+    const requireAdmin = to.matched.some(record => record.meta.requireAdmin)
+    const routesPath = to.matched.some(record => record.path)
+
+    if(routesPath || to.path == "/"){
+        if(requireAuth && !auth.currentUser && !requireAdmin){
+            // swal.fire({ icon: 'error', title: 'Not logged in!', showConfirmButton: true, timer: 5000 })
+            //     .then(function() { next('/login') })
+            next('/login')
+        }
+        if(requireAuth && !auth.currentUser && requireAdmin && !store.state.userProfile?.isAdmin){
+            swal.fire({ icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: true, timer: 5000 })
+                .then(function() { next('/login') })
+        }
+        else{
+            next()
+        }
     }
-    else{
-        next()
-    }
+    else next('/404')
 })
 
 export default router

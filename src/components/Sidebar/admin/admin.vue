@@ -53,7 +53,7 @@ export default {
 				icon: 'fas fa-comment-dots'
 			},
 			{
-				// href: '/admin/AdminUsers',
+				href: '/admin/AdminUsers',
 				title: 'Admin Users',
 				icon: 'fas fa-users-cog'
 			},

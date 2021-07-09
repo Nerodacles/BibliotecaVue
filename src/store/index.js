@@ -174,7 +174,7 @@ export default new Vuex.Store({
                     isActive: true,
                 })
                     // .then(function() {swal.fire({ position: 'top-end', icon: 'success', title: `Comment Created!`, showConfirmButton: false, timer: 1500}) })
-                    .catch(function(error){swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok'})})
+                    .catch(function(error){ swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok'}) })
             }
             if (comment.action == "delete"){
                 const swalWithBootstrapButtons = swal.mixin({

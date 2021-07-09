@@ -5,7 +5,7 @@
             <sidebarAdmin v-if="userData.isAdmin"></sidebarAdmin>
             <sidebarUser v-if="!userData.isAdmin"></sidebarUser>
         </div>
-        <div v-if="!userData.isActive" class="mt-4">
+        <div v-if="!userData.isActive" class="mt-5">
             <router-view />
         </div>
     </div>

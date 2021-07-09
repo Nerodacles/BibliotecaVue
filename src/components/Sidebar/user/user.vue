@@ -59,12 +59,6 @@ export default {
 				this.collapsed = false
 			}
 		},
-		validateAdmin(){
-			if (this.userData.isAdmin == true){
-				console.log(this.validateAdmin)
-				return "false"
-			}  else return "true"
-		}
 	}
 }
 </script>

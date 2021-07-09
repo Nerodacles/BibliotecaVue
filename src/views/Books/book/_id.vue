@@ -1,5 +1,5 @@
 <template>
-    <div class="" v-if="book">
+    <div v-if="book">
         <div class="text-white">
             <div class="hero bg-gray-600" :style="`background:url(${book.coverUrl}); background-size:cover`">
                 <div class="container d-flex justify-content-center flex-col md:flex-row align-items-end pb-4" style="height:200px">
