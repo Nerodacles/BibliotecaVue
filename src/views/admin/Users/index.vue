@@ -70,6 +70,7 @@
 
                 <!-- Main table element -->
                 <b-table
+                    :busy="isBusy"
                     :items="users"
                     :fields="fields"
                     :current-page="currentPage"
@@ -84,6 +85,13 @@
                     small
                     @filtered="onFiltered" bordered borderless outlined dark head-variant="dark" table-variant="secondary">
 
+                    <template #table-busy>
+                        <div class="text-center text-danger my-2">
+                            <b-spinner class="align-middle"></b-spinner>
+                            <strong>Loading...</strong>
+                        </div>
+                    </template>
+
                     <template #cell(title)="row">
                         {{ row.item.title.init }}
                     </template>
@@ -94,13 +102,17 @@
 
                     <template #cell(isAdmin)="row">
                         <b-button v-on:click="upgradeUser(row.item)"><ToggleButton :id="row.item.createdAt" :default-state="row.item.isAdmin" /></b-button>
+                    </template>`
+                    `
+                    <template #cell(isActive)="row">
+                        <b-button v-on:click="disableUser(row.item)"><ToggleButton :id="row.item.id" :default-state="row.item.isActive" /></b-button>
                     </template>
 
                     <template #cell(actions)="row">
                         <b-button @click="info(row.item, row.index, $event.target)" title="Details" class="fas fa-edit mr-1 btn btn-dark fas fa-info text-white"><i class="fas fa-info-circle"></i></b-button>
                         <!-- <b-button @click="row.toggleDetails" class="mr-1 btn-dark">{{ row.detailsShowing ? 'Hide' : 'Show' }} Details</b-button> -->
-                        <b-button class="mr-1 far fa-trash-alt btn btn-dark" title="Delete User" v-on:click="deleteUser(row.item)"></b-button>
-                        <!-- <b-button class="fas fa-edit btn btn-dark" title="Edit Comment" v-on:click="updateComment(row.item)"></b-button> -->
+                        <!-- <b-button class="mr-1 far fa-trash-alt btn btn-dark" title="Delete User" v-on:click="deleteUser(row.item)"></b-button> -->
+                        <b-button class="fas fa-edit btn btn-dark" title="Edit Comment" v-on:click="updateComment(row.item)"></b-button>
                     </template>
 
                     <template #row-details="row">
@@ -147,11 +159,13 @@ export default {
                 var userData = user.data()
                 userData.id = user.id
                 this.users.push(userData)
+                this.isBusy = false
             })
         })
 	},
 
     data:() => ({
+        isBusy: true,
         sortBy: '',
         sortDesc: false,
         onMobile: false,
@@ -159,7 +173,7 @@ export default {
         fields: [
             {key:'name', label: 'User', sortable: true},
             {key:'title', label: 'University', sortable: true},
-            // {key: 'isActive', label: 'Status', formatter: (value, key, item) => { return value ? 'Yes' : 'No' }, sortable: true, sortByFormatted: true, filterByFormatted: true },
+            {key: 'isActive', label: 'Status', sortable: true, sortByFormatted: true, filterByFormatted: true },
             {key: 'isAdmin', label: 'Administrator', formatter: (value, key, item) => { return value ? 'Yes' : 'No' }, sortable: true, sortByFormatted: true, filterByFormatted: true },
             {key: 'actions'},
             

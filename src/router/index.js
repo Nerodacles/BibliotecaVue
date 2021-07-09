@@ -151,16 +151,15 @@ const routes = [
         props: true,
         component: EditBooks,
         meta: {requireAuth: true},
-        beforeEnter(to, from, next){
-            var book = []
-            booksCollection.doc(to.params.id).onSnapshot(snap=>{book = snap.data()
-                if(book.user == auth.currentUser.uid || auth.currentUser.uid == 'sMRFpB1X1tMWFWfpcddok0K5Qav1'){ next() }
-                else{
-                    swal.fire({ icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: true, timer: 5000 })
-                        .then(function() { next('/') })
-                }
-            })
-        }
+        // beforeEnter(to, from, next){
+        //     var book = []
+        //     booksCollection.doc(to.params.id).onSnapshot(snap=>{book = snap.data()
+        //         if(book.user == auth.currentUser.uid || auth.currentUser.uid == 'sMRFpB1X1tMWFWfpcddok0K5Qav1'){ next() }
+        //         else{
+        //             swal.fire({ icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: true, timer: 5000 })
+        //         }
+        //     })
+        // }
         // beforeEnter(to, from, next){
         //     var user = [];var book = []
         //     booksCollection.doc(to.params.id).onSnapshot(snap=>{book = snap.data()
@@ -197,20 +196,20 @@ const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes,
-})
+})          
 
 router.beforeEach((to, from, next)=> {
     const requireAuth = to.matched.some(record => record.meta.requireAuth)
     const requireAdmin = to.matched.some(record => record.meta.requireAdmin)
     const routesPath = to.matched.some(record => record.path)
-
+    
     if(routesPath || to.path == "/"){
         if(requireAuth && !auth.currentUser && !requireAdmin){
             // swal.fire({ icon: 'error', title: 'Not logged in!', showConfirmButton: true, timer: 5000 })
             //     .then(function() { next('/login') })
             next('/login')
         }
-        if(requireAuth && !auth.currentUser && requireAdmin && !store.state.userProfile?.isAdmin){
+        if(requireAuth && auth.currentUser && requireAdmin && !store.getters.isAdmin){
             swal.fire({ icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: true, timer: 5000 })
                 .then(function() { next('/login') })
         }

@@ -70,6 +70,7 @@
 
                 <!-- Main table element -->
                 <b-table
+                    :busy="isBusy"
                     :items="comments"
                     :fields="fields"
                     :current-page="currentPage"
@@ -84,9 +85,17 @@
                     small
                     @filtered="onFiltered" bordered borderless outlined dark head-variant="dark" table-variant="secondary">
                     
+                    <template #table-busy>
+                        <div class="text-center text-danger my-2">
+                            <b-spinner class="align-middle"></b-spinner>
+                            <strong>Loading...</strong>
+                        </div>
+                    </template>
+                    
                     <template #cell(name)="row">
                         {{ row.value.first }} {{ row.value.last }}
                     </template>
+
 
                     <template #cell(bookID)="row">
                         <a :href="'/book/'+row.item.bookID" class="text-light">{{row.item.bookName}}</a>
@@ -99,7 +108,7 @@
                     <template #cell(actions)="row">
                         <b-button @click="info(row.item, row.index, $event.target)" title="Details" class="fas fa-edit mr-1 btn btn-dark fas fa-info text-white"><i class="fas fa-info-circle"></i></b-button>
                         <!-- <b-button @click="row.toggleDetails" class="mr-1 btn-dark">{{ row.detailsShowing ? 'Hide' : 'Show' }} Details</b-button> -->
-                        <b-button class="mr-1 far fa-trash-alt btn btn-dark" title="Delete Comment" v-on:click="deleteComment(row.item)"></b-button>
+                        <!-- <b-button class="mr-1 far fa-trash-alt btn btn-dark" title="Delete Comment" v-on:click="deleteComment(row.item)"></b-button> -->
                         <b-button class="fas fa-edit btn btn-dark" title="Edit Comment" v-on:click="updateComment(row.item)"></b-button>
                     </template>
 
@@ -151,12 +160,14 @@ export default {
                     commentData.bookName = bookData.title
                     this.comments.push(commentData)
                     this.totalRows = this.comments.length
+                    this.isBusy = false
                 })
             })
         })
 	},
 
     data:() => ({
+        isBusy: true,
         sortBy: '',
         sortDesc: false,
         onMobile: false,
@@ -195,6 +206,7 @@ export default {
                 id: comment.id,
                 message: comment.message,
                 bookID: comment.bookID,
+                userID: comment.user
             })
         },
         disableComment(comment){

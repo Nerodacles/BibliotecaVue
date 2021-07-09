@@ -71,6 +71,7 @@
 
                 <!-- Main table element -->
                 <b-table
+                    :busy="isBusy"
                     :items="AllBooks"
                     :fields="fields"
                     :current-page="currentPage"
@@ -84,6 +85,13 @@
                     show-empty
                     small
                     @filtered="onFiltered" bordered borderless outlined dark head-variant="dark" table-variant="secondary">
+
+                    <template #table-busy>
+                        <div class="text-center text-danger my-2">
+                            <b-spinner class="align-middle"></b-spinner>
+                            <strong>Loading...</strong>
+                        </div>
+                    </template>
                     
                     <template #cell(name)="row">
                         {{ row.value.first }} {{ row.value.last }}
@@ -100,8 +108,8 @@
                     <template #cell(actions)="row">
                         <b-button @click="info(row.item, row.index, $event.target)" title="Details" class="fas fa-edit mr-1 btn btn-dark fas fa-info text-white"><i class="fas fa-info-circle"></i></b-button>
                         <!-- <b-button @click="row.toggleDetails" class="mr-1 btn-dark">{{ row.detailsShowing ? 'Hide' : 'Show' }} Details</b-button> -->
-                        <b-button class="mr-1 far fa-trash-alt btn btn-dark" title="Delete Book" v-on:click="removeBook(row.item)"></b-button>
-                        <b-button class="fas fa-edit btn btn-dark" title="Edit Book" v-on:click="$router.push('/admin/editBook/'+ row.item.id)"></b-button>
+                        <!-- <b-button class="mr-1 far fa-trash-alt btn btn-dark" title="Delete Book" v-on:click="removeBook(row.item)"></b-button> -->
+                        <b-button class="fas fa-edit btn btn-dark" title="Edit Book" v-on:click="updateBook(row.item)"></b-button>
                     </template>
 
                     <template #row-details="row">
@@ -125,6 +133,7 @@
 <script>
 import { booksCollection } from '../../../firebase'
 import ToggleButton from '@/components/ToggleButton.vue'
+import Swal from 'sweetalert2'
 
 export default {
     components: {ToggleButton},
@@ -152,11 +161,13 @@ export default {
                 bookData.id = book.id
                 this.AllBooks.push(bookData)
                 this.totalRows = this.AllBooks.length
+                this.isBusy = false
             })
         })
 	},
 
     data:() => ({
+        isBusy: true,
         AllBooks: [],
         sortBy: '',
         sortDesc: false,
@@ -183,6 +194,11 @@ export default {
     methods: {
         removeBook(book) {
             this.$store.dispatch('bookActions',{ action: 'delete', id: book })
+        },
+        updateBook(book){
+            if(book.user == this.$store.state.userUID) { this.$router.push('/admin/editBook/'+ book.id) }
+            else{ Swal.fire({ position: 'top-end', icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: false, timer: 5000 }) }
+            
         },
         disableBook(book){
             this.$store.dispatch('bookActions',{ action: 'disable', id: book.id, isActive: !book.isActive })

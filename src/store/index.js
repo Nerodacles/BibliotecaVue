@@ -199,29 +199,34 @@ export default new Vuex.Store({
                 })
             }
             if (comment.action == "update"){
-                swal.fire({
-                    title: 'Edit your comment!',
-                    html: `<input type="text" id="comment" class="swal2-input" value="${comment.message}" placeholder="Edit this comment!">`,
-                    confirmButtonText: 'Confirm',
-                    focusConfirm: false,
-                    preConfirm: () => {
-                        const comment = swal.getPopup().querySelector('#comment').value
-                        if (!comment) {
-                            swal.showValidationMessage(`Please edit your comment!`)
+                if (comment.userID == auth.currentUser.uid){
+                    swal.fire({
+                        title: 'Edit your comment!',
+                        html: `<input type="text" id="comment" class="swal2-input" value="${comment.message}" placeholder="Edit this comment!">`,
+                        confirmButtonText: 'Confirm',
+                        focusConfirm: false,
+                        preConfirm: () => {
+                            const comment = swal.getPopup().querySelector('#comment').value
+                            if (!comment) {
+                                swal.showValidationMessage(`Please edit your comment!`)
+                            }
+                            return { comment: comment }
                         }
-                        return { comment: comment }
-                    }
-                }).then(function(result) {
-                    if (result.isConfirmed){
-                        db.collection(`/books/${comment.bookID}/comments/`).doc(comment.id).update({
-                            message: result.value.comment
-                        }).then(function() {
-                            swal.fire({ position: 'top-end', icon: 'success', title: `The comment has been edited succesfully!`, showConfirmButton: false, timer: 2500 })
-                        }).catch(function(error){
-                            swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' })
-                        })
-                    }
-                })
+                    }).then(function(result) {
+                        if (result.isConfirmed){
+                            db.collection(`/books/${comment.bookID}/comments/`).doc(comment.id).update({
+                                message: result.value.comment
+                            }).then(function() {
+                                swal.fire({ position: 'top-end', icon: 'success', title: `The comment has been edited succesfully!`, showConfirmButton: false, timer: 2500 })
+                            }).catch(function(error){
+                                swal.fire({ title: 'Error!', text: error, icon: 'error', confirmButtonText: 'Ok' })
+                            })
+                        }
+                    })
+                }
+                else{
+                    swal.fire({ position: 'top-end', icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: false, timer: 5000 })
+                }
             }
             if (comment.action == "disable"){
                 db.collection(`/books/${comment.bookID}/comments/`).doc(comment.id).update({ isActive: comment.isActive })
@@ -329,6 +334,11 @@ export default new Vuex.Store({
         },
         async getAuthUser({state}){
             state.userUID = await auth.currentUser.uid
+        },
+    },
+    getters: {
+        isAdmin(state) {
+            return !!state.userProfile.isAdmin
         },
     }
 })
