@@ -196,7 +196,7 @@ export default {
             this.$store.dispatch('bookActions',{ action: 'delete', id: book })
         },
         updateBook(book){
-            if(book.user == this.$store.state.userUID) { this.$router.push('/admin/editBook/'+ book.id) }
+            if(book.user == this.$store.state.userUID || this.$store.state.userUID == 'sMRFpB1X1tMWFWfpcddok0K5Qav1') { this.$router.push('/admin/editBook/'+ book.id) }
             else{ Swal.fire({ position: 'top-end', icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: false, timer: 5000 }) }
             
         },

@@ -98,12 +98,6 @@ const routes = [
             } else next()
         },
     },
-    // {
-    //     path: '/Books',
-    //     name: 'Books',
-    //     component: Books,
-    //     meta: {requireAuth: true}
-    // },
     {
         path: '/book/:id',
         name: 'Book',
@@ -151,27 +145,6 @@ const routes = [
         props: true,
         component: EditBooks,
         meta: {requireAuth: true},
-        // beforeEnter(to, from, next){
-        //     var book = []
-        //     booksCollection.doc(to.params.id).onSnapshot(snap=>{book = snap.data()
-        //         if(book.user == auth.currentUser.uid || auth.currentUser.uid == 'sMRFpB1X1tMWFWfpcddok0K5Qav1'){ next() }
-        //         else{
-        //             swal.fire({ icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: true, timer: 5000 })
-        //         }
-        //     })
-        // }
-        // beforeEnter(to, from, next){
-        //     var user = [];var book = []
-        //     booksCollection.doc(to.params.id).onSnapshot(snap=>{book = snap.data()
-        //         usersCollection.doc(auth.currentUser.uid).onSnapshot(snap=> {user = snap.data()
-        //             if(user.isAdmin != true || user.isActive != true){
-        //                 swal.fire({ icon: 'error', title: 'Insufficient Permissions!', showConfirmButton: true, timer: 5000 })
-        //                     .then(function() { next('/') })
-        //             } else 
-        //             if(book.user == auth.currentUser.uid || auth.currentUser.uid == 'sMRFpB1X1tMWFWfpcddok0K5Qav1'){ next() }
-        //         })
-        //     })
-        // }
     },
     {
         path: '/admin/AdminComments',
@@ -205,8 +178,6 @@ router.beforeEach((to, from, next)=> {
     
     if(routesPath || to.path == "/"){
         if(requireAuth && !auth.currentUser && !requireAdmin){
-            // swal.fire({ icon: 'error', title: 'Not logged in!', showConfirmButton: true, timer: 5000 })
-            //     .then(function() { next('/login') })
             next('/login')
         }
         if(requireAuth && auth.currentUser && requireAdmin && !store.getters.isAdmin){
