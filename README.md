@@ -14,6 +14,24 @@
 * **Juanma Canahuate** - *Frontend and Backend Developer* - [Nerodacles](https://github.com/Nerodacles)
 * **Michael Gonzalez** - *Frontend Developer* - [MichaelGT4](https://github.com/MichaelGT4)
 
+## Screenshots
+
+### Login
+![Login](/public/screenshots/Login.jpg)
+### Register
+![Register](/public/screenshots/Register.jpg)
+### Books
+![Books](/public/screenshots/Books.jpg)
+### Book
+![Book](/public/screenshots/BookView.jpg)
+### Add Book
+![Add Book](/public/screenshots/AddBook.jpg)
+### Admin Books
+![Admin Books](/public/screenshots/AdminBooks.jpg)
+### Admin Comments
+![Admin Comments](/public/screenshots/AdminComments.jpg)
+### Admin Users
+![Admin Users](/public/screenshots/AdminUsers.jpg)
 
 ## License
 
